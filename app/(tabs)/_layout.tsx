@@ -1,26 +1,27 @@
+import { colors } from "@/constants/colors";
 import { Tabs } from "expo-router";
-import { FC } from "react";
 import { ChartColumnStacked, House, Newspaper } from "lucide-react-native";
+import { FC } from "react";
 
 const _Layout: FC = () => {
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: "#D97126",
+        tabBarActiveTintColor: colors.primary,
         tabBarStyle: {
-          backgroundColor: "#282b28",
+          backgroundColor: colors.dark,
           borderRadius: 100,
           height: 70,
           marginBottom: 24,
-          marginHorizontal: 60,
+          marginHorizontal: 65,
         },
         tabBarLabelStyle: {
           fontWeight: 600,
           marginTop: 2,
         },
         tabBarIconStyle: {
-          marginTop: 6,
+          marginTop: 7,
         },
       }}
     >
