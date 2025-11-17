@@ -1,4 +1,5 @@
 import { colors } from "@/constants/colors";
+import * as Haptics from "expo-haptics";
 import { Tabs } from "expo-router";
 import { ChartColumnStacked, House, Newspaper } from "lucide-react-native";
 import { FC } from "react";
@@ -23,6 +24,7 @@ const _Layout: FC = () => {
         tabBarIconStyle: {
           marginTop: 7,
         },
+        animation: "fade",
       }}
     >
       <Tabs.Screen
@@ -31,6 +33,10 @@ const _Layout: FC = () => {
           title: "Home",
           tabBarIcon: ({ color }) => <House color={color} size={26} />,
         }}
+        listeners={{
+          tabPress: () =>
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light),
+        }}
       />
       <Tabs.Screen
         name="activity"
@@ -38,12 +44,20 @@ const _Layout: FC = () => {
           title: "Activity",
           tabBarIcon: ({ color }) => <Newspaper color={color} />,
         }}
+        listeners={{
+          tabPress: () =>
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light),
+        }}
       />
       <Tabs.Screen
         name="stats"
         options={{
           title: "Stats",
           tabBarIcon: ({ color }) => <ChartColumnStacked color={color} />,
+        }}
+        listeners={{
+          tabPress: () =>
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light),
         }}
       />
     </Tabs>
