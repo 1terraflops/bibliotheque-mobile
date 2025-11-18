@@ -1,65 +1,25 @@
-import { colors } from "@/constants/colors";
-import * as Haptics from "expo-haptics";
-import { Tabs } from "expo-router";
-import { ChartColumnStacked, House, Newspaper } from "lucide-react-native";
+import { TabButton } from "@/components";
+import { TabList, Tabs, TabSlot, TabTrigger } from "expo-router/ui";
+import { Book, ChartColumnStacked, Newspaper } from "lucide-react-native";
 import { FC } from "react";
 
 const _Layout: FC = () => {
   return (
-    <Tabs
-      screenOptions={{
-        headerShown: false,
-        tabBarActiveTintColor: colors.primary,
-        tabBarStyle: {
-          backgroundColor: colors.dark,
-          borderRadius: 100,
-          height: 70,
-          marginBottom: 24,
-          marginHorizontal: 65,
-        },
-        tabBarLabelStyle: {
-          fontWeight: 600,
-          marginTop: 2,
-        },
-        tabBarIconStyle: {
-          marginTop: 7,
-        },
-        animation: "fade",
-      }}
-    >
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: "Home",
-          tabBarIcon: ({ color }) => <House color={color} size={26} />,
-        }}
-        listeners={{
-          tabPress: () =>
-            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light),
-        }}
-      />
-      <Tabs.Screen
-        name="activity"
-        options={{
-          title: "Activity",
-          tabBarIcon: ({ color }) => <Newspaper color={color} />,
-        }}
-        listeners={{
-          tabPress: () =>
-            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light),
-        }}
-      />
-      <Tabs.Screen
-        name="stats"
-        options={{
-          title: "Stats",
-          tabBarIcon: ({ color }) => <ChartColumnStacked color={color} />,
-        }}
-        listeners={{
-          tabPress: () =>
-            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light),
-        }}
-      />
+    <Tabs>
+      <TabSlot />
+      <TabList className="bg-dark h-[68px] mb-6 mx-20 px-8 rounded-full items-center">
+        <TabTrigger asChild name="index" href="/(tabs)">
+          <TabButton icon={Book}>Books</TabButton>
+        </TabTrigger>
+        <TabTrigger asChild name="activity" href="/(tabs)/activity">
+          <TabButton icon={Newspaper}>Activity</TabButton>
+        </TabTrigger>
+        <TabTrigger asChild name="stats" href="/(tabs)/stats">
+          <TabButton icon={ChartColumnStacked}>Stats</TabButton>
+        </TabTrigger>
+      </TabList>
+
+      {/* {<TabList className="h-[64px] w-[64px] bg-dark rounded-full"></TabList>} */}
     </Tabs>
   );
 };
