@@ -22,7 +22,9 @@ const _Layout: FC = () => {
           </TabTrigger>
         </TabList>
 
-        <TabList className="absolute bottom-6 right-[10%] h-[64px] w-[64px] bg-dark rounded-full items-center justify-center"></TabList>
+        <TabList className="absolute bottom-6 right-[10%] h-[64px] w-[64px] bg-dark rounded-full items-center justify-center">
+          <TabTrigger name="profile" href="/(tabs)/profile" />
+        </TabList>
       </>
     </Tabs>
   );
