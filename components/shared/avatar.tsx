@@ -9,10 +9,14 @@ interface AvatarProps {
   size?: number;
 }
 
-export const Avatar: FC<AvatarProps> = ({ src, fallback, alt }) => {
+export const Avatar: FC<AvatarProps> = ({ src, fallback, alt, size = 80 }) => {
   return (
     <AvatarPrimitive.Root
-      className="w-24 h-24 rounded-full overflow-hidden"
+      className="rounded-full overflow-hidden"
+      style={{
+        width: size,
+        height: size,
+      }}
       alt={alt ?? ""}
     >
       <AvatarPrimitive.Image className="w-full h-full" source={src} />
