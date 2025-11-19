@@ -1,6 +1,7 @@
+import { getInitials } from "@/utils/getInitials";
 import * as AvatarPrimitive from "@rn-primitives/avatar";
 import { FC } from "react";
-import { ImageSourcePropType, Text } from "react-native";
+import { ImageSourcePropType, Text, View } from "react-native";
 
 interface AvatarProps {
   src: ImageSourcePropType;
@@ -20,8 +21,12 @@ export const Avatar: FC<AvatarProps> = ({ src, fallback, alt, size = 80 }) => {
       alt={alt ?? ""}
     >
       <AvatarPrimitive.Image className="w-full h-full" source={src} />
-      <AvatarPrimitive.Fallback className="justify-center align-center">
-        <Text>{fallback}</Text>
+      <AvatarPrimitive.Fallback className="h-full justify-center">
+        <View className="h-full justify-center items-center bg-coffee">
+          <Text className="text-xl font-semibold uppercase tracking-[1.5px] text-bear">
+            {getInitials(fallback)}
+          </Text>
+        </View>
       </AvatarPrimitive.Fallback>
     </AvatarPrimitive.Root>
   );

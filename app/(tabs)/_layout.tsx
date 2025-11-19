@@ -25,8 +25,10 @@ const _Layout: FC = () => {
         <TabList className="absolute bottom-6 right-[10%] h-[64px] w-[64px] bg-dark rounded-full items-center justify-center">
           <TabTrigger asChild name="profile" href="/(tabs)/profile">
             <AvatarTabButton
-              src={require("../../assets/images/IMG_5114.jpg")}
-              fallback="VV"
+              src={{
+                uri: "",
+              }}
+              fallback="Volodymyr Vovk"
             />
           </TabTrigger>
         </TabList>
