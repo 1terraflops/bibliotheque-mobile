@@ -18,5 +18,3 @@ module.exports = {
   },
   plugins: [],
 };
-
-// darkish: "#4a4f4a",

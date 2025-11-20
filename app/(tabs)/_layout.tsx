@@ -13,8 +13,8 @@ const Layout = () => {
       <>
         <TabList
           className={
-            "absolute gap-x-10 bottom-6 left-[10%] bg-dark h-[68px] px-8 rounded-full flex-row items-center justify-between gap-6 shadow " +
-            cn(isLightTheme && "bg-coffeish")
+            "absolute gap-x-10 bottom-6 left-[10%] bg-coffeish h-[68px] px-8 rounded-full flex-row items-center justify-between gap-6 shadow " +
+            cn(!isLightTheme && "bg-dark")
           }
         >
           <TabTrigger asChild name="index" href="/(tabs)">
@@ -32,8 +32,8 @@ const Layout = () => {
 
         <TabList
           className={
-            "absolute bottom-6 right-[10%] h-[64px] w-[64px] bg-dark rounded-full items-center justify-center shadow " +
-            cn(isLightTheme && "bg-coffeish")
+            "absolute bottom-6 right-[10%] h-[64px] w-[64px] bg-coffeish rounded-full items-center justify-center shadow " +
+            cn(!isLightTheme && "bg-dark")
           }
         >
           <TabTrigger asChild name="profile" href="/(tabs)/profile">
