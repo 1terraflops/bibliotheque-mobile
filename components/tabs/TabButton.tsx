@@ -1,4 +1,5 @@
 import { colors } from "@/constants/colors";
+import { cn } from "@/utils/cn";
 import * as Haptics from "expo-haptics";
 import { TabTriggerSlotProps } from "expo-router/ui";
 import { LucideIcon } from "lucide-react-native";
@@ -25,9 +26,10 @@ export const TabButton = forwardRef<View, TabButtonProps>(
             stroke={props.isFocused ? colors.primary : colors.grey}
           />
           <Text
-            className={`text-xs font-medium ${
+            className={cn(
+              "text-xs font-medium",
               props.isFocused ? "text-primary" : "text-grey"
-            }`}
+            )}
           >
             {children}
           </Text>

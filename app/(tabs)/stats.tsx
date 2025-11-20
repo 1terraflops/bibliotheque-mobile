@@ -1,9 +1,17 @@
-import { Text, View } from "react-native";
+import { cn } from "@/utils/cn";
+import { Text, useColorScheme, View } from "react-native";
 
 export default function Stats() {
+  const isLightTheme = useColorScheme() === "light";
+
   return (
-    <View className="flex-1 justify-center items-center">
-      <Text className="text-teal-500">Stats</Text>
+    <View
+      className={cn(
+        "flex-1 justify-center items-center bg-darker",
+        isLightTheme && "bg-light"
+      )}
+    >
+      <Text className="text-white">Stats</Text>
     </View>
   );
 }
