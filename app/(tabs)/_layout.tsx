@@ -8,7 +8,7 @@ const _Layout: FC = () => {
     <Tabs>
       <TabSlot />
       <>
-        <TabList className="absolute gap-x-12 bottom-6 left-[10%] bg-dark h-[68px] px-8 rounded-full flex-row items-center justify-between gap-6">
+        <TabList className="absolute gap-x-12 bottom-6 left-[10%] bg-dark h-[68px] px-8 rounded-full flex-row items-center justify-between gap-6 shadow">
           <TabTrigger asChild name="index" href="/(tabs)">
             <TabButton icon={Book}>Books</TabButton>
           </TabTrigger>
@@ -22,7 +22,7 @@ const _Layout: FC = () => {
           </TabTrigger>
         </TabList>
 
-        <TabList className="absolute bottom-6 right-[10%] h-[64px] w-[64px] bg-dark rounded-full items-center justify-center">
+        <TabList className="absolute bottom-6 right-[10%] h-[64px] w-[64px] bg-dark rounded-full items-center justify-center shadow">
           <TabTrigger asChild name="profile" href="/(tabs)/profile">
             <AvatarTabButton
               src={{
