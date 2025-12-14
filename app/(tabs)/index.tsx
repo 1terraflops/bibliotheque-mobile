@@ -1,8 +1,33 @@
 import { cn } from "@/utils/cn";
+import { useRouter } from "expo-router";
+import * as SecureStore from "expo-secure-store";
+import { Loader } from "lucide-react-native";
+import { useEffect, useState } from "react";
 import { Text, useColorScheme, View } from "react-native";
 
 export default function Index() {
   const isLightTheme = useColorScheme() === "light";
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const accessToken = await SecureStore.getItemAsync("access_token");
+      const refreshToken = await SecureStore.getItemAsync("refresh_token");
+
+      if (!accessToken && !refreshToken) {
+        router.replace("/(auth)/login");
+      }
+
+      setLoading(false);
+    };
+
+    checkAuth();
+  }, [router]);
+
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <View
@@ -11,7 +36,7 @@ export default function Index() {
         isLightTheme && "bg-light"
       )}
     >
-      <Text className="text-white">Home</Text>
+      <Text>Welcome Home!</Text>
     </View>
   );
 }
