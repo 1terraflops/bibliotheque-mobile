@@ -25,6 +25,18 @@ export default function Index() {
     checkAuth();
   }, [router]);
 
+  // const { data, isLoading } = useQuery({
+  //   queryKey: ["books"],
+  //   queryFn: async () => {
+  //     const res = await api.get("books");
+  //     return res.data;
+  //   },
+  // });
+
+  // if (isLoading) return <Loader />;
+
+  // console.log(data);
+
   if (loading) {
     return <Loader />;
   }
