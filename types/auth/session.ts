@@ -1,9 +1,10 @@
+import { Session as SupabaseSession } from "@supabase/supabase-js";
 import { z } from "zod";
 
 export const SessionSchema = z.object({
-  access_token: z.string(),
+  session: z.custom<SupabaseSession>().nullable(),
   isAuthenticated: z.boolean().nullable(),
-  isLoading: z.boolean(),
+  isHydrated: z.boolean(),
 });
 
 export type Session = z.infer<typeof SessionSchema>;

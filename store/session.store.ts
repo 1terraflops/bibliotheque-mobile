@@ -1,49 +1,26 @@
 import { Session } from "@/types/auth";
-import * as SecureStore from "expo-secure-store";
+import { Session as SupabaseSession } from "@supabase/supabase-js";
 import { create } from "zustand";
-import { immer } from "zustand/middleware/immer";
 
 const initialState: Session = {
-  access_token: "",
+  session: null,
   isAuthenticated: false,
-  isLoading: true,
+  isHydrated: false,
 };
 
-type SessionFunctions = {
-  checkSession: () => Promise<void>;
-  logout: () => Promise<void>;
+type SessionStoreFunctions = {
+  setSession: (session: SupabaseSession | null) => void;
+  setIsHydrated: () => void;
 };
 
-export const useSessionStore = create<Session & SessionFunctions>()(
-  immer((set) => ({
+export const useSessionStore = create<Session & SessionStoreFunctions>(
+  (set) => ({
     ...initialState,
-    checkSession: async () => {
-      const token = await SecureStore.getItemAsync("access_token");
-
-      if (!token) {
-        set((state) => {
-          state.access_token = "";
-          state.isAuthenticated = false;
-          state.isLoading = false;
-        });
-
-        return;
-      }
-
-      set((state) => {
-        state.access_token = token;
-        state.isAuthenticated = true;
-        state.isLoading = false;
-      });
-    },
-    logout: async () => {
-      await SecureStore.deleteItemAsync("access_token");
-      await SecureStore.deleteItemAsync("refresh_token");
-
-      set((state) => {
-        state.access_token = "";
-        state.isAuthenticated = false;
-      });
-    },
-  }))
+    setSession: (session) =>
+      set({
+        session,
+        isAuthenticated: !!session?.user.id,
+      }),
+    setIsHydrated: () => set({ isHydrated: true }),
+  }),
 );

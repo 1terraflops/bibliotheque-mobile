@@ -1,4 +1,4 @@
-import { useLoginMutation } from "@/api/auth/login.mutation";
+import { supabase } from "@/api/supabase";
 import { LoginRequestSchema } from "@/types/auth";
 import { useForm } from "@tanstack/react-form";
 import { useRouter } from "expo-router";
@@ -6,8 +6,6 @@ import { Pressable, Text, TextInput, View } from "react-native";
 
 export const LoginForm = () => {
   const router = useRouter();
-
-  const { mutateAsync: login } = useLoginMutation();
 
   const form = useForm({
     defaultValues: {
@@ -20,10 +18,14 @@ export const LoginForm = () => {
     onSubmit: async ({ value }) => {
       const { email, password } = value;
 
-      await login({
+      const { error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
+
+      if (error) {
+        console.error("Login error:", error);
+      }
 
       router.replace("/(tabs)");
     },

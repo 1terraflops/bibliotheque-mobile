@@ -1,15 +1,15 @@
 import axios from "axios";
-import * as SecureStore from "expo-secure-store";
+import { supabase } from "./supabase";
 
 export const api = axios.create({
   baseURL: "https://book-tracking-backend.onrender.com/v1/",
 });
 
 api.interceptors.request.use(async (config) => {
-  const token = await SecureStore.getItemAsync("access_token");
+  const { data } = await supabase.auth.getSession();
 
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+  if (data.session?.access_token) {
+    config.headers.Authorization = `Bearer ${data.session?.access_token}`;
   }
 
   return config;
@@ -17,11 +17,23 @@ api.interceptors.request.use(async (config) => {
 
 api.interceptors.response.use(
   (response) => response,
-  (error) => {
-    if (error.response) {
-      if (error.response.status === 401) {
-        console.log("Unauthorized 401");
+  async (error) => {
+    const originalRequest = error.config;
+
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+
+      const { error: refreshError } = await supabase.auth.refreshSession();
+
+      if (refreshError) {
+        await supabase.auth.signOut();
+        console.log("Unauthorized 401 - session refresh failed");
+        return Promise.reject(refreshError);
       }
+
+      return api(originalRequest);
     }
-  }
+
+    return Promise.reject(error);
+  },
 );
