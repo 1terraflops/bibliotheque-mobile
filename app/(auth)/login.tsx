@@ -8,8 +8,8 @@ export default function Login() {
   return (
     <View
       className={cn(
-        "flex-1 justify-center items-center bg-darker",
-        isLightTheme && "bg-light"
+        "flex-1 justify-center items-center bg-dark-1",
+        isLightTheme && "bg-light-1",
       )}
     >
       <LoginForm />

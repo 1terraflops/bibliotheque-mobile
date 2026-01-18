@@ -8,8 +8,8 @@ export default function Index() {
   return (
     <View
       className={cn(
-        "flex-1 justify-center items-center bg-darker",
-        isLightTheme && "bg-light",
+        "flex-1 justify-center items-center bg-dark-2",
+        isLightTheme && "bg-light-1",
       )}
     >
       <Text>Welcome Home!</Text>

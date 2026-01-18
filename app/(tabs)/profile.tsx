@@ -7,8 +7,8 @@ export default function Profile() {
   return (
     <View
       className={cn(
-        "flex-1 justify-center items-center bg-darker",
-        isLightTheme && "bg-light"
+        "flex-1 justify-center items-center bg-dark-2",
+        isLightTheme && "bg-light-1",
       )}
     >
       <Text className="text-white">Profile</Text>
