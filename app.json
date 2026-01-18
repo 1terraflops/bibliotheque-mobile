@@ -39,7 +39,20 @@
           }
         }
       ],
-      "expo-secure-store"
+      "expo-secure-store",
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "node_modules/@expo-google-fonts/inter/400Regular/Inter_400Regular.ttf",
+            "node_modules/@expo-google-fonts/inter/500Medium/Inter_500Medium.ttf",
+            "node_modules/@expo-google-fonts/inter/600SemiBold/Inter_600SemiBold.ttf",
+            "node_modules/@expo-google-fonts/inter/700Bold/Inter_700Bold.ttf",
+            "node_modules/@expo-google-fonts/roboto-mono/400Regular/RobotoMono_400Regular.ttf",
+            "node_modules/@expo-google-fonts/nunito-sans/400Regular/NunitoSans_400Regular.ttf"
+          ]
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,

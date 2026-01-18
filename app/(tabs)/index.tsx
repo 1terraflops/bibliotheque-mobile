@@ -14,7 +14,7 @@ export default function Index() {
     >
       <Text>Welcome Home!</Text>
       <Pressable onPress={() => supabase.auth.signOut()}>
-        <Text>Log out</Text>
+        <Text className="font-roboto-mono">Log out</Text>
       </Pressable>
     </View>
   );

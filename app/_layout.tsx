@@ -1,7 +1,16 @@
 import { queryClient } from "@/api/queryClient";
 import { supabase } from "@/api/supabase";
 import { useSessionStore } from "@/store/session.store";
+import {
+  Inter_400Regular,
+  Inter_500Medium,
+  Inter_600SemiBold,
+  Inter_700Bold,
+} from "@expo-google-fonts/inter";
+import { NunitoSans_400Regular } from "@expo-google-fonts/nunito-sans";
+import { RobotoMono_400Regular } from "@expo-google-fonts/roboto-mono";
 import { QueryClientProvider } from "@tanstack/react-query";
+import { useFonts } from "expo-font";
 import { Stack, useRouter } from "expo-router";
 import { useEffect } from "react";
 import "./global.css";
@@ -9,6 +18,14 @@ import "./global.css";
 export default function RootLayout() {
   const router = useRouter();
   const sessionStore = useSessionStore();
+  const [loaded] = useFonts({
+    Inter_400Regular,
+    Inter_500Medium,
+    Inter_600SemiBold,
+    Inter_700Bold,
+    RobotoMono_400Regular,
+    NunitoSans_400Regular,
+  });
 
   useEffect(() => {
     const fetchSession = async () => {
@@ -45,7 +62,7 @@ export default function RootLayout() {
     }
   }, [sessionStore.isHydrated, sessionStore.isAuthenticated]);
 
-  if (!sessionStore.isHydrated) return null;
+  if (!sessionStore.isHydrated || !loaded) return null;
 
   return (
     <QueryClientProvider client={queryClient}>
