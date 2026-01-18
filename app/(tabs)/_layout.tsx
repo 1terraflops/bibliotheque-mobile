@@ -1,4 +1,4 @@
-import { AvatarTabButton, TabButton } from "@/components";
+import { AvatarTabButton, TabButton } from "@/components/tabs";
 import { cn } from "@/utils/cn";
 import { TabList, Tabs, TabSlot, TabTrigger } from "expo-router/ui";
 import { Book, ChartColumnStacked, Newspaper } from "lucide-react-native";
