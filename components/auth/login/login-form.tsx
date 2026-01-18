@@ -1,8 +1,10 @@
 import { supabase } from "@/api/supabase";
+import { Input } from "@/components/shared";
 import { LoginRequestSchema } from "@/types/auth";
 import { useForm } from "@tanstack/react-form";
 import { useRouter } from "expo-router";
-import { Pressable, Text, TextInput, View } from "react-native";
+import { Lock, Mail } from "lucide-react-native";
+import { Pressable, Text, View } from "react-native";
 
 export const LoginForm = () => {
   const router = useRouter();
@@ -25,6 +27,7 @@ export const LoginForm = () => {
 
       if (error) {
         console.error("Login error:", error);
+        return;
       }
 
       router.replace("/(tabs)");
@@ -35,24 +38,42 @@ export const LoginForm = () => {
     <View>
       <form.Field name="email">
         {(field) => (
-          <TextInput
+          <Input
+            placeholderAsLabel
+            icon={Mail}
             placeholder="Email"
             value={field.state.value ?? ""}
             onBlur={field.handleBlur}
             onChangeText={(text) => field.setValue(text)}
+            error={field.state.meta.errors[0]?.message}
+            showError={
+              field.state.meta.isDirty &&
+              field.state.meta.isBlurred &&
+              field.state.meta.errors.length > 0
+            }
+            isBlurred={field.state.meta.isBlurred}
           />
         )}
       </form.Field>
       <form.Field name="password">
         {(field) => (
           <>
-            <TextInput
+            <Input
+              placeholderAsLabel
+              secure
               placeholder="Password"
+              icon={Lock}
               value={field.state.value ?? ""}
               onBlur={field.handleBlur}
               onChangeText={(text) => field.setValue(text)}
+              error={field.state.meta.errors[0]?.message}
+              showError={
+                field.state.meta.isDirty &&
+                field.state.meta.isBlurred &&
+                field.state.meta.errors.length > 0
+              }
+              isBlurred={field.state.meta.isBlurred}
             />
-            <Text>{field.state.meta.errors[0]?.message}</Text>
           </>
         )}
       </form.Field>

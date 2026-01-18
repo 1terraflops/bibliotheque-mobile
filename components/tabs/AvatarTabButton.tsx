@@ -3,7 +3,7 @@ import * as Haptics from "expo-haptics";
 import { TabTriggerSlotProps } from "expo-router/ui";
 import { forwardRef } from "react";
 import { ImageSourcePropType, Pressable, View } from "react-native";
-import { Avatar } from "../shared/avatar";
+import { Avatar } from "../shared";
 
 interface TabButtonProps extends React.PropsWithChildren, TabTriggerSlotProps {
   src: ImageSourcePropType;
@@ -23,7 +23,7 @@ export const AvatarTabButton = forwardRef<View, TabButtonProps>(
       >
         <View
           className={cn(
-            props.isFocused && "border-2 border-primary rounded-full"
+            props.isFocused && "border-2 border-primary rounded-full",
           )}
         >
           <Avatar
@@ -35,7 +35,7 @@ export const AvatarTabButton = forwardRef<View, TabButtonProps>(
         </View>
       </Pressable>
     );
-  }
+  },
 );
 
 AvatarTabButton.displayName = "AvatarTabButton";
