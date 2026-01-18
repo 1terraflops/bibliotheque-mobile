@@ -4,9 +4,11 @@ import { LoginRequestSchema } from "@/types/auth";
 import { useForm } from "@tanstack/react-form";
 import { useRouter } from "expo-router";
 import { Lock, Mail } from "lucide-react-native";
+import { useState } from "react";
 import { Pressable, Text, View } from "react-native";
 
 export const LoginForm = () => {
+  const [serverError, setServerError] = useState<string | null>(null);
   const router = useRouter();
 
   const form = useForm({
@@ -26,7 +28,7 @@ export const LoginForm = () => {
       });
 
       if (error) {
-        console.error("Login error:", error);
+        setServerError(error.message);
         return;
       }
 
@@ -43,13 +45,17 @@ export const LoginForm = () => {
             icon={Mail}
             placeholder="Email"
             value={field.state.value ?? ""}
-            onBlur={field.handleBlur}
+            onBlur={() => {
+              field.handleBlur();
+              setServerError(null);
+            }}
             onChangeText={(text) => field.setValue(text)}
             error={field.state.meta.errors[0]?.message}
             showError={
-              field.state.meta.isDirty &&
-              field.state.meta.isBlurred &&
-              field.state.meta.errors.length > 0
+              !!serverError ||
+              (field.state.meta.isDirty &&
+                field.state.meta.isBlurred &&
+                field.state.meta.errors.length > 0)
             }
             isBlurred={field.state.meta.isBlurred}
           />
@@ -64,19 +70,26 @@ export const LoginForm = () => {
               placeholder="Password"
               icon={Lock}
               value={field.state.value ?? ""}
-              onBlur={field.handleBlur}
+              onBlur={() => {
+                field.handleBlur();
+                setServerError(null);
+              }}
               onChangeText={(text) => field.setValue(text)}
               error={field.state.meta.errors[0]?.message}
               showError={
-                field.state.meta.isDirty &&
-                field.state.meta.isBlurred &&
-                field.state.meta.errors.length > 0
+                !!serverError ||
+                (field.state.meta.isDirty &&
+                  field.state.meta.isBlurred &&
+                  field.state.meta.errors.length > 0)
               }
               isBlurred={field.state.meta.isBlurred}
             />
           </>
         )}
       </form.Field>
+      <Text className="font-nunito-sans text-attention-5 text-sm">
+        {serverError}
+      </Text>
       <Pressable onPress={form.handleSubmit}>
         <Text>Submit</Text>
       </Pressable>
