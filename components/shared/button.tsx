@@ -30,14 +30,14 @@ const ButtonStyles = {
 
 const TextButtonStyles = {
   light: {
-    primary: "font-inter-500 text-xl text-light-1",
-    secondary: "font-inter-500 text-xl text-dark-1",
+    primary: "font-inter-500 text-[18px] text-light-1",
+    secondary: "font-inter-500 text-[18px] text-dark-1",
     icon: "",
     text: "font-inter-500 text-lg text-dark-1",
   },
   dark: {
-    primary: "font-inter-500 text-xl text-dark-1",
-    secondary: "font-inter-500 text-xl text-light-1",
+    primary: "font-inter-500 text-[18px] text-dark-1",
+    secondary: "font-inter-500 text-[18px] text-light-1",
     icon: "",
     text: "font-inter-500 text-lg text-light-1",
   },
