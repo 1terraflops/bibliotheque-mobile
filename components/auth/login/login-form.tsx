@@ -1,13 +1,14 @@
 import { supabase } from "@/api/supabase";
-import { Input } from "@/components/shared";
+import { Button, Input } from "@/components/shared";
 import { LoginRequestSchema } from "@/types/auth";
 import { useForm } from "@tanstack/react-form";
 import { useRouter } from "expo-router";
 import { Lock, Mail } from "lucide-react-native";
 import { useState } from "react";
-import { Pressable, Text, View } from "react-native";
+import { Text, View } from "react-native";
 
 export const LoginForm = () => {
+  const [loading, setLoading] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
   const router = useRouter();
 
@@ -21,11 +22,13 @@ export const LoginForm = () => {
     },
     onSubmit: async ({ value }) => {
       const { email, password } = value;
+      setLoading(true);
 
       const { error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
+      setLoading(false);
 
       if (error) {
         setServerError(error.message);
@@ -90,9 +93,12 @@ export const LoginForm = () => {
       <Text className="font-nunito-sans text-attention-5 text-sm">
         {serverError}
       </Text>
-      <Pressable onPress={form.handleSubmit}>
-        <Text>Submit</Text>
-      </Pressable>
+      <Button
+        onPress={form.handleSubmit}
+        title="Login"
+        variant="primary"
+        loading={loading}
+      />
     </View>
   );
 };

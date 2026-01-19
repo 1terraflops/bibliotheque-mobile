@@ -9,13 +9,13 @@ import {
 } from "lucide-react-native";
 import { FC, useState } from "react";
 import {
-  Pressable,
   Text,
   TextInput,
   TextInputProps,
   useColorScheme,
   View,
 } from "react-native";
+import { Button } from "./button";
 
 interface InputProps extends TextInputProps {
   placeholderAsLabel?: boolean;
@@ -80,20 +80,12 @@ export const Input: FC<InputProps> = ({
             />
           </View>
           {secure && value && (
-            <Pressable
+            <Button
               onPress={() => setSecureField((p) => !p)}
               className="mr-2"
-            >
-              {secureField ? (
-                <Eye
-                  color={isLightTheme ? colors["dark-3"] : colors["light-3"]}
-                />
-              ) : (
-                <EyeClosed
-                  color={isLightTheme ? colors["dark-3"] : colors["light-3"]}
-                />
-              )}
-            </Pressable>
+              variant="icon"
+              iconLeft={secureField ? Eye : EyeClosed}
+            />
           )}
           {showError && <CircleAlert color={colors.error} />}
           {!showError && value && isBlurred && <Check color={colors.success} />}

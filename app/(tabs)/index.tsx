@@ -1,6 +1,7 @@
 import { supabase } from "@/api/supabase";
+import { Button } from "@/components/shared";
 import { cn } from "@/utils/cn";
-import { Pressable, Text, useColorScheme, View } from "react-native";
+import { Text, useColorScheme, View } from "react-native";
 
 export default function Index() {
   const isLightTheme = useColorScheme() === "light";
@@ -13,9 +14,11 @@ export default function Index() {
       )}
     >
       <Text>Welcome Home!</Text>
-      <Pressable onPress={() => supabase.auth.signOut()}>
-        <Text className="font-roboto-mono">Log out</Text>
-      </Pressable>
+      <Button
+        title="Logout"
+        variant="text"
+        onPress={() => supabase.auth.signOut()}
+      />
     </View>
   );
 }
