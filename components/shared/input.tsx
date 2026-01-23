@@ -44,7 +44,7 @@ export const Input: FC<InputProps> = ({
   const hasValue = value && value.length > 0;
 
   return (
-    <View className={cn("w-[320px]", fullWidth && "w-full")}>
+    <View className={cn("w-full", fullWidth && "w-full")}>
       <Text
         className={cn(
           "font-roboto-mono mb-1.5 ml-0.5 h-[18px]",

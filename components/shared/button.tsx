@@ -15,14 +15,14 @@ type variant = "primary" | "secondary" | "icon" | "text";
 
 const ButtonStyles = {
   light: {
-    primary: "w-full py-4 rounded-[10px] bg-dark-1",
-    secondary: "w-full py-4 rounded-[10px] border border-dark-1",
+    primary: "w-full py-[12px] rounded-[10px] bg-dark-1",
+    secondary: "w-full py-[12px] rounded-[10px] border border-dark-1",
     icon: "",
     text: "",
   },
   dark: {
-    primary: "w-full py-4 rounded-[10px] bg-light-1",
-    secondary: "w-full py-4 rounded-[10px] border border-light-1",
+    primary: "w-full py-[12px] rounded-[10px] bg-light-1",
+    secondary: "w-full py-[12px] rounded-[10px] border border-light-1",
     icon: "",
     text: "",
   },
@@ -64,6 +64,7 @@ interface ButtonProps extends PressableProps {
   title?: string;
   iconLeft?: LucideIcon;
   iconRight?: LucideIcon;
+  iconSize?: number;
   loading?: boolean;
 }
 
@@ -74,13 +75,14 @@ export const Button: FC<ButtonProps> = ({
   iconLeft: IconLeft,
   iconRight: IconRight,
   loading = false,
+  iconSize,
   className,
   ...props
 }) => {
   const theme = useColorScheme() ?? "light";
 
   return (
-    <View className={className}>
+    <View className={cn("flex-row", className)}>
       <Pressable
         {...props}
         disabled={loading}
@@ -91,7 +93,7 @@ export const Button: FC<ButtonProps> = ({
         )}
       >
         {!loading && variant !== "text" && IconLeft && (
-          <IconLeft color={IconColors[theme][variant]} />
+          <IconLeft color={IconColors[theme][variant]} size={iconSize} />
         )}
         {!loading && variant !== "icon" && (
           <Text className={TextButtonStyles[theme][variant]}>
