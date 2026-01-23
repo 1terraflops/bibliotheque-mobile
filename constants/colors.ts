@@ -11,6 +11,8 @@ export const colors = {
   "light-3": "#CCCCCC",
   "light-4": "#BFBFBF",
   "light-5": "#B3B3B3",
+  "light-6": "#A6A6A6",
+  "light-7": "#999999",
   "approved-1": "#C9E8C9",
   "approved-2": "#B8E0B8",
   "approved-3": "#A6D9A6",

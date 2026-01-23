@@ -7,7 +7,12 @@ import {
   Inter_600SemiBold,
   Inter_700Bold,
 } from "@expo-google-fonts/inter";
-import { NunitoSans_400Regular } from "@expo-google-fonts/nunito-sans";
+import {
+  NunitoSans_400Regular,
+  NunitoSans_500Medium,
+  NunitoSans_800ExtraBold,
+  NunitoSans_900Black,
+} from "@expo-google-fonts/nunito-sans";
 import { RobotoMono_400Regular } from "@expo-google-fonts/roboto-mono";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { useFonts } from "expo-font";
@@ -25,6 +30,9 @@ export default function RootLayout() {
     Inter_700Bold,
     RobotoMono_400Regular,
     NunitoSans_400Regular,
+    NunitoSans_500Medium,
+    NunitoSans_800ExtraBold,
+    NunitoSans_900Black,
   });
 
   useEffect(() => {
@@ -58,7 +66,7 @@ export default function RootLayout() {
     if (sessionStore.isAuthenticated) {
       router.replace("/(tabs)");
     } else {
-      router.replace("/(auth)/login");
+      router.replace("/(auth)/landing");
     }
   }, [sessionStore.isHydrated, sessionStore.isAuthenticated]);
 
