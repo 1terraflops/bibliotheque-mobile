@@ -1,4 +1,4 @@
-import { Session } from "@/types/auth";
+import { Session } from "@/types/session";
 import { Session as SupabaseSession } from "@supabase/supabase-js";
 import { create } from "zustand";
 
