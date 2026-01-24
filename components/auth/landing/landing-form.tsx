@@ -29,6 +29,7 @@ export const LandingForm = () => {
       setLoading(false);
 
       if (error) {
+        setServerError(error.message);
         return;
       }
 
