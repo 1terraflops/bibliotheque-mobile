@@ -29,7 +29,11 @@ export default function Landing() {
       </View>
 
       <View className="items-end mt-auto">
-        <Button title="I don't have an account" variant="secondary" />
+        <Button
+          title="I don't have an account"
+          variant="secondary"
+          onPress={() => router.navigate("/(auth)/sign-up")}
+        />
       </View>
     </PageLayout>
   );
