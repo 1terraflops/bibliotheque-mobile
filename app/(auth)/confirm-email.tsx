@@ -6,7 +6,7 @@ import { Send } from "lucide-react-native";
 import { View } from "react-native";
 
 export default function ConfirmEmail() {
-  const { time, ended, reset } = useCountdown(30);
+  const { time, ended, reset } = useCountdown(59);
   const { email } = useLocalSearchParams<{ email: string }>();
 
   const handleResend = async (email: string) => {
