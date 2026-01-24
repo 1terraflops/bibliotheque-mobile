@@ -32,7 +32,12 @@ export const SignUpForm = () => {
         return;
       }
 
-      router.replace("/(tabs)");
+      router.push({
+        pathname: "/(auth)/confirm-email",
+        params: {
+          email,
+        },
+      });
     },
   });
 
