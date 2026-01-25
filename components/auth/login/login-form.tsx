@@ -98,7 +98,11 @@ export const LoginForm = () => {
         </form.Field>
       </View>
 
-      <Button variant="text" title="I forgot my Password" />
+      <Button
+        variant="text"
+        title="I forgot my Password"
+        onPress={() => router.navigate("/(auth)/forgot-password")}
+      />
 
       <View className="mt-auto gap-y-4">
         <Text className="font-nunito-sans text-attention-5 text-center">

@@ -5,14 +5,29 @@ import useCountdown from "@/utils/useCountdown";
 import { useLinkingURL } from "expo-linking";
 import { useLocalSearchParams } from "expo-router";
 import { Send } from "lucide-react-native";
+import { useEffect } from "react";
 import { View } from "react-native";
 
 export default function ConfirmEmail() {
-  const { email } = useLocalSearchParams<{ email: string }>();
+  const { email, type } = useLocalSearchParams<{
+    email: string;
+    type?: string;
+  }>();
   const { time, ended, reset } = useCountdown(59);
-
   const url = useLinkingURL();
-  if (url) createSessionFromUrl(url);
+
+  useEffect(() => {
+    if (url) {
+      createSessionFromUrl(url).catch((error) => {
+        // Ignore AuthSessionMissingError - it's expected before email confirmation
+        if (error?.message?.includes("Auth session missing")) {
+          console.log("Waiting for email confirmation...");
+        } else {
+          console.error("Error creating session:", error);
+        }
+      });
+    }
+  }, [url]);
 
   const handleResend = async (email: string) => {
     if (!ended) return;
@@ -38,11 +53,13 @@ export default function ConfirmEmail() {
         </Typography>
       </View>
 
-      <Button
-        variant="secondary"
-        title={ended ? "Resend" : `Resend in 00:${time}`}
-        onPress={async () => await handleResend(email)}
-      />
+      {type !== "password-reset" && (
+        <Button
+          variant="secondary"
+          title={ended ? "Resend" : `Resend in 00:${time}`}
+          onPress={async () => await handleResend(email)}
+        />
+      )}
     </PageLayout>
   );
 }

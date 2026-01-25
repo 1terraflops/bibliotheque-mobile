@@ -2,12 +2,12 @@ import { supabase } from "@/api/supabase";
 import { Button, Input, Typography } from "@/components/shared";
 import { useForm } from "@tanstack/react-form";
 import { useRouter } from "expo-router";
-import { Lock, Mail } from "lucide-react-native";
+import { Mail } from "lucide-react-native";
 import { useState } from "react";
 import { View } from "react-native";
-import { ISignUpForm, ISignUpFormSchema } from "./model/model";
+import { IForgotPasswordForm, IForgotPasswordFormSchema } from "../model/model";
 
-export const SignUpForm = () => {
+export const ForgotPasswordForm = () => {
   const [loading, setLoading] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
   const router = useRouter();
@@ -15,22 +15,17 @@ export const SignUpForm = () => {
   const form = useForm({
     defaultValues: {
       email: "",
-      password: "",
-    } satisfies ISignUpForm,
+    } satisfies IForgotPasswordForm,
     validators: {
-      onChange: ISignUpFormSchema,
+      onChange: IForgotPasswordFormSchema,
     },
     onSubmit: async ({ value }) => {
-      const { email, password } = value;
+      const { email } = value;
       setLoading(true);
 
-      const options = {
-        emailRedirectTo: "exp://192.168.31.218:8081/--/confirm-email",
-      };
-
-      const { error } = password.length
-        ? await supabase.auth.signUp({ email, password, options })
-        : await supabase.auth.signInWithOtp({ email, options });
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: "exp://192.168.31.218:8081/--/reset-password",
+      });
 
       setLoading(false);
       if (error) {
@@ -40,7 +35,10 @@ export const SignUpForm = () => {
 
       router.push({
         pathname: "/(auth)/confirm-email",
-        params: { email },
+        params: {
+          email,
+          type: "password-reset",
+        },
       });
     },
   });
@@ -49,7 +47,7 @@ export const SignUpForm = () => {
     <View className="w-full flex-1">
       <View className="w-full justify-center mt-auto">
         <Typography className="font-nunito-sans-800 text-4xl text-center mb-6">
-          Create an account
+          Reset Password
         </Typography>
 
         <form.Field name="email">
@@ -75,31 +73,6 @@ export const SignUpForm = () => {
             />
           )}
         </form.Field>
-
-        <form.Field name="password">
-          {(field) => (
-            <Input
-              secure
-              label="Optional"
-              placeholder="Password"
-              icon={Lock}
-              value={field.state.value ?? ""}
-              onBlur={() => {
-                field.handleBlur();
-                setServerError(null);
-              }}
-              onChangeText={(text) => field.setValue(text)}
-              error={field.state.meta.errors[0]?.message}
-              showError={
-                !!serverError ||
-                (field.state.meta.isDirty &&
-                  field.state.meta.isBlurred &&
-                  field.state.meta.errors.length > 0)
-              }
-              isBlurred={field.state.meta.isBlurred}
-            />
-          )}
-        </form.Field>
       </View>
 
       <View className="justify-end mt-auto gap-y-4">
@@ -107,7 +80,11 @@ export const SignUpForm = () => {
           {serverError}
         </Typography>
 
-        <Button loading={loading} title="Sign Up" onPress={form.handleSubmit} />
+        <Button
+          loading={loading}
+          title="Reset Password"
+          onPress={form.handleSubmit}
+        />
       </View>
     </View>
   );

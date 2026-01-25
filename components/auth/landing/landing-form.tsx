@@ -26,7 +26,7 @@ export const LandingForm = () => {
       const { error } = await supabase.auth.signInWithOtp({
         email,
         options: {
-          emailRedirectTo: "exp://172.20.10.3:8081/--/confirm-email",
+          emailRedirectTo: "exp://192.168.31.218:8081/--/confirm-email",
         },
       });
       setLoading(false);

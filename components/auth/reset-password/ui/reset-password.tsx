@@ -1,47 +1,36 @@
 import { supabase } from "@/api/supabase";
 import { Button, Input, Typography } from "@/components/shared";
 import { useForm } from "@tanstack/react-form";
-import { useRouter } from "expo-router";
-import { Lock, Mail } from "lucide-react-native";
+import { Mail } from "lucide-react-native";
 import { useState } from "react";
 import { View } from "react-native";
-import { ISignUpForm, ISignUpFormSchema } from "./model/model";
+import { IResetPasswordForm, IResetPasswordFormSchema } from "../model/model";
 
-export const SignUpForm = () => {
+export const ResetPasswordForm = () => {
   const [loading, setLoading] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
-  const router = useRouter();
 
   const form = useForm({
     defaultValues: {
-      email: "",
-      password: "",
-    } satisfies ISignUpForm,
+      new_password: "",
+      confirm_password: "",
+    } satisfies IResetPasswordForm,
     validators: {
-      onChange: ISignUpFormSchema,
+      onChange: IResetPasswordFormSchema,
     },
     onSubmit: async ({ value }) => {
-      const { email, password } = value;
+      const { new_password } = value;
       setLoading(true);
 
-      const options = {
-        emailRedirectTo: "exp://192.168.31.218:8081/--/confirm-email",
-      };
-
-      const { error } = password.length
-        ? await supabase.auth.signUp({ email, password, options })
-        : await supabase.auth.signInWithOtp({ email, options });
+      const { error } = await supabase.auth.updateUser({
+        password: new_password,
+      });
 
       setLoading(false);
       if (error) {
         setServerError(error.message);
         return;
       }
-
-      router.push({
-        pathname: "/(auth)/confirm-email",
-        params: { email },
-      });
     },
   });
 
@@ -49,10 +38,10 @@ export const SignUpForm = () => {
     <View className="w-full flex-1">
       <View className="w-full justify-center mt-auto">
         <Typography className="font-nunito-sans-800 text-4xl text-center mb-6">
-          Create an account
+          Reset Password
         </Typography>
 
-        <form.Field name="email">
+        <form.Field name="new_password">
           {(field) => (
             <Input
               placeholderAsLabel
@@ -76,13 +65,12 @@ export const SignUpForm = () => {
           )}
         </form.Field>
 
-        <form.Field name="password">
+        <form.Field name="confirm_password">
           {(field) => (
             <Input
-              secure
-              label="Optional"
-              placeholder="Password"
-              icon={Lock}
+              placeholderAsLabel
+              placeholder="Email"
+              icon={Mail}
               value={field.state.value ?? ""}
               onBlur={() => {
                 field.handleBlur();
@@ -107,7 +95,11 @@ export const SignUpForm = () => {
           {serverError}
         </Typography>
 
-        <Button loading={loading} title="Sign Up" onPress={form.handleSubmit} />
+        <Button
+          loading={loading}
+          title="Reset Password"
+          onPress={form.handleSubmit}
+        />
       </View>
     </View>
   );
