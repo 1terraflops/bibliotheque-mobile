@@ -36,18 +36,24 @@ export default function RootLayout() {
   });
 
   useEffect(() => {
-    const fetchSession = async () => {
-      const { data, error } = await supabase.auth.getSession();
+    const initializeAuth = async () => {
+      try {
+        const { data, error } = await supabase.auth.getSession();
 
-      if (error) {
-        console.error("Error fetching session:", error);
+        if (error) {
+          console.error("Error fetching session:", error);
+        }
+
+        sessionStore.setSession(data.session ?? null);
+      } catch (err) {
+        console.error("Unexpected error initializing auth:", err);
+        sessionStore.setSession(null);
+      } finally {
+        sessionStore.setIsHydrated();
       }
-
-      sessionStore.setSession(data.session ?? null);
-      sessionStore.setIsHydrated();
     };
 
-    fetchSession();
+    initializeAuth();
 
     const {
       data: { subscription },
@@ -58,7 +64,7 @@ export default function RootLayout() {
     return () => {
       subscription.unsubscribe();
     };
-  }, []);
+  }, [sessionStore]);
 
   useEffect(() => {
     if (!sessionStore.isHydrated) return;
