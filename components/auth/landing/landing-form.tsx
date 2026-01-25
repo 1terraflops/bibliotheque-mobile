@@ -40,6 +40,7 @@ export const LandingForm = () => {
         pathname: "/(auth)/confirm-email",
         params: {
           email,
+          type: "magic-link",
         },
       });
     },

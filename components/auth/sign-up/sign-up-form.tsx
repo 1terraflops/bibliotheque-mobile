@@ -40,7 +40,7 @@ export const SignUpForm = () => {
 
       router.push({
         pathname: "/(auth)/confirm-email",
-        params: { email },
+        params: { email, type: "sign-up" },
       });
     },
   });

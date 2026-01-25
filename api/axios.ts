@@ -6,19 +6,15 @@ export const api = axios.create({
 });
 
 api.interceptors.request.use(async (config) => {
-  try {
-    const { data, error } = await supabase.auth.getSession();
+  const { data, error } = await supabase.auth.getSession();
 
-    if (error) {
-      console.error("Error getting session:", error);
-      return config;
-    }
+  if (error) {
+    console.error("Error getting session", error);
+    return config;
+  }
 
-    if (data.session?.access_token) {
-      config.headers.Authorization = `Bearer ${data.session?.access_token}`;
-    }
-  } catch (error) {
-    console.error("Unexpected error in auth interceptor:", error);
+  if (data.session?.access_token) {
+    config.headers.Authorization = `Bearer ${data.session?.access_token}`;
   }
 
   return config;

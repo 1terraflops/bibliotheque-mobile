@@ -19,7 +19,6 @@ export default function ConfirmEmail() {
   useEffect(() => {
     if (url) {
       createSessionFromUrl(url).catch((error) => {
-        // Ignore AuthSessionMissingError - it's expected before email confirmation
         if (error?.message?.includes("Auth session missing")) {
           console.log("Waiting for email confirmation...");
         } else {
@@ -33,10 +32,22 @@ export default function ConfirmEmail() {
     if (!ended) return;
 
     reset();
-    await supabase.auth.resend({
-      type: "signup",
-      email,
-    });
+
+    if (type === "magic-link") {
+      await supabase.auth.signInWithOtp({
+        email,
+        options: {
+          emailRedirectTo: "exp://192.168.31.218:8081/--/confirm-email",
+        },
+      });
+    }
+
+    if (type === "sign-up") {
+      await supabase.auth.resend({
+        type: "signup",
+        email,
+      });
+    }
   };
 
   return (
