@@ -1,5 +1,5 @@
 import { supabase } from "@/api/supabase";
-import { Button, Input } from "@/components/shared";
+import { Button, Input, Typography } from "@/components/shared";
 import { useForm } from "@tanstack/react-form";
 import { useRouter } from "expo-router";
 import { Mail, Send } from "lucide-react-native";
@@ -67,12 +67,18 @@ export const LandingForm = () => {
         )}
       </form.Field>
 
-      <Button
-        loading={loading}
-        title="Send Link"
-        iconLeft={Send}
-        onPress={form.handleSubmit}
-      />
+      <View className="justify-end mt-auto gap-y-4">
+        <Typography className="font-nunito-sans text-attention-5 text-center">
+          {serverError}
+        </Typography>
+
+        <Button
+          loading={loading}
+          title="Send Link"
+          iconLeft={Send}
+          onPress={form.handleSubmit}
+        />
+      </View>
     </View>
   );
 };
