@@ -1,13 +1,18 @@
 import { supabase } from "@/api/supabase";
 import { Button, PageLayout, Typography } from "@/components/shared";
+import createSessionFromUrl from "@/utils/createSessionFromUrl";
 import useCountdown from "@/utils/useCountdown";
+import { useLinkingURL } from "expo-linking";
 import { useLocalSearchParams } from "expo-router";
 import { Send } from "lucide-react-native";
 import { View } from "react-native";
 
 export default function ConfirmEmail() {
-  const { time, ended, reset } = useCountdown(59);
   const { email } = useLocalSearchParams<{ email: string }>();
+  const { time, ended, reset } = useCountdown(59);
+
+  const url = useLinkingURL();
+  if (url) createSessionFromUrl(url);
 
   const handleResend = async (email: string) => {
     if (!ended) return;

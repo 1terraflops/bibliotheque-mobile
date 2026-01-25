@@ -24,7 +24,13 @@ export const SignUpForm = () => {
       const { email, password } = value;
       setLoading(true);
 
-      const { error } = await supabase.auth.signUp({ email, password });
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: "exp://172.20.10.3:8081/--/confirm-email",
+        },
+      });
       setLoading(false);
 
       if (error) {
