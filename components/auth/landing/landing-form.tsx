@@ -1,5 +1,5 @@
 import { supabase } from "@/api/supabase";
-import { Button, Input, Typography } from "@/components/shared";
+import { Button, Input } from "@/components/shared";
 import { useForm } from "@tanstack/react-form";
 import { useRouter } from "expo-router";
 import { Mail, Send } from "lucide-react-native";
@@ -9,7 +9,7 @@ import { ILandingForm, ILandingFormSchema } from "./model/model";
 
 export const LandingForm = () => {
   const [loading, setLoading] = useState(false);
-  const [serverError, setServerError] = useState<string | null>(null);
+  const [serverError, setServerError] = useState("");
   const router = useRouter();
 
   const form = useForm({
@@ -55,10 +55,10 @@ export const LandingForm = () => {
             value={field.state.value ?? ""}
             onBlur={() => {
               field.handleBlur();
-              setServerError(null);
+              setServerError("");
             }}
             onChangeText={(text) => field.setValue(text)}
-            error={field.state.meta.errors[0]?.message}
+            error={field.state.meta.errors[0]?.message || serverError}
             showError={
               !!serverError ||
               (field.state.meta.isDirty &&
@@ -70,18 +70,13 @@ export const LandingForm = () => {
         )}
       </form.Field>
 
-      <View className="justify-end mt-auto gap-y-4">
-        <Typography className="font-nunito-sans text-attention-5 text-center">
-          {serverError}
-        </Typography>
-
-        <Button
-          loading={loading}
-          title="Send Link"
-          iconLeft={Send}
-          onPress={form.handleSubmit}
-        />
-      </View>
+      <Button
+        loading={loading}
+        title="Send Link"
+        iconLeft={Send}
+        onPress={form.handleSubmit}
+        className="mt-2"
+      />
     </View>
   );
 };

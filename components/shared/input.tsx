@@ -24,7 +24,7 @@ interface InputProps extends TextInputProps {
   showError?: boolean;
   isBlurred?: boolean;
   secure?: boolean;
-  fullWidth?: boolean;
+  label?: string;
 }
 
 export const Input: FC<InputProps> = ({
@@ -36,23 +36,26 @@ export const Input: FC<InputProps> = ({
   showError = false,
   isBlurred = false,
   secure = false,
-  fullWidth = false,
+  label,
   ...props
 }) => {
   const [secureField, setSecureField] = useState(secure);
   const isLightTheme = useColorScheme() === "light";
   const hasValue = value && value.length > 0;
 
+  const labelText = label ?? (placeholderAsLabel ? placeholder : undefined);
+
   return (
-    <View className={cn("w-full", fullWidth && "w-full")}>
+    <View className="w-full">
       <Text
         className={cn(
           "font-roboto-mono mb-1.5 ml-0.5 h-[18px]",
           hasValue ? "opacity-100" : "opacity-0",
+          label && !placeholderAsLabel && "opacity-100",
           isLightTheme ? "text-dark-1" : "text-light-1",
         )}
       >
-        {placeholder}
+        {labelText}
       </Text>
       <View>
         <View

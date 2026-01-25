@@ -24,15 +24,15 @@ export const SignUpForm = () => {
       const { email, password } = value;
       setLoading(true);
 
-      const { error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          emailRedirectTo: "exp://172.20.10.3:8081/--/confirm-email",
-        },
-      });
-      setLoading(false);
+      const options = {
+        emailRedirectTo: "exp://172.20.10.3:8081/--/confirm-email",
+      };
 
+      const { error } = password.length
+        ? await supabase.auth.signUp({ email, password, options })
+        : await supabase.auth.signInWithOtp({ email, options });
+
+      setLoading(false);
       if (error) {
         setServerError(error.message);
         return;
@@ -40,9 +40,7 @@ export const SignUpForm = () => {
 
       router.push({
         pathname: "/(auth)/confirm-email",
-        params: {
-          email,
-        },
+        params: { email },
       });
     },
   });
@@ -82,7 +80,7 @@ export const SignUpForm = () => {
           {(field) => (
             <Input
               secure
-              placeholderAsLabel
+              label="Optional"
               placeholder="Password"
               icon={Lock}
               value={field.state.value ?? ""}

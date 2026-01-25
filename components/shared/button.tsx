@@ -77,6 +77,7 @@ export const Button: FC<ButtonProps> = ({
   loading = false,
   iconSize,
   className,
+  disabled,
   ...props
 }) => {
   const theme = useColorScheme() ?? "light";
@@ -85,7 +86,7 @@ export const Button: FC<ButtonProps> = ({
     <View className={cn("flex-row", className)}>
       <Pressable
         {...props}
-        disabled={loading}
+        disabled={loading || disabled}
         className={cn(
           "flex-row justify-center gap-x-2",
           ButtonStyles[theme][variant],
