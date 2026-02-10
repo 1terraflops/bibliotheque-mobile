@@ -2,7 +2,7 @@ import axios from "axios";
 import { supabase } from "./supabase";
 
 export const api = axios.create({
-  baseURL: "https://book-tracking-backend.onrender.com/v1/",
+  baseURL: process.env.EXPO_PUBLIC_BASE_URL,
 });
 
 api.interceptors.request.use(async (config) => {
