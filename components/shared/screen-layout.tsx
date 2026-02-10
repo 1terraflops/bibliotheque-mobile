@@ -2,18 +2,20 @@ import { cn } from "@/utils/cn";
 import { useRouter } from "expo-router";
 import { ChevronLeft } from "lucide-react-native";
 import { FC, ReactNode } from "react";
-import { useColorScheme, View } from "react-native";
+import { ScrollView, useColorScheme, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Button } from "./button";
 
 interface ScreenLayoutProps {
   children?: ReactNode;
   backButton?: boolean;
+  scrollable?: boolean;
 }
 
 export const ScreenLayout: FC<ScreenLayoutProps> = ({
   children,
   backButton = false,
+  scrollable = false,
 }) => {
   const router = useRouter();
   const isLightTheme = useColorScheme() === "light";
@@ -35,7 +37,18 @@ export const ScreenLayout: FC<ScreenLayoutProps> = ({
           />
         </View>
       )}
-      {children}
+
+      {scrollable ? (
+        <ScrollView
+          className="flex-1"
+          contentContainerStyle={{ flexGrow: 1 }}
+          showsVerticalScrollIndicator={false}
+        >
+          <View className="flex-1">{children}</View>
+        </ScrollView>
+      ) : (
+        <View className="flex-1">{children}</View>
+      )}
     </SafeAreaView>
   );
 };

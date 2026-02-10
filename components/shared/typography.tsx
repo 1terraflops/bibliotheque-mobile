@@ -3,7 +3,7 @@ import { FC, ReactNode } from "react";
 import { Text, TextProps, useColorScheme } from "react-native";
 
 interface TypographyProps extends TextProps {
-  children: ReactNode;
+  children?: ReactNode;
   className?: string;
 }
 
