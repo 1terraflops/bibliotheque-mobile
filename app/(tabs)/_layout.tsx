@@ -1,11 +1,17 @@
+import { GetActiveUserQueryOptions } from "@/api/users/get-active-user-profile.query";
 import { AvatarTabButton, TabButton } from "@/components/tabs";
+import { useSessionStore } from "@/store/session.store";
 import { cn } from "@/utils/cn";
+import { useQuery } from "@tanstack/react-query";
 import { TabList, Tabs, TabSlot, TabTrigger } from "expo-router/ui";
 import { Book, ChartColumnStacked, Newspaper } from "lucide-react-native";
 import { useColorScheme } from "react-native";
 
 const Layout = () => {
   const isLightTheme = useColorScheme() === "light";
+
+  const id = useSessionStore().session?.user.id!;
+  const { data: profile } = useQuery(GetActiveUserQueryOptions(id));
 
   return (
     <Tabs>
@@ -39,9 +45,9 @@ const Layout = () => {
           <TabTrigger asChild name="profile" href="/(tabs)/profile">
             <AvatarTabButton
               src={{
-                uri: "",
+                uri: profile?.avatar_url ?? "",
               }}
-              fallback="Volodymyr Vovk"
+              fallback={profile?.full_name || profile?.username || ""}
             />
           </TabTrigger>
         </TabList>

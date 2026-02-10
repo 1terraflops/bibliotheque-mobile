@@ -1,17 +1,10 @@
-import { cn } from "@/utils/cn";
-import { Text, useColorScheme, View } from "react-native";
+import { ScreenLayout } from "@/components/shared";
+import { UserInfo } from "@/components/user-profile";
 
 export default function Profile() {
-  const isLightTheme = useColorScheme() === "light";
-
   return (
-    <View
-      className={cn(
-        "flex-1 justify-center items-center bg-dark-2",
-        isLightTheme && "bg-light-1",
-      )}
-    >
-      <Text className="text-white">Profile</Text>
-    </View>
+    <ScreenLayout scrollable>
+      <UserInfo />
+    </ScreenLayout>
   );
 }
