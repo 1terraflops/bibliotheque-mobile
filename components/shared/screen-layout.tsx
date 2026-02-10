@@ -6,12 +6,12 @@ import { useColorScheme, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Button } from "./button";
 
-interface PageLayoutProps {
+interface ScreenLayoutProps {
   children?: ReactNode;
   backButton?: boolean;
 }
 
-export const PageLayout: FC<PageLayoutProps> = ({
+export const ScreenLayout: FC<ScreenLayoutProps> = ({
   children,
   backButton = false,
 }) => {

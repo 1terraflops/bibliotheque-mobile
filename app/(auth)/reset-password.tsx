@@ -1,13 +1,13 @@
 import { ResetPasswordForm } from "@/components/auth/reset-password";
-import { PageLayout } from "@/components/shared";
+import { ScreenLayout } from "@/components/shared";
 import { View } from "react-native";
 
 export default function ResetPassword() {
   return (
-    <PageLayout>
+    <ScreenLayout>
       <View className="flex-1 items-center">
         <ResetPasswordForm />
       </View>
-    </PageLayout>
+    </ScreenLayout>
   );
 }

@@ -1,5 +1,5 @@
 import { LandingForm } from "@/components/auth/landing";
-import { Button, PageLayout, Typography } from "@/components/shared";
+import { Button, ScreenLayout, Typography } from "@/components/shared";
 import { useRouter } from "expo-router";
 import { View } from "react-native";
 
@@ -7,7 +7,7 @@ export default function Landing() {
   const router = useRouter();
 
   return (
-    <PageLayout>
+    <ScreenLayout>
       <View className="w-full items-center mt-auto">
         <Typography className="font-nunito-sans-900 text-5xl mb-16 leading-[1.1]">
           Bookzzz
@@ -35,6 +35,6 @@ export default function Landing() {
           onPress={() => router.navigate("/(auth)/sign-up")}
         />
       </View>
-    </PageLayout>
+    </ScreenLayout>
   );
 }

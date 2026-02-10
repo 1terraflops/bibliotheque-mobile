@@ -1,5 +1,5 @@
 import { supabase } from "@/api/supabase";
-import { Button, PageLayout, Typography } from "@/components/shared";
+import { Button, ScreenLayout, Typography } from "@/components/shared";
 import createSessionFromUrl from "@/utils/createSessionFromUrl";
 import useCountdown from "@/utils/useCountdown";
 import { useLinkingURL } from "expo-linking";
@@ -51,7 +51,7 @@ export default function ConfirmEmail() {
   };
 
   return (
-    <PageLayout backButton>
+    <ScreenLayout backButton>
       <View className="flex-1 items-center w-full gap-y-4 justify-center mt-auto mb-16">
         <Button variant="icon" iconLeft={Send} iconSize={96} />
         <Typography className="font-inter-600 text-3xl">
@@ -71,6 +71,6 @@ export default function ConfirmEmail() {
           onPress={async () => await handleResend(email)}
         />
       )}
-    </PageLayout>
+    </ScreenLayout>
   );
 }
