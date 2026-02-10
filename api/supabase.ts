@@ -1,3 +1,4 @@
+import { Database } from "@/types/database.types";
 import { createClient } from "@supabase/supabase-js";
 import { deleteItemAsync, getItemAsync, setItemAsync } from "expo-secure-store";
 import "react-native-url-polyfill/auto";
@@ -19,7 +20,7 @@ const ExpoSecureStoreAdapter = {
   },
 };
 
-export const supabase = createClient(
+export const supabase = createClient<Database>(
   process.env.EXPO_PUBLIC_SUPABASE_URL ?? "",
   process.env.EXPO_PUBLIC_SUPABASE_KEY ?? "",
   {
