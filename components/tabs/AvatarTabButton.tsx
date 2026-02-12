@@ -23,7 +23,8 @@ export const AvatarTabButton = forwardRef<View, TabButtonProps>(
       >
         <View
           className={cn(
-            props.isFocused && "border-2 border-primary rounded-full",
+            props.isFocused &&
+              "bg-primary w-[96%] h-[96%] flex justify-center items-center rounded-full",
           )}
         >
           <Avatar src={src} fallback={fallback} alt="User profile picture" />
