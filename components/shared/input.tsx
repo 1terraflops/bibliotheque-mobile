@@ -74,6 +74,7 @@ export const Input: FC<InputProps> = ({
             )}
             <TextInput
               {...props}
+              value={value}
               placeholder={placeholder}
               secureTextEntry={secureField}
               className={cn(
