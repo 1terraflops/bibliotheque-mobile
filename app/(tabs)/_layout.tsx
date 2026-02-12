@@ -5,13 +5,21 @@ import { cn } from "@/utils/cn";
 import { useQuery } from "@tanstack/react-query";
 import { TabList, Tabs, TabSlot, TabTrigger } from "expo-router/ui";
 import { Book, ChartColumnStacked, Newspaper } from "lucide-react-native";
+import { useEffect } from "react";
 import { useColorScheme } from "react-native";
 
 const Layout = () => {
   const isLightTheme = useColorScheme() === "light";
 
   const id = useSessionStore().session?.user.id!;
-  const { data: profile } = useQuery(GetActiveUserQueryOptions(id));
+  const { data: user, isLoading } = useQuery(GetActiveUserQueryOptions(id));
+  const setUser = useSessionStore().setUser;
+
+  useEffect(() => {
+    if (!isLoading && user) {
+      setUser(user);
+    }
+  }, [user, setUser, isLoading]);
 
   return (
     <Tabs>
@@ -45,9 +53,9 @@ const Layout = () => {
           <TabTrigger asChild name="profile" href="/(tabs)/profile">
             <AvatarTabButton
               src={{
-                uri: profile?.avatar_url ?? "",
+                uri: user?.avatar_url ?? "",
               }}
-              fallback={profile?.full_name || profile?.username || ""}
+              fallback={user?.full_name || user?.username || ""}
             />
           </TabTrigger>
         </TabList>
