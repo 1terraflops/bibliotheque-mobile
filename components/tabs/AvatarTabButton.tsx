@@ -26,12 +26,7 @@ export const AvatarTabButton = forwardRef<View, TabButtonProps>(
             props.isFocused && "border-2 border-primary rounded-full",
           )}
         >
-          <Avatar
-            src={src}
-            fallback={fallback}
-            size={56}
-            alt="User profile picture"
-          />
+          <Avatar src={src} fallback={fallback} alt="User profile picture" />
         </View>
       </Pressable>
     );

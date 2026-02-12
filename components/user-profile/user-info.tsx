@@ -18,6 +18,7 @@ export const UserInfo: FC = () => {
     <View className="gap-y-6 mt-12">
       <View className="flex-row gap-x-8 items-center">
         <Avatar
+          size="large"
           src={{ uri: profile?.avatar_url || "" }}
           fallback={profile?.full_name || profile?.username || ""}
         />
