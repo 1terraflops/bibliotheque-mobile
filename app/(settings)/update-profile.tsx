@@ -1,16 +1,26 @@
 import { queryClient } from "@/api/queryClient";
 import { supabase } from "@/api/supabase";
 import { GetActiveUserQueryOptions } from "@/api/users/get-active-user-profile.query";
-import { Avatar, Button, Input, ScreenLayout } from "@/components/shared";
+import {
+  Avatar,
+  Button,
+  Input,
+  ScreenLayout,
+  Typography,
+} from "@/components/shared";
 import { useSessionStore } from "@/store/session.store";
 import { IUpdateProfile, IUpdateProfileValidator } from "@/types/user";
+import uploadAvatar from "@/utils/uploadAvatar";
 import { useForm } from "@tanstack/react-form";
 import * as ImagePicker from "expo-image-picker";
 import { useRouter } from "expo-router";
-import React from "react";
+import React, { useState } from "react";
 import { Alert, View } from "react-native";
 
 export default function UpdateProfile() {
+  const [loading, setLoading] = useState(false);
+  const [serverError, setServerError] = useState<string | null>(null);
+
   const router = useRouter();
   const user = useSessionStore().user;
 
@@ -24,13 +34,17 @@ export default function UpdateProfile() {
       onChange: IUpdateProfileValidator,
     },
     onSubmit: async ({ value }) => {
+      setLoading(true);
+
       const { error } = await supabase
         .from("profiles")
         .update(value)
         .eq("id", user?.id!);
 
+      setLoading(false);
+
       if (error) {
-        console.log("error: ", error);
+        setServerError(error.message);
         return;
       }
 
@@ -57,12 +71,15 @@ export default function UpdateProfile() {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ["images"],
       allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
+      aspect: [1, 1],
+      quality: 0.8,
     });
 
     if (!result.canceled) {
-      form.setFieldValue("avatar_url", result.assets[0].uri);
+      const imageUri = result.assets[0].uri;
+
+      const publicUrl = await uploadAvatar(user?.id!, imageUri);
+      form.setFieldValue("avatar_url", publicUrl);
     }
   };
 
@@ -88,7 +105,10 @@ export default function UpdateProfile() {
                 placeholderAsLabel
                 placeholder="Full Name"
                 value={field.state.value ?? ""}
-                onBlur={field.handleBlur}
+                onBlur={() => {
+                  field.handleBlur();
+                  setServerError(null);
+                }}
                 onChangeText={(text) => field.setValue(text)}
                 error={field.state.meta.errors[0]?.message}
                 showError={
@@ -107,7 +127,10 @@ export default function UpdateProfile() {
                 placeholderAsLabel
                 placeholder="Bio"
                 value={field.state.value ?? ""}
-                onBlur={field.handleBlur}
+                onBlur={() => {
+                  field.handleBlur();
+                  setServerError(null);
+                }}
                 onChangeText={(text) => field.setValue(text)}
                 error={field.state.meta.errors[0]?.message}
                 showError={
@@ -121,8 +144,16 @@ export default function UpdateProfile() {
           </form.Field>
         </View>
 
-        <View>
-          <Button title="Update" onPress={form.handleSubmit} />
+        <View className="gap-y-4">
+          <Typography className="font-nunito-sans text-attention-5 text-center">
+            {serverError}
+          </Typography>
+
+          <Button
+            title="Update Profile"
+            onPress={form.handleSubmit}
+            loading={loading}
+          />
         </View>
       </View>
     </ScreenLayout>
