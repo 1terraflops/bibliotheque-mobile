@@ -5,9 +5,10 @@ import { Avatar, Button, Input, ScreenLayout } from "@/components/shared";
 import { useSessionStore } from "@/store/session.store";
 import { IUpdateProfile, IUpdateProfileValidator } from "@/types/user";
 import { useForm } from "@tanstack/react-form";
+import * as ImagePicker from "expo-image-picker";
 import { useRouter } from "expo-router";
 import React from "react";
-import { View } from "react-native";
+import { Alert, View } from "react-native";
 
 export default function UpdateProfile() {
   const router = useRouter();
@@ -41,16 +42,45 @@ export default function UpdateProfile() {
     },
   });
 
+  const pickImage = async () => {
+    const permissionResult =
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    if (!permissionResult.granted) {
+      Alert.alert(
+        "Permission required",
+        "Permission to access the media library is required.",
+      );
+      return;
+    }
+
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ["images"],
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      form.setFieldValue("avatar_url", result.assets[0].uri);
+    }
+  };
+
   return (
     <ScreenLayout backButton>
       <View className="flex-1 justify-between">
         <View className="mt-12 flex items-center">
-          <Avatar
-            src={{ uri: user?.avatar_url || "" }}
-            fallback={user?.full_name || user?.username || ""}
-            size="large"
-            uploadNew
-          />
+          <form.Subscribe selector={(state) => state.values.avatar_url}>
+            {(avatar_url) => (
+              <Avatar
+                src={{ uri: avatar_url || "" }}
+                fallback={user?.full_name || user?.username || ""}
+                size="large"
+                uploadNew
+                onUploadPress={pickImage}
+              />
+            )}
+          </form.Subscribe>
 
           <form.Field name="full_name">
             {(field) => (

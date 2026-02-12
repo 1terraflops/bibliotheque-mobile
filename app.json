@@ -52,6 +52,12 @@
             "node_modules/@expo-google-fonts/nunito-sans/400Regular/NunitoSans_400Regular.ttf"
           ]
         }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow access to your library to upload a photo."
+        }
       ]
     ],
     "experiments": {
