@@ -27,7 +27,6 @@ const uploadAvatar = async (id: string, uri: string) => {
     data: { publicUrl },
   } = supabase.storage.from("avatars").getPublicUrl(filePath);
 
-  console.log("Public URL:", publicUrl);
   return publicUrl;
 };
 
