@@ -1,4 +1,4 @@
-import { Session } from "@/types/session";
+import { Profile, Session } from "@/types/session";
 import { Session as SupabaseSession } from "@supabase/supabase-js";
 import { create } from "zustand";
 
@@ -6,10 +6,12 @@ const initialState: Session = {
   session: null,
   isAuthenticated: false,
   isHydrated: false,
+  user: null,
 };
 
 type SessionStoreFunctions = {
   setSession: (session: SupabaseSession | null) => void;
+  setUser: (user: Profile) => void;
   setIsHydrated: () => void;
 };
 
@@ -20,6 +22,10 @@ export const useSessionStore = create<Session & SessionStoreFunctions>(
       set({
         session,
         isAuthenticated: !!session?.user.id,
+      }),
+    setUser: (user: Profile) =>
+      set({
+        user,
       }),
     setIsHydrated: () => set({ isHydrated: true }),
   }),
