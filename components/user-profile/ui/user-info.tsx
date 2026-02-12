@@ -1,12 +1,15 @@
 import { GetActiveUserQueryOptions } from "@/api/users/get-active-user-profile.query";
+import { Avatar, Button, Typography } from "@/components/shared";
 import { useSessionStore } from "@/store/session.store";
 import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "expo-router";
 import { SquarePen } from "lucide-react-native";
 import { FC } from "react";
 import { View } from "react-native";
-import { Avatar, Button, Typography } from "../shared";
 
 export const UserInfo: FC = () => {
+  const router = useRouter();
+
   const id = useSessionStore().session?.user.id!;
   const { data: profile, isLoading } = useQuery(GetActiveUserQueryOptions(id));
 
@@ -29,7 +32,12 @@ export const UserInfo: FC = () => {
               {profile?.full_name}
             </Typography>
 
-            <Button variant="icon" iconLeft={SquarePen} iconSize={20} />
+            <Button
+              variant="icon"
+              iconLeft={SquarePen}
+              iconSize={20}
+              onPress={() => router.navigate("/(settings)/update-profile")}
+            />
           </View>
 
           <View className="flex-row justify-between">

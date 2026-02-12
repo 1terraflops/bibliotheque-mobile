@@ -74,14 +74,11 @@ export default function RootLayout() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Stack>
+      <Stack screenOptions={{ headerShown: false }}>
         {sessionStore.isAuthenticated ? (
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="(tabs)" />
         ) : (
-          <Stack.Screen
-            name="(auth)"
-            options={{ headerShown: false, animation: "none" }}
-          />
+          <Stack.Screen name="(auth)" options={{ animation: "none" }} />
         )}
       </Stack>
     </QueryClientProvider>
