@@ -36,6 +36,7 @@ export const Input: FC<InputProps> = ({
   showError = false,
   isBlurred = false,
   secure = false,
+  multiline,
   label,
   ...props
 }) => {
@@ -77,9 +78,11 @@ export const Input: FC<InputProps> = ({
               value={value}
               placeholder={placeholder}
               secureTextEntry={secureField}
+              multiline={multiline}
               className={cn(
                 "font-inter text-lg text-light-1 h-[46px] leading-[19px] placeholder:text-light-4 flex-1",
                 isLightTheme && "text-dark-1 placeholder:text-dark-3",
+                multiline && "h-24",
               )}
             />
           </View>

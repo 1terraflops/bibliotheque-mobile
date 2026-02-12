@@ -124,6 +124,7 @@ export default function UpdateProfile() {
           <form.Field name="bio">
             {(field) => (
               <Input
+                multiline
                 placeholderAsLabel
                 placeholder="Bio"
                 value={field.state.value ?? ""}
