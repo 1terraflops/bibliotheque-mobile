@@ -43,7 +43,7 @@ const RootLayoutContent = () => {
     sessionStore.setUser(user || null);
 
     if (!user?.username) {
-      router.replace("/(auth)/onboarding");
+      router.replace("/(auth)/greeting");
       return;
     }
 
