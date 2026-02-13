@@ -1,11 +1,11 @@
-import { ILandingForm } from "@/components/auth/landing/model/model";
+import { ISendMagicLink } from "@/types/auth";
 import { mutationOptions } from "@tanstack/react-query";
 import { router } from "expo-router";
 import { supabase } from "../supabase";
 
 export const sendMagicLinkMutationOptions = () =>
   mutationOptions({
-    mutationFn: async (params: ILandingForm) => {
+    mutationFn: async (params: ISendMagicLink) => {
       const { email } = params;
 
       await supabase.auth.signInWithOtp({

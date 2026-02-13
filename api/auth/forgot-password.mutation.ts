@@ -1,11 +1,11 @@
-import { IForgotPasswordForm } from "@/components/auth/forgot-password/model/model";
+import { IForgotPassword } from "@/types/auth";
 import { mutationOptions } from "@tanstack/react-query";
 import { router } from "expo-router";
 import { supabase } from "../supabase";
 
 export const ForgotPasswordMutationOptions = () =>
   mutationOptions({
-    mutationFn: async (params: IForgotPasswordForm) => {
+    mutationFn: async (params: IForgotPassword) => {
       const { email } = params;
 
       await supabase.auth.resetPasswordForEmail(email, {

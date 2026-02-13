@@ -1,12 +1,69 @@
-import { ForgotPasswordForm } from "@/components/auth/forgot-password";
-import { ScreenLayout } from "@/components/shared";
+import { ForgotPasswordMutationOptions } from "@/api/auth/forgot-password.mutation";
+import { Button, Input, ScreenLayout, Typography } from "@/components/shared";
+import { IForgotPassword, IForgotPasswordFormSchema } from "@/types/auth";
+import { useForm } from "@tanstack/react-form";
+import { useMutation } from "@tanstack/react-query";
+import { Mail } from "lucide-react-native";
 import { View } from "react-native";
 
 export default function ForgotPassword() {
+  const {
+    mutateAsync: forgotPassword,
+    isPending,
+    error,
+  } = useMutation(ForgotPasswordMutationOptions());
+
+  const form = useForm({
+    defaultValues: {
+      email: "",
+    } satisfies IForgotPassword,
+    validators: {
+      onChange: IForgotPasswordFormSchema,
+    },
+    onSubmit: async ({ value }) => {
+      await forgotPassword(value);
+    },
+  });
+
   return (
     <ScreenLayout backButton>
-      <View className="flex-1 items-center">
-        <ForgotPasswordForm />
+      <View className="w-full justify-center mt-auto">
+        <Typography className="font-nunito-sans-800 text-4xl text-center mb-6">
+          Reset Password
+        </Typography>
+
+        <form.Field name="email">
+          {(field) => (
+            <Input
+              placeholderAsLabel
+              placeholder="Email"
+              icon={Mail}
+              value={field.state.value ?? ""}
+              onBlur={field.handleBlur}
+              onChangeText={(text) => field.setValue(text)}
+              error={field.state.meta.errors[0]?.message}
+              showError={
+                !!error ||
+                (field.state.meta.isDirty &&
+                  field.state.meta.isBlurred &&
+                  field.state.meta.errors.length > 0)
+              }
+              isBlurred={field.state.meta.isBlurred}
+            />
+          )}
+        </form.Field>
+      </View>
+
+      <View className="justify-end mt-auto gap-y-4">
+        <Typography className="font-nunito-sans text-attention-5 text-center">
+          {error?.message}
+        </Typography>
+
+        <Button
+          loading={isPending}
+          title="Reset Password"
+          onPress={form.handleSubmit}
+        />
       </View>
     </ScreenLayout>
   );

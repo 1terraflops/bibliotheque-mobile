@@ -10,4 +10,4 @@ export const IResetPasswordFormSchema = z
     path: ["confirm_password"],
   });
 
-export type IResetPasswordForm = z.infer<typeof IResetPasswordFormSchema>;
+export type IResetPassword = z.infer<typeof IResetPasswordFormSchema>;

@@ -1,11 +1,11 @@
-import { ISignUpForm } from "@/components/auth/sign-up/model/model";
+import { ISignUp } from "@/types/auth";
 import { mutationOptions } from "@tanstack/react-query";
 import { router } from "expo-router";
 import { supabase } from "../supabase";
 
 export const signUpMutationOptions = () =>
   mutationOptions({
-    mutationFn: async (params: ISignUpForm) => {
+    mutationFn: async (params: ISignUp) => {
       const { email, password } = params;
 
       const options = {

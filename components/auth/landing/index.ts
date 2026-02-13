@@ -1,1 +1,1 @@
-export { LandingForm } from "./landing-form";
+export * from "./landing-form";

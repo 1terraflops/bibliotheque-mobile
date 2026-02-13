@@ -5,4 +5,4 @@ export const ILoginFormSchema = z.object({
   password: z.string().trim().min(6, "Password is too short"),
 });
 
-export type ILoginForm = z.infer<typeof ILoginFormSchema>;
+export type ILogin = z.infer<typeof ILoginFormSchema>;

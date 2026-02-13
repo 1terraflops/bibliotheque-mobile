@@ -47,7 +47,7 @@ export default function ConfirmEmail() {
     }
 
     if (type === "sign-up") {
-      await resendConfirmationEmail(email);
+      await resendConfirmationEmail({ email });
     }
   };
 

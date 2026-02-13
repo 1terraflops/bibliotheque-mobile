@@ -1,9 +1,11 @@
 import { supabase } from "@/api/supabase";
 import { Button } from "@/components/shared";
+import { useSessionStore } from "@/store/session.store";
 import { cn } from "@/utils/cn";
 import { Text, useColorScheme, View } from "react-native";
 
 export default function Index() {
+  const logout = useSessionStore((state) => state.logout);
   const isLightTheme = useColorScheme() === "light";
 
   return (
@@ -17,7 +19,10 @@ export default function Index() {
       <Button
         title="Logout"
         variant="text"
-        onPress={() => supabase.auth.signOut()}
+        onPress={() => {
+          supabase.auth.signOut();
+          logout();
+        }}
       />
     </View>
   );

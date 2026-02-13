@@ -11,4 +11,4 @@ export const ISignUpFormSchema = z.object({
     ),
 });
 
-export type ISignUpForm = z.infer<typeof ISignUpFormSchema>;
+export type ISignUp = z.infer<typeof ISignUpFormSchema>;

@@ -1,10 +1,10 @@
 import { sendMagicLinkMutationOptions } from "@/api/auth/send-magic-link.mutation";
 import { Button, Input } from "@/components/shared";
+import { ISendMagicLink, ISendMagicLinkFormSchema } from "@/types/auth";
 import { useForm } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
 import { Mail, Send } from "lucide-react-native";
 import { View } from "react-native";
-import { ILandingForm, ILandingFormSchema } from "./model/model";
 
 export const LandingForm = () => {
   const {
@@ -16,9 +16,9 @@ export const LandingForm = () => {
   const form = useForm({
     defaultValues: {
       email: "",
-    } satisfies ILandingForm,
+    } satisfies ISendMagicLink,
     validators: {
-      onChange: ILandingFormSchema,
+      onChange: ISendMagicLinkFormSchema,
     },
     onSubmit: async ({ value }) => {
       await sendMagicLink(value);
