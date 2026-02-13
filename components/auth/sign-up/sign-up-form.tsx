@@ -1,16 +1,17 @@
-import { supabase } from "@/api/supabase";
+import { signUpMutationOptions } from "@/api/auth/sign-up.mutation";
 import { Button, Input, Typography } from "@/components/shared";
 import { useForm } from "@tanstack/react-form";
-import { useRouter } from "expo-router";
+import { useMutation } from "@tanstack/react-query";
 import { Lock, Mail } from "lucide-react-native";
-import { useState } from "react";
 import { View } from "react-native";
 import { ISignUpForm, ISignUpFormSchema } from "./model/model";
 
 export const SignUpForm = () => {
-  const [loading, setLoading] = useState(false);
-  const [serverError, setServerError] = useState<string | null>(null);
-  const router = useRouter();
+  const {
+    mutateAsync: signUp,
+    isPending,
+    error,
+  } = useMutation(signUpMutationOptions());
 
   const form = useForm({
     defaultValues: {
@@ -21,27 +22,7 @@ export const SignUpForm = () => {
       onChange: ISignUpFormSchema,
     },
     onSubmit: async ({ value }) => {
-      const { email, password } = value;
-      setLoading(true);
-
-      const options = {
-        emailRedirectTo: "exp://192.168.31.218:8081/--/confirm-email",
-      };
-
-      const { error } = password.length
-        ? await supabase.auth.signUp({ email, password, options })
-        : await supabase.auth.signInWithOtp({ email, options });
-
-      setLoading(false);
-      if (error) {
-        setServerError(error.message);
-        return;
-      }
-
-      router.push({
-        pathname: "/(auth)/confirm-email",
-        params: { email, type: "sign-up" },
-      });
+      await signUp(value);
     },
   });
 
@@ -59,14 +40,11 @@ export const SignUpForm = () => {
               placeholder="Email"
               icon={Mail}
               value={field.state.value ?? ""}
-              onBlur={() => {
-                field.handleBlur();
-                setServerError(null);
-              }}
+              onBlur={field.handleBlur}
               onChangeText={(text) => field.setValue(text)}
               error={field.state.meta.errors[0]?.message}
               showError={
-                !!serverError ||
+                !!error ||
                 (field.state.meta.isDirty &&
                   field.state.meta.isBlurred &&
                   field.state.meta.errors.length > 0)
@@ -84,14 +62,11 @@ export const SignUpForm = () => {
               placeholder="Password"
               icon={Lock}
               value={field.state.value ?? ""}
-              onBlur={() => {
-                field.handleBlur();
-                setServerError(null);
-              }}
+              onBlur={field.handleBlur}
               onChangeText={(text) => field.setValue(text)}
               error={field.state.meta.errors[0]?.message}
               showError={
-                !!serverError ||
+                !!error ||
                 (field.state.meta.isDirty &&
                   field.state.meta.isBlurred &&
                   field.state.meta.errors.length > 0)
@@ -104,10 +79,14 @@ export const SignUpForm = () => {
 
       <View className="justify-end mt-auto gap-y-4">
         <Typography className="font-nunito-sans text-attention-5 text-center">
-          {serverError}
+          {error?.message}
         </Typography>
 
-        <Button loading={loading} title="Sign Up" onPress={form.handleSubmit} />
+        <Button
+          loading={isPending}
+          title="Sign Up"
+          onPress={form.handleSubmit}
+        />
       </View>
     </View>
   );

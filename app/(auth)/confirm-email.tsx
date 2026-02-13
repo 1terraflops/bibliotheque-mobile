@@ -1,7 +1,9 @@
-import { supabase } from "@/api/supabase";
+import { resendConfirmationEmailMutationOptions } from "@/api/auth/resend-confirmation-email.mutation";
+import { sendMagicLinkMutationOptions } from "@/api/auth/send-magic-link.mutation";
 import { Button, ScreenLayout, Typography } from "@/components/shared";
 import createSessionFromUrl from "@/utils/createSessionFromUrl";
 import useCountdown from "@/utils/useCountdown";
+import { useMutation } from "@tanstack/react-query";
 import { useLinkingURL } from "expo-linking";
 import { useLocalSearchParams } from "expo-router";
 import { Send } from "lucide-react-native";
@@ -15,6 +17,13 @@ export default function ConfirmEmail() {
   }>();
   const { time, ended, reset } = useCountdown(59);
   const url = useLinkingURL();
+
+  const { mutateAsync: sendMagicLink } = useMutation(
+    sendMagicLinkMutationOptions(),
+  );
+  const { mutateAsync: resendConfirmationEmail } = useMutation(
+    resendConfirmationEmailMutationOptions(),
+  );
 
   useEffect(() => {
     if (url) {
@@ -34,19 +43,11 @@ export default function ConfirmEmail() {
     reset();
 
     if (type === "magic-link") {
-      await supabase.auth.signInWithOtp({
-        email,
-        options: {
-          emailRedirectTo: "exp://192.168.31.218:8081/--/confirm-email",
-        },
-      });
+      await sendMagicLink({ email });
     }
 
     if (type === "sign-up") {
-      await supabase.auth.resend({
-        type: "signup",
-        email,
-      });
+      await resendConfirmationEmail(email);
     }
   };
 

@@ -1,16 +1,17 @@
-import { supabase } from "@/api/supabase";
+import { loginMutationOptions } from "@/api/auth/login.mutation";
 import { Button, Input, Typography } from "@/components/shared";
 import { useForm } from "@tanstack/react-form";
-import { useRouter } from "expo-router";
+import { useMutation } from "@tanstack/react-query";
 import { Lock, Mail } from "lucide-react-native";
-import { useState } from "react";
 import { Text, View } from "react-native";
 import { ILoginForm, ILoginFormSchema } from "./model/model";
 
 export const LoginForm = () => {
-  const [loading, setLoading] = useState(false);
-  const [serverError, setServerError] = useState<string | null>(null);
-  const router = useRouter();
+  const {
+    mutateAsync: login,
+    error,
+    isPending,
+  } = useMutation(loginMutationOptions());
 
   const form = useForm({
     defaultValues: {
@@ -21,21 +22,7 @@ export const LoginForm = () => {
       onChange: ILoginFormSchema,
     },
     onSubmit: async ({ value }) => {
-      const { email, password } = value;
-      setLoading(true);
-
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-      setLoading(false);
-
-      if (error) {
-        setServerError(error.message);
-        return;
-      }
-
-      router.replace("/(tabs)");
+      await login(value);
     },
   });
 
@@ -53,14 +40,11 @@ export const LoginForm = () => {
               icon={Mail}
               placeholder="Email"
               value={field.state.value ?? ""}
-              onBlur={() => {
-                field.handleBlur();
-                setServerError(null);
-              }}
+              onBlur={field.handleBlur}
               onChangeText={(text) => field.setValue(text)}
               error={field.state.meta.errors[0]?.message}
               showError={
-                !!serverError ||
+                !!error ||
                 (field.state.meta.isDirty &&
                   field.state.meta.isBlurred &&
                   field.state.meta.errors.length > 0)
@@ -79,14 +63,11 @@ export const LoginForm = () => {
                 placeholder="Password"
                 icon={Lock}
                 value={field.state.value ?? ""}
-                onBlur={() => {
-                  field.handleBlur();
-                  setServerError(null);
-                }}
+                onBlur={field.handleBlur}
                 onChangeText={(text) => field.setValue(text)}
                 error={field.state.meta.errors[0]?.message}
                 showError={
-                  !!serverError ||
+                  !!error ||
                   (field.state.meta.isDirty &&
                     field.state.meta.isBlurred &&
                     field.state.meta.errors.length > 0)
@@ -106,14 +87,14 @@ export const LoginForm = () => {
 
       <View className="mt-auto gap-y-4">
         <Text className="font-nunito-sans text-attention-5 text-center">
-          {serverError}
+          {error?.message}
         </Text>
 
         <Button
           onPress={form.handleSubmit}
           title="Login"
           variant="primary"
-          loading={loading}
+          loading={isPending}
         />
       </View>
     </View>

@@ -1,16 +1,17 @@
-import { supabase } from "@/api/supabase";
+import { ForgotPasswordMutationOptions } from "@/api/auth/forgot-password.mutation";
 import { Button, Input, Typography } from "@/components/shared";
 import { useForm } from "@tanstack/react-form";
-import { useRouter } from "expo-router";
+import { useMutation } from "@tanstack/react-query";
 import { Mail } from "lucide-react-native";
-import { useState } from "react";
 import { View } from "react-native";
 import { IForgotPasswordForm, IForgotPasswordFormSchema } from "../model/model";
 
 export const ForgotPasswordForm = () => {
-  const [loading, setLoading] = useState(false);
-  const [serverError, setServerError] = useState<string | null>(null);
-  const router = useRouter();
+  const {
+    mutateAsync: forgotPassword,
+    isPending,
+    error,
+  } = useMutation(ForgotPasswordMutationOptions());
 
   const form = useForm({
     defaultValues: {
@@ -20,26 +21,7 @@ export const ForgotPasswordForm = () => {
       onChange: IForgotPasswordFormSchema,
     },
     onSubmit: async ({ value }) => {
-      const { email } = value;
-      setLoading(true);
-
-      const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: "exp://192.168.31.218:8081/--/reset-password",
-      });
-
-      setLoading(false);
-      if (error) {
-        setServerError(error.message);
-        return;
-      }
-
-      router.push({
-        pathname: "/(auth)/confirm-email",
-        params: {
-          email,
-          type: "password-reset",
-        },
-      });
+      await forgotPassword(value);
     },
   });
 
@@ -57,14 +39,11 @@ export const ForgotPasswordForm = () => {
               placeholder="Email"
               icon={Mail}
               value={field.state.value ?? ""}
-              onBlur={() => {
-                field.handleBlur();
-                setServerError(null);
-              }}
+              onBlur={field.handleBlur}
               onChangeText={(text) => field.setValue(text)}
               error={field.state.meta.errors[0]?.message}
               showError={
-                !!serverError ||
+                !!error ||
                 (field.state.meta.isDirty &&
                   field.state.meta.isBlurred &&
                   field.state.meta.errors.length > 0)
@@ -77,11 +56,11 @@ export const ForgotPasswordForm = () => {
 
       <View className="justify-end mt-auto gap-y-4">
         <Typography className="font-nunito-sans text-attention-5 text-center">
-          {serverError}
+          {error?.message}
         </Typography>
 
         <Button
-          loading={loading}
+          loading={isPending}
           title="Reset Password"
           onPress={form.handleSubmit}
         />

@@ -1,14 +1,17 @@
-import { supabase } from "@/api/supabase";
+import { resetPasswordMutationOptions } from "@/api/auth/reset-password.mutation";
 import { Button, Input, Typography } from "@/components/shared";
 import { useForm } from "@tanstack/react-form";
+import { useMutation } from "@tanstack/react-query";
 import { Mail } from "lucide-react-native";
-import { useState } from "react";
 import { View } from "react-native";
 import { IResetPasswordForm, IResetPasswordFormSchema } from "../model/model";
 
 export const ResetPasswordForm = () => {
-  const [loading, setLoading] = useState(false);
-  const [serverError, setServerError] = useState<string | null>(null);
+  const {
+    mutateAsync: resetPassword,
+    isPending,
+    error,
+  } = useMutation(resetPasswordMutationOptions());
 
   const form = useForm({
     defaultValues: {
@@ -19,18 +22,7 @@ export const ResetPasswordForm = () => {
       onChange: IResetPasswordFormSchema,
     },
     onSubmit: async ({ value }) => {
-      const { new_password } = value;
-      setLoading(true);
-
-      const { error } = await supabase.auth.updateUser({
-        password: new_password,
-      });
-
-      setLoading(false);
-      if (error) {
-        setServerError(error.message);
-        return;
-      }
+      await resetPassword(value);
     },
   });
 
@@ -48,14 +40,11 @@ export const ResetPasswordForm = () => {
               placeholder="Email"
               icon={Mail}
               value={field.state.value ?? ""}
-              onBlur={() => {
-                field.handleBlur();
-                setServerError(null);
-              }}
+              onBlur={field.handleBlur}
               onChangeText={(text) => field.setValue(text)}
               error={field.state.meta.errors[0]?.message}
               showError={
-                !!serverError ||
+                !!error ||
                 (field.state.meta.isDirty &&
                   field.state.meta.isBlurred &&
                   field.state.meta.errors.length > 0)
@@ -72,14 +61,11 @@ export const ResetPasswordForm = () => {
               placeholder="Email"
               icon={Mail}
               value={field.state.value ?? ""}
-              onBlur={() => {
-                field.handleBlur();
-                setServerError(null);
-              }}
+              onBlur={field.handleBlur}
               onChangeText={(text) => field.setValue(text)}
               error={field.state.meta.errors[0]?.message}
               showError={
-                !!serverError ||
+                !!error ||
                 (field.state.meta.isDirty &&
                   field.state.meta.isBlurred &&
                   field.state.meta.errors.length > 0)
@@ -92,11 +78,11 @@ export const ResetPasswordForm = () => {
 
       <View className="justify-end mt-auto gap-y-4">
         <Typography className="font-nunito-sans text-attention-5 text-center">
-          {serverError}
+          {error?.message}
         </Typography>
 
         <Button
-          loading={loading}
+          loading={isPending}
           title="Reset Password"
           onPress={form.handleSubmit}
         />

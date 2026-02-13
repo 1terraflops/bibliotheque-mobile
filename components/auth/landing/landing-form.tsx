@@ -1,16 +1,17 @@
-import { supabase } from "@/api/supabase";
+import { sendMagicLinkMutationOptions } from "@/api/auth/send-magic-link.mutation";
 import { Button, Input } from "@/components/shared";
 import { useForm } from "@tanstack/react-form";
-import { useRouter } from "expo-router";
+import { useMutation } from "@tanstack/react-query";
 import { Mail, Send } from "lucide-react-native";
-import { useState } from "react";
 import { View } from "react-native";
 import { ILandingForm, ILandingFormSchema } from "./model/model";
 
 export const LandingForm = () => {
-  const [loading, setLoading] = useState(false);
-  const [serverError, setServerError] = useState("");
-  const router = useRouter();
+  const {
+    mutateAsync: sendMagicLink,
+    isPending,
+    error,
+  } = useMutation(sendMagicLinkMutationOptions());
 
   const form = useForm({
     defaultValues: {
@@ -20,29 +21,7 @@ export const LandingForm = () => {
       onChange: ILandingFormSchema,
     },
     onSubmit: async ({ value }) => {
-      const { email } = value;
-      setLoading(true);
-
-      const { error } = await supabase.auth.signInWithOtp({
-        email,
-        options: {
-          emailRedirectTo: "exp://192.168.31.218:8081/--/confirm-email",
-        },
-      });
-      setLoading(false);
-
-      if (error) {
-        setServerError(error.message);
-        return;
-      }
-
-      router.push({
-        pathname: "/(auth)/confirm-email",
-        params: {
-          email,
-          type: "magic-link",
-        },
-      });
+      await sendMagicLink(value);
     },
   });
 
@@ -54,14 +33,11 @@ export const LandingForm = () => {
             icon={Mail}
             placeholder="Email"
             value={field.state.value ?? ""}
-            onBlur={() => {
-              field.handleBlur();
-              setServerError("");
-            }}
+            onBlur={field.handleBlur}
             onChangeText={(text) => field.setValue(text)}
-            error={field.state.meta.errors[0]?.message || serverError}
+            error={field.state.meta.errors[0]?.message || error?.message}
             showError={
-              !!serverError ||
+              !!error ||
               (field.state.meta.isDirty &&
                 field.state.meta.isBlurred &&
                 field.state.meta.errors.length > 0)
@@ -72,7 +48,7 @@ export const LandingForm = () => {
       </form.Field>
 
       <Button
-        loading={loading}
+        loading={isPending}
         title="Send Link"
         iconLeft={Send}
         onPress={form.handleSubmit}
