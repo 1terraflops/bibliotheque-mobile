@@ -1,4 +1,5 @@
-import { Profile, Session } from "@/types/session";
+import { Session } from "@/types/session";
+import { Profile } from "@/types/user";
 import { Session as SupabaseSession } from "@supabase/supabase-js";
 import { create } from "zustand";
 
@@ -22,6 +23,7 @@ export const useSessionStore = create<Session & SessionStoreFunctions>(
       set({
         session,
         isAuthenticated: !!session?.user.id,
+        user: null,
       }),
     setUser: (user: Profile) =>
       set({

@@ -1,6 +1,5 @@
-import { queryClient } from "@/api/queryClient";
-import { supabase } from "@/api/supabase";
-import { GetActiveUserQueryOptions } from "@/api/users/get-active-user-profile.query";
+import { updateProfileMutationOptions } from "@/api/users/update-profile.mutation";
+import { uploadAvatarMutationOptions } from "@/api/users/upload-avatar.mutation";
 import {
   Avatar,
   Button,
@@ -10,19 +9,21 @@ import {
 } from "@/components/shared";
 import { useSessionStore } from "@/store/session.store";
 import { IUpdateProfile, IUpdateProfileValidator } from "@/types/user";
-import uploadAvatar from "@/utils/uploadAvatar";
+import pickImage from "@/utils/pickImage";
 import { useForm } from "@tanstack/react-form";
-import * as ImagePicker from "expo-image-picker";
-import { useRouter } from "expo-router";
-import React, { useState } from "react";
-import { Alert, View } from "react-native";
+import { useMutation } from "@tanstack/react-query";
+import { View } from "react-native";
 
 export default function UpdateProfile() {
-  const [loading, setLoading] = useState(false);
-  const [serverError, setServerError] = useState<string | null>(null);
-
-  const router = useRouter();
   const user = useSessionStore().user;
+
+  const { mutateAsync: uploadAvatar, error: avatarError } = useMutation(
+    uploadAvatarMutationOptions(),
+  );
+
+  const { mutateAsync: updateProfile, error: profileError } = useMutation(
+    updateProfileMutationOptions(),
+  );
 
   const form = useForm({
     defaultValues: {
@@ -34,53 +35,32 @@ export default function UpdateProfile() {
       onChange: IUpdateProfileValidator,
     },
     onSubmit: async ({ value }) => {
-      setLoading(true);
+      if (!user?.id) return;
 
-      const { error } = await supabase
-        .from("profiles")
-        .update(value)
-        .eq("id", user?.id!);
+      let avatarUrl = value.avatar_url;
 
-      setLoading(false);
-
-      if (error) {
-        setServerError(error.message);
-        return;
+      if (avatarUrl && avatarUrl.startsWith("file")) {
+        avatarUrl = await uploadAvatar({
+          id: user.id,
+          imageUri: avatarUrl,
+        });
       }
 
-      queryClient.invalidateQueries({
-        queryKey: GetActiveUserQueryOptions(user?.id!).queryKey,
+      await updateProfile({
+        id: user.id,
+        data: {
+          ...value,
+          avatar_url: avatarUrl,
+        },
       });
-
-      router.replace("/(tabs)/profile");
     },
   });
 
-  const pickImage = async () => {
-    const permissionResult =
-      await ImagePicker.requestMediaLibraryPermissionsAsync();
+  const handleAvatarUpload = async () => {
+    const imageUri = await pickImage();
+    if (!imageUri) return;
 
-    if (!permissionResult.granted) {
-      Alert.alert(
-        "Permission required",
-        "Permission to access the media library is required.",
-      );
-      return;
-    }
-
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ["images"],
-      allowsEditing: true,
-      aspect: [1, 1],
-      quality: 0.8,
-    });
-
-    if (!result.canceled) {
-      const imageUri = result.assets[0].uri;
-
-      const publicUrl = await uploadAvatar(user?.id!, imageUri);
-      form.setFieldValue("avatar_url", publicUrl);
-    }
+    form.setFieldValue("avatar_url", imageUri);
   };
 
   return (
@@ -94,7 +74,7 @@ export default function UpdateProfile() {
                 fallback={user?.full_name || user?.username || ""}
                 size="large"
                 uploadNew
-                onUploadPress={pickImage}
+                onUploadPress={handleAvatarUpload}
               />
             )}
           </form.Subscribe>
@@ -105,10 +85,7 @@ export default function UpdateProfile() {
                 placeholderAsLabel
                 placeholder="Full Name"
                 value={field.state.value ?? ""}
-                onBlur={() => {
-                  field.handleBlur();
-                  setServerError(null);
-                }}
+                onBlur={field.handleBlur}
                 onChangeText={(text) => field.setValue(text)}
                 error={field.state.meta.errors[0]?.message}
                 showError={
@@ -116,7 +93,6 @@ export default function UpdateProfile() {
                   field.state.meta.isBlurred &&
                   field.state.meta.errors.length > 0
                 }
-                isBlurred={field.state.meta.isBlurred}
               />
             )}
           </form.Field>
@@ -128,10 +104,7 @@ export default function UpdateProfile() {
                 placeholderAsLabel
                 placeholder="Bio"
                 value={field.state.value ?? ""}
-                onBlur={() => {
-                  field.handleBlur();
-                  setServerError(null);
-                }}
+                onBlur={field.handleBlur}
                 onChangeText={(text) => field.setValue(text)}
                 error={field.state.meta.errors[0]?.message}
                 showError={
@@ -139,7 +112,6 @@ export default function UpdateProfile() {
                   field.state.meta.isBlurred &&
                   field.state.meta.errors.length > 0
                 }
-                isBlurred={field.state.meta.isBlurred}
               />
             )}
           </form.Field>
@@ -147,13 +119,13 @@ export default function UpdateProfile() {
 
         <View className="gap-y-4">
           <Typography className="font-nunito-sans text-attention-5 text-center">
-            {serverError}
+            {profileError?.message || avatarError?.message}
           </Typography>
 
           <Button
             title="Update Profile"
             onPress={form.handleSubmit}
-            loading={loading}
+            loading={form.state.isSubmitting}
           />
         </View>
       </View>
