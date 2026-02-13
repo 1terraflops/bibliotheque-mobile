@@ -58,7 +58,7 @@ export default function RootLayout() {
     return () => {
       subscription.unsubscribe();
     };
-  }, [sessionStore]);
+  }, []);
 
   useEffect(() => {
     if (!sessionStore.isHydrated) return;
