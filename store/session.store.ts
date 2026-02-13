@@ -12,7 +12,7 @@ const initialState: Session = {
 
 type SessionStoreFunctions = {
   setSession: (session: SupabaseSession | null) => void;
-  setUser: (user: Profile) => void;
+  setUser: (user: Profile | null) => void;
   setIsHydrated: () => void;
   logout: () => void;
 };
@@ -26,7 +26,7 @@ export const useSessionStore = create<Session & SessionStoreFunctions>(
         isAuthenticated: !!session?.user.id,
         user: null,
       }),
-    setUser: (user: Profile) =>
+    setUser: (user: Profile | null) =>
       set({
         user,
       }),

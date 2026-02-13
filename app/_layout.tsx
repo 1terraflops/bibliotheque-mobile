@@ -1,5 +1,6 @@
 import { queryClient } from "@/api/queryClient";
 import { supabase } from "@/api/supabase";
+import { GetActiveUserQueryOptions } from "@/api/users/get-active-user-profile.query";
 import { useSessionStore } from "@/store/session.store";
 import {
   Inter_400Regular,
@@ -14,14 +15,67 @@ import {
   NunitoSans_900Black,
 } from "@expo-google-fonts/nunito-sans";
 import { RobotoMono_400Regular } from "@expo-google-fonts/roboto-mono";
-import { QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider, useQuery } from "@tanstack/react-query";
 import { useFonts } from "expo-font";
-import { Stack, useRouter } from "expo-router";
+import { router, Stack } from "expo-router";
 import { useEffect } from "react";
+import { ActivityIndicator, View } from "react-native";
 import "./global.css";
 
+const RootLayoutContent = () => {
+  const sessionStore = useSessionStore();
+
+  const { data: user, isLoading } = useQuery({
+    ...GetActiveUserQueryOptions(sessionStore.session?.user?.id ?? ""),
+    enabled: !!sessionStore.session?.user?.id,
+  });
+
+  useEffect(() => {
+    if (!sessionStore.isHydrated) return;
+
+    if (!sessionStore.isAuthenticated) {
+      router.replace("/(auth)/landing");
+      return;
+    }
+
+    if (isLoading) return;
+
+    sessionStore.setUser(user || null);
+
+    if (!user?.username) {
+      router.replace("/(auth)/onboarding");
+      return;
+    }
+
+    router.replace("/(tabs)");
+  }, [
+    sessionStore.isHydrated,
+    sessionStore.isAuthenticated,
+    isLoading,
+    user?.username,
+  ]);
+
+  const isCheckingRoute =
+    !sessionStore.isHydrated ||
+    (sessionStore.isAuthenticated && (isLoading || !user));
+
+  if (isCheckingRoute) {
+    return (
+      <View className="flex-1 items-center justify-center bg-dark-1">
+        <ActivityIndicator animating size="large" />
+      </View>
+    );
+  }
+
+  return (
+    <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="(tabs)" />
+      <Stack.Screen name="(auth)" options={{ animation: "fade" }} />
+    </Stack>
+  );
+};
+
 export default function RootLayout() {
-  const router = useRouter();
   const sessionStore = useSessionStore();
   const [loaded] = useFonts({
     Inter_400Regular,
@@ -38,15 +92,12 @@ export default function RootLayout() {
   useEffect(() => {
     const fetchSession = async () => {
       const { data, error } = await supabase.auth.getSession();
-
       if (error) {
         console.error("Error fetching session:", error);
       }
-
       sessionStore.setSession(data.session ?? null);
       sessionStore.setIsHydrated();
     };
-
     fetchSession();
 
     const {
@@ -60,27 +111,13 @@ export default function RootLayout() {
     };
   }, []);
 
-  useEffect(() => {
-    if (!sessionStore.isHydrated) return;
-
-    if (sessionStore.isAuthenticated) {
-      router.replace("/(tabs)");
-    } else {
-      router.replace("/(auth)/landing");
-    }
-  }, [sessionStore.isHydrated, sessionStore.isAuthenticated]);
-
-  if (!sessionStore.isHydrated || !loaded) return null;
+  if (!sessionStore.isHydrated || !loaded) {
+    return null;
+  }
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Stack screenOptions={{ headerShown: false }}>
-        {sessionStore.isAuthenticated ? (
-          <Stack.Screen name="(tabs)" />
-        ) : (
-          <Stack.Screen name="(auth)" options={{ animation: "none" }} />
-        )}
-      </Stack>
+      <RootLayoutContent />
     </QueryClientProvider>
   );
 }

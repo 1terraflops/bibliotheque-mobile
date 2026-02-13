@@ -14,14 +14,14 @@ import { useForm } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
 import { View } from "react-native";
 
-export default function UpdateProfile() {
+export default function Onboarding() {
   const user = useSessionStore().user;
 
   const { mutateAsync: uploadAvatar, error: avatarError } = useMutation(
     uploadAvatarMutationOptions(),
   );
 
-  const { mutateAsync: updateProfile, error: profileError } = useMutation(
+  const { mutate: updateProfile, error: profileError } = useMutation(
     updateProfileMutationOptions(),
   );
 
@@ -47,7 +47,7 @@ export default function UpdateProfile() {
         });
       }
 
-      await updateProfile({
+      updateProfile({
         id: user.id,
         data: {
           ...value,
@@ -65,7 +65,7 @@ export default function UpdateProfile() {
   };
 
   return (
-    <ScreenLayout backButton>
+    <ScreenLayout>
       <View className="flex-1 justify-between">
         <View className="mt-12 flex items-center">
           <form.Subscribe selector={(state) => state.values.avatar_url}>
@@ -80,10 +80,34 @@ export default function UpdateProfile() {
             )}
           </form.Subscribe>
 
+          <View className="my-6 w-full">
+            <form.Field name="username">
+              {(field) => (
+                <Input
+                  placeholderAsLabel
+                  placeholder="Username"
+                  value={field.state.value ?? ""}
+                  onBlur={field.handleBlur}
+                  onChangeText={(text) => field.setValue(text)}
+                  error={
+                    field.state.meta.errors[0]?.message || profileError?.message
+                  }
+                  showError={
+                    profileError != null ||
+                    (field.state.meta.isDirty &&
+                      field.state.meta.isBlurred &&
+                      field.state.meta.errors.length > 0)
+                  }
+                  isBlurred={field.state.meta.isBlurred}
+                />
+              )}
+            </form.Field>
+          </View>
+
           <form.Field name="full_name">
             {(field) => (
               <Input
-                placeholderAsLabel
+                label="Optional"
                 placeholder="Full Name"
                 value={field.state.value ?? ""}
                 onBlur={field.handleBlur}
@@ -102,7 +126,7 @@ export default function UpdateProfile() {
             {(field) => (
               <Input
                 multiline
-                placeholderAsLabel
+                label="Optional"
                 placeholder="Bio"
                 value={field.state.value ?? ""}
                 onBlur={field.handleBlur}
@@ -120,11 +144,11 @@ export default function UpdateProfile() {
 
         <View className="gap-y-4">
           <Typography className="font-nunito-sans text-attention-5 text-center">
-            {profileError?.message || avatarError?.message}
+            {avatarError?.message}
           </Typography>
 
           <Button
-            title="Update Profile"
+            title="Continue"
             onPress={form.handleSubmit}
             loading={form.state.isSubmitting}
           />

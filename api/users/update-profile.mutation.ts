@@ -14,18 +14,22 @@ export const updateProfileMutationOptions = () =>
   mutationOptions({
     mutationFn: async (params: UpdateProfileRequestDto) => {
       const { id, data } = params;
-
       const { error } = await supabase
         .from("profiles")
         .update(data)
         .eq("id", id);
-      if (error) throw error;
+
+      if (error) {
+        if (error.code === "23505" && error.message.includes("username")) {
+          throw new Error("This username is already taken");
+        }
+        throw error;
+      }
     },
     onSuccess: async (_, variables) => {
       queryClient.invalidateQueries({
         queryKey: GetActiveUserQueryOptions(variables.id).queryKey,
       });
-
       router.replace("/(tabs)/profile");
     },
   });
