@@ -31,6 +31,6 @@ export const useSessionStore = create<Session & SessionStoreFunctions>(
         user,
       }),
     setIsHydrated: () => set({ isHydrated: true }),
-    logout: () => set(initialState),
+    logout: () => set({ isAuthenticated: false, session: null, user: null }),
   }),
 );
