@@ -22,16 +22,10 @@ export const uploadAvatarMutationOptions = () =>
         name: fileName,
       } as any);
 
-      const { error } = await supabase.storage
-        .from("avatars")
-        .upload(filePath, formData, {
-          contentType: `image/${fileExt}`,
-          upsert: true,
-        });
-
-      if (error) {
-        throw error;
-      }
+      await supabase.storage.from("avatars").upload(filePath, formData, {
+        contentType: `image/${fileExt}`,
+        upsert: true,
+      });
 
       const {
         data: { publicUrl },

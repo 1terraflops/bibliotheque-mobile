@@ -8,7 +8,7 @@ import { Text, View } from "react-native";
 
 export default function Login() {
   const {
-    mutateAsync: login,
+    mutate: login,
     error,
     isPending,
   } = useMutation(loginMutationOptions());

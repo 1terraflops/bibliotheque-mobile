@@ -8,9 +8,13 @@ export const ForgotPasswordMutationOptions = () =>
     mutationFn: async (params: IForgotPassword) => {
       const { email } = params;
 
-      await supabase.auth.resetPasswordForEmail(email, {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
         redirectTo: "exp://192.168.31.218:8081/--/reset-password",
       });
+
+      if (error) {
+        throw error;
+      }
     },
     onSuccess: (_, variables) => {
       router.push({

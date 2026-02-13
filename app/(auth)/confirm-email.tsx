@@ -18,10 +18,8 @@ export default function ConfirmEmail() {
   const { time, ended, reset } = useCountdown(59);
   const url = useLinkingURL();
 
-  const { mutateAsync: sendMagicLink } = useMutation(
-    sendMagicLinkMutationOptions(),
-  );
-  const { mutateAsync: resendConfirmationEmail } = useMutation(
+  const { mutate: sendMagicLink } = useMutation(sendMagicLinkMutationOptions());
+  const { mutate: resendConfirmationEmail } = useMutation(
     resendConfirmationEmailMutationOptions(),
   );
 

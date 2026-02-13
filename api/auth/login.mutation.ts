@@ -7,9 +7,13 @@ export const loginMutationOptions = () =>
     mutationFn: async (params: ILogin) => {
       const { email, password } = params;
 
-      await supabase.auth.signInWithPassword({
+      const { error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
+
+      if (error) {
+        throw error;
+      }
     },
   });

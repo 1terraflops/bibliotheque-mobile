@@ -7,9 +7,13 @@ export const resendConfirmationEmailMutationOptions = () =>
     mutationFn: async (params: ISendMagicLink) => {
       const { email } = params;
 
-      await supabase.auth.resend({
+      const { error } = await supabase.auth.resend({
         type: "signup",
         email,
       });
+
+      if (error) {
+        throw error;
+      }
     },
   });

@@ -8,7 +8,7 @@ import { View } from "react-native";
 
 export default function SignUp() {
   const {
-    mutateAsync: signUp,
+    mutate: signUp,
     isPending,
     error,
   } = useMutation(signUpMutationOptions());

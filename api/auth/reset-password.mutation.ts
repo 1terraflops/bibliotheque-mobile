@@ -7,8 +7,12 @@ export const resetPasswordMutationOptions = () =>
     mutationFn: async (params: IResetPassword) => {
       const { new_password } = params;
 
-      await supabase.auth.updateUser({
+      const { error } = await supabase.auth.updateUser({
         password: new_password,
       });
+
+      if (error) {
+        throw error;
+      }
     },
   });

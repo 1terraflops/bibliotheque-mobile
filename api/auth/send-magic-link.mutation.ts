@@ -8,12 +8,16 @@ export const sendMagicLinkMutationOptions = () =>
     mutationFn: async (params: ISendMagicLink) => {
       const { email } = params;
 
-      await supabase.auth.signInWithOtp({
+      const { error } = await supabase.auth.signInWithOtp({
         email,
         options: {
           emailRedirectTo: "exp://192.168.31.218:8081/--/confirm-email",
         },
       });
+
+      if (error) {
+        throw error;
+      }
     },
     onSuccess(_, variables) {
       const { email } = variables;

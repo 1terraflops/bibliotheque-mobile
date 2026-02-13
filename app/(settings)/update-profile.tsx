@@ -21,7 +21,7 @@ export default function UpdateProfile() {
     uploadAvatarMutationOptions(),
   );
 
-  const { mutateAsync: updateProfile, error: profileError } = useMutation(
+  const { mutate: updateProfile, error: profileError } = useMutation(
     updateProfileMutationOptions(),
   );
 
@@ -41,6 +41,7 @@ export default function UpdateProfile() {
 
       if (avatarUrl && avatarUrl.startsWith("file")) {
         avatarUrl = await uploadAvatar({
+          //here
           id: user.id,
           imageUri: avatarUrl,
         });

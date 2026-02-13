@@ -12,11 +12,12 @@ export const signUpMutationOptions = () =>
         emailRedirectTo: "exp://192.168.31.218:8081/--/confirm-email",
       };
 
-      if (password.length) {
-        await supabase.auth.signUp({ email, password, options });
-      } else {
-        await supabase.auth.signInWithOtp({ email, options });
-      }
+      const authMethod = password.length
+        ? supabase.auth.signUp({ email, password, options })
+        : supabase.auth.signInWithOtp({ email, options });
+
+      const { error } = await authMethod;
+      if (error) throw error;
     },
     onSuccess: (_, variables) => {
       router.push({

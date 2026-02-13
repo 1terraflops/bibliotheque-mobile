@@ -8,7 +8,7 @@ import { View } from "react-native";
 
 export default function ResetPassword() {
   const {
-    mutateAsync: resetPassword,
+    mutate: resetPassword,
     isPending,
     error,
   } = useMutation(resetPasswordMutationOptions());

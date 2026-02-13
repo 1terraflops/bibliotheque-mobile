@@ -15,7 +15,11 @@ export const updateProfileMutationOptions = () =>
     mutationFn: async (params: UpdateProfileRequestDto) => {
       const { id, data } = params;
 
-      await supabase.from("profiles").update(data).eq("id", id);
+      const { error } = await supabase
+        .from("profiles")
+        .update(data)
+        .eq("id", id);
+      if (error) throw error;
     },
     onSuccess: async (_, variables) => {
       queryClient.invalidateQueries({
