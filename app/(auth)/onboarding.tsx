@@ -151,6 +151,7 @@ export default function Onboarding() {
             title="Continue"
             onPress={form.handleSubmit}
             loading={form.state.isSubmitting}
+            disabled={form.state.isSubmitting}
           />
         </View>
       </View>

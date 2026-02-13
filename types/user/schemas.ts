@@ -9,10 +9,5 @@ export const IUpdateProfileValidator = z.object({
     .max(20, "Too long")
     .nullable(),
   bio: z.string().max(100, "Bio is too long").nullable(),
-  username: z
-    .string()
-    .trim()
-    .min(6, "Too short")
-    .max(20, "Too long")
-    .nullable(),
+  username: z.string().trim().min(6, "Too short").max(20, "Too long"),
 });

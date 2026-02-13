@@ -102,8 +102,12 @@ export default function RootLayout() {
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
+    } = supabase.auth.onAuthStateChange((event, session) => {
       sessionStore.setSession(session ?? null);
+
+      if (event === "SIGNED_OUT") {
+        sessionStore.setSession(null);
+      }
     });
 
     return () => {
