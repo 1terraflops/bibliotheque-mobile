@@ -1,6 +1,7 @@
 import { queryClient } from "@/api/queryClient";
 import { supabase } from "@/api/supabase";
 import { GetActiveUserQueryOptions } from "@/api/users/get-active-user-profile.query";
+import { Spinner } from "@/components/shared";
 import { useSessionStore } from "@/store/session.store";
 import {
   Inter_400Regular,
@@ -20,7 +21,7 @@ import { useFonts } from "expo-font";
 import { router, Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
-import { ActivityIndicator, View } from "react-native";
+import { View } from "react-native";
 import "./global.css";
 
 SplashScreen.preventAutoHideAsync();
@@ -66,7 +67,7 @@ const RootLayoutContent = () => {
   if (isCheckingRoute) {
     return (
       <View className="flex-1 items-center justify-center bg-dark-1">
-        <ActivityIndicator animating size="large" />
+        <Spinner />
       </View>
     );
   }
@@ -120,7 +121,7 @@ export default function RootLayout() {
   }, []);
 
   if (!sessionStore.isHydrated || !loaded) {
-    return null;
+    return <Spinner />;
   }
 
   return (

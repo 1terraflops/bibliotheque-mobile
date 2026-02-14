@@ -3,13 +3,13 @@ import { cn } from "@/utils/cn";
 import { LucideIcon } from "lucide-react-native";
 import { FC, ReactNode } from "react";
 import {
-  ActivityIndicator,
   Pressable,
   PressableProps,
   Text,
   useColorScheme,
   View,
 } from "react-native";
+import { Spinner } from "./spinner";
 
 type variant = "primary" | "secondary" | "icon" | "text";
 
@@ -55,6 +55,21 @@ const IconColors = {
     secondary: colors["light-1"],
     icon: colors["light-1"],
     text: "",
+  },
+};
+
+const SpinnerColors = {
+  light: {
+    primary: colors["light-1"],
+    secondary: colors["dark-1"],
+    icon: colors["dark-1"],
+    text: colors["dark-1"],
+  },
+  dark: {
+    primary: colors["dark-1"],
+    secondary: colors["light-1"],
+    icon: colors["light-1"],
+    text: colors["light-1"],
   },
 };
 
@@ -104,13 +119,7 @@ export const Button: FC<ButtonProps> = ({
         {!loading && variant !== "text" && IconRight && (
           <IconRight color={IconColors[theme][variant]} />
         )}
-        {loading && (
-          <ActivityIndicator
-            animating={loading}
-            color={IconColors[theme][variant]}
-            size={24}
-          />
-        )}
+        {loading && <Spinner size={22} color={SpinnerColors[theme][variant]} />}
       </Pressable>
     </View>
   );
