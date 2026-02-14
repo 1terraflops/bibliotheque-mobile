@@ -2,8 +2,9 @@ import { cn } from "@/utils/cn";
 import { getInitials } from "@/utils/getInitials";
 import * as AvatarPrimitive from "@rn-primitives/avatar";
 import { PlusCircle } from "lucide-react-native";
+import { Skeleton } from "moti/skeleton";
 import { FC } from "react";
-import { ImageSourcePropType, Text, View } from "react-native";
+import { ImageSourcePropType, Text, useColorScheme, View } from "react-native";
 import { Button } from "./button";
 
 type SizeOptions = "small" | "large";
@@ -30,7 +31,21 @@ export const Avatar: FC<AvatarProps> = ({
   uploadNew = false,
   onUploadPress,
 }) => {
+  const colorScheme = useColorScheme();
+  const colorMode = colorScheme === "dark" ? "dark" : "light";
+
   const { avatarSize, textSize } = AVATAR_SIZES[size];
+
+  if (!src && !fallback && !uploadNew) {
+    return (
+      <Skeleton
+        colorMode={colorMode}
+        width={avatarSize}
+        height={avatarSize}
+        radius="round"
+      />
+    );
+  }
 
   return (
     <View className="relative">
