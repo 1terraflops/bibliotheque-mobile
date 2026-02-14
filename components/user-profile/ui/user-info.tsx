@@ -41,7 +41,7 @@ export const UserInfo: FC = () => {
           </View>
 
           <View className="flex-row gap-x-12">
-            <View className="items-center">
+            <View className="items-center gap-y-1">
               <Typography
                 skeletonWidth={32}
                 className="text-lg font-inter-500"
@@ -49,7 +49,7 @@ export const UserInfo: FC = () => {
               <Typography className="text-light-3">Following</Typography>
             </View>
 
-            <View className="items-center">
+            <View className="items-center gap-y-1">
               <Typography
                 skeletonWidth={32}
                 className="text-lg font-inter-500"
