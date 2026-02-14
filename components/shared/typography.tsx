@@ -20,27 +20,19 @@ export const Typography: FC<TypographyProps> = ({
   const colorScheme = useColorScheme();
   const colorMode = colorScheme === "dark" ? "dark" : "light";
 
-  if (hideSkeleton && children == null) {
-    return null;
+  if (!hideSkeleton && children == null) {
+    return <Skeleton colorMode={colorMode} width={skeletonWidth} height={24} />;
   }
 
   return (
-    <Skeleton
-      colorMode={colorMode}
-      width={children != null ? undefined : skeletonWidth}
-      height={children != null ? undefined : 24}
+    <Text
+      {...props}
+      className={cn(
+        colorMode === "light" ? "text-dark-1" : "text-light-1",
+        className,
+      )}
     >
-      {children != null ? (
-        <Text
-          {...props}
-          className={cn(
-            colorMode === "light" ? "text-dark-1" : "text-light-1",
-            className,
-          )}
-        >
-          {children ?? null}
-        </Text>
-      ) : null}
-    </Skeleton>
+      {children}
+    </Text>
   );
 };
