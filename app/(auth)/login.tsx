@@ -4,7 +4,7 @@ import { ILogin, ILoginFormSchema } from "@/types/auth";
 import { useForm } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
 import { Lock, Mail } from "lucide-react-native";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 
 export default function Login() {
   const {
@@ -86,9 +86,12 @@ export default function Login() {
       /> */}
 
       <View className="mt-auto gap-y-4">
-        <Text className="font-nunito-sans text-attention-5 text-center">
+        <Typography
+          hideSkeleton
+          className="font-nunito-sans text-attention-5 text-center"
+        >
           {error?.message}
-        </Text>
+        </Typography>
 
         <Button
           onPress={form.handleSubmit}

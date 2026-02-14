@@ -26,9 +26,9 @@ export const UserInfo: FC = () => {
           fallback={profile?.full_name || profile?.username || ""}
         />
 
-        <View className="gap-y-2 min-w-48">
-          <View className="flex-row gap-x-4 items-center">
-            <Typography className="text-xl font-inter-500">
+        <View className="gap-y-3 min-w-32">
+          <View className="flex-row gap-x-3 items-center">
+            <Typography skeletonWidth={128} className="text-xl font-inter-500">
               {profile?.full_name}
             </Typography>
 
@@ -40,14 +40,20 @@ export const UserInfo: FC = () => {
             />
           </View>
 
-          <View className="flex-row justify-between">
+          <View className="flex-row gap-x-12">
             <View className="items-center">
-              <Typography className="text-lg font-inter-500">51</Typography>
+              <Typography
+                skeletonWidth={32}
+                className="text-lg font-inter-500"
+              ></Typography>
               <Typography className="text-light-3">Following</Typography>
             </View>
 
             <View className="items-center">
-              <Typography className="text-lg font-inter-500">15</Typography>
+              <Typography
+                skeletonWidth={32}
+                className="text-lg font-inter-500"
+              ></Typography>
               <Typography className="text-light-3">Followers</Typography>
             </View>
           </View>
@@ -55,10 +61,10 @@ export const UserInfo: FC = () => {
       </View>
 
       <View className="gap-y-2">
-        <Typography className="text-light-5 font-inter-500">
+        <Typography skeletonWidth={96} className="text-light-5 font-inter-500">
           {profile?.username && `@${profile.username}`}
         </Typography>
-        <Typography>{profile?.bio}</Typography>
+        <Typography skeletonWidth={300}>{profile?.bio}</Typography>
       </View>
     </View>
   );

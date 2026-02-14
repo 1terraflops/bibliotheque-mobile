@@ -77,7 +77,10 @@ export default function ResetPassword() {
       </View>
 
       <View className="justify-end mt-auto gap-y-4">
-        <Typography className="font-nunito-sans text-attention-5 text-center">
+        <Typography
+          hideSkeleton
+          className="font-nunito-sans text-attention-5 text-center"
+        >
           {error?.message}
         </Typography>
 
