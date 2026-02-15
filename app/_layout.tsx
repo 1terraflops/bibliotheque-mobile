@@ -18,8 +18,7 @@ import {
 import { RobotoMono_400Regular } from "@expo-google-fonts/roboto-mono";
 import { QueryClientProvider, useQuery } from "@tanstack/react-query";
 import { useFonts } from "expo-font";
-import { router, Stack } from "expo-router";
-import * as SplashScreen from "expo-splash-screen";
+import { router, SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
 import { View } from "react-native";
 import "./global.css";
@@ -43,7 +42,6 @@ const RootLayoutContent = () => {
     }
 
     if (isLoading) return;
-    SplashScreen.hide();
 
     sessionStore.setUser(user || null);
 
@@ -71,6 +69,8 @@ const RootLayoutContent = () => {
       </View>
     );
   }
+
+  SplashScreen.hide();
 
   return (
     <Stack screenOptions={{ headerShown: false }}>
