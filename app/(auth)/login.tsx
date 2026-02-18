@@ -87,7 +87,7 @@ export default function Login() {
 
       <View className="mt-auto gap-y-4">
         <Typography
-          hideSkeleton
+          skeleton={false}
           className="font-nunito-sans text-attention-5 text-center"
         >
           {error?.message}

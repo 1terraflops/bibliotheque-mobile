@@ -20,6 +20,7 @@ interface AvatarProps {
   alt?: string;
   size?: SizeOptions;
   uploadNew?: boolean;
+  skeleton?: boolean;
   onUploadPress?: () => void;
 }
 
@@ -29,6 +30,7 @@ export const Avatar: FC<AvatarProps> = ({
   alt,
   size = "small",
   uploadNew = false,
+  skeleton = false,
   onUploadPress,
 }) => {
   const colorScheme = useColorScheme();
@@ -36,7 +38,7 @@ export const Avatar: FC<AvatarProps> = ({
 
   const { avatarSize, textSize } = AVATAR_SIZES[size];
 
-  if (!src && !fallback && !uploadNew) {
+  if (skeleton) {
     return (
       <Skeleton
         colorMode={colorMode}

@@ -6,21 +6,21 @@ import { Text, TextProps, useColorScheme } from "react-native";
 interface TypographyProps extends TextProps {
   children?: ReactNode;
   className?: string;
-  hideSkeleton?: boolean;
+  skeleton?: boolean;
   skeletonWidth?: number;
 }
 
 export const Typography: FC<TypographyProps> = ({
   children,
   className,
-  hideSkeleton = false,
+  skeleton = false,
   skeletonWidth = 96,
   ...props
 }) => {
   const colorScheme = useColorScheme();
   const colorMode = colorScheme === "dark" ? "dark" : "light";
 
-  if (!hideSkeleton && children == null) {
+  if (skeleton) {
     return <Skeleton colorMode={colorMode} width={skeletonWidth} height={24} />;
   }
 

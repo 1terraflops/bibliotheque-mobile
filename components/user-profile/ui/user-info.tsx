@@ -13,14 +13,11 @@ export const UserInfo: FC = () => {
   const id = useSessionStore().session?.user.id!;
   const { data: profile, isLoading } = useQuery(GetActiveUserQueryOptions(id));
 
-  if (isLoading) {
-    return null;
-  }
-
   return (
     <View className="gap-y-6 mt-12">
       <View className="flex-row gap-x-8 items-center">
         <Avatar
+          skeleton={isLoading}
           size="large"
           src={{ uri: profile?.avatar_url || "" }}
           fallback={profile?.full_name || profile?.username || ""}
@@ -28,7 +25,11 @@ export const UserInfo: FC = () => {
 
         <View className="gap-y-3 min-w-32">
           <View className="flex-row gap-x-3 items-center">
-            <Typography skeletonWidth={128} className="text-xl font-inter-500">
+            <Typography
+              skeleton={isLoading}
+              skeletonWidth={128}
+              className="text-xl font-inter-500"
+            >
               {profile?.full_name}
             </Typography>
 
@@ -43,6 +44,7 @@ export const UserInfo: FC = () => {
           <View className="flex-row gap-x-12">
             <View className="items-center gap-y-1">
               <Typography
+                skeleton={true}
                 skeletonWidth={32}
                 className="text-lg font-inter-500"
               ></Typography>
@@ -51,6 +53,7 @@ export const UserInfo: FC = () => {
 
             <View className="items-center gap-y-1">
               <Typography
+                skeleton={true}
                 skeletonWidth={32}
                 className="text-lg font-inter-500"
               ></Typography>
@@ -61,10 +64,16 @@ export const UserInfo: FC = () => {
       </View>
 
       <View className="gap-y-2">
-        <Typography skeletonWidth={96} className="text-light-5 font-inter-500">
+        <Typography
+          skeleton={isLoading}
+          skeletonWidth={96}
+          className="text-light-5 font-inter-500"
+        >
           {profile?.username && `@${profile.username}`}
         </Typography>
-        <Typography skeletonWidth={300}>{profile?.bio}</Typography>
+        <Typography skeleton={isLoading} skeletonWidth={300}>
+          {profile?.bio}
+        </Typography>
       </View>
     </View>
   );

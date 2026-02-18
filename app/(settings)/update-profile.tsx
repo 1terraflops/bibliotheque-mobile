@@ -120,7 +120,7 @@ export default function UpdateProfile() {
 
         <View className="gap-y-4">
           <Typography
-            hideSkeleton
+            skeleton={false}
             className="font-nunito-sans text-attention-5 text-center"
           >
             {profileError?.message || avatarError?.message}
