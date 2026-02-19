@@ -39,6 +39,11 @@ api.interceptors.response.use(
       return api(originalRequest);
     }
 
-    return Promise.reject(error);
+    if (!error.response) {
+      return Promise.reject("Network error — check your connection");
+    }
+
+    const errorMessage = error.response.data ?? "Something went wrong";
+    return Promise.reject(errorMessage);
   },
 );
