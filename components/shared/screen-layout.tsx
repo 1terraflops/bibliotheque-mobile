@@ -2,7 +2,13 @@ import { cn } from "@/utils/cn";
 import { useRouter } from "expo-router";
 import { ChevronLeft } from "lucide-react-native";
 import { FC, ReactNode } from "react";
-import { ScrollView, useColorScheme, View } from "react-native";
+import {
+  Keyboard,
+  ScrollView,
+  TouchableWithoutFeedback,
+  useColorScheme,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Button } from "./button";
 
@@ -47,7 +53,9 @@ export const ScreenLayout: FC<ScreenLayoutProps> = ({
           <View className="flex-1">{children}</View>
         </ScrollView>
       ) : (
-        <View className="flex-1">{children}</View>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View className="flex-1">{children}</View>
+        </TouchableWithoutFeedback>
       )}
     </SafeAreaView>
   );
