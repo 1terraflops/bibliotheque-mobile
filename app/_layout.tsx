@@ -2,6 +2,7 @@ import { queryClient } from "@/api/queryClient";
 import { supabase } from "@/api/supabase";
 import { GetActiveUserQueryOptions } from "@/api/users/get-active-user-profile.query";
 import { Spinner } from "@/components/shared";
+import { colors } from "@/constants/colors";
 import { useSessionStore } from "@/store/session.store";
 import {
   Inter_400Regular,
@@ -20,12 +21,13 @@ import { QueryClientProvider, useQuery } from "@tanstack/react-query";
 import { useFonts } from "expo-font";
 import { router, SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
-import { View } from "react-native";
+import { useColorScheme, View } from "react-native";
 import "./global.css";
 
 SplashScreen.preventAutoHideAsync();
 
 const RootLayoutContent = () => {
+  const isLightTheme = useColorScheme() ?? "light";
   const sessionStore = useSessionStore();
 
   const { data: user, isLoading } = useQuery({
@@ -76,6 +78,19 @@ const RootLayoutContent = () => {
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="(tabs)" />
       <Stack.Screen name="(auth)" options={{ animation: "fade" }} />
+      <Stack.Screen
+        name="(modals)/add-book"
+        options={{
+          presentation: "formSheet",
+          headerShown: false,
+          sheetGrabberVisible: true,
+          sheetAllowedDetents: [0.5],
+          contentStyle: {
+            backgroundColor:
+              isLightTheme === "light" ? colors["light-2"] : colors["dark-2"],
+          },
+        }}
+      />
     </Stack>
   );
 };
