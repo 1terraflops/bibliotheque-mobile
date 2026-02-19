@@ -2,11 +2,12 @@ import { getBookQueryOptions } from "@/api/books/get-book.query";
 import { Button, Input, Spinner, Typography } from "@/components/shared";
 import { BookISBN } from "@/components/shared/assets";
 import { ExpandedBookCard } from "@/components/shared/widgets";
-import { IAddBook, IAddBookFormValidatorSchema } from "@/types/books";
+import { IGetBook, IGetBookFormValidatorSchema } from "@/types/books";
 import * as Haptics from "expo-haptics";
 
+import { AddBookMutationOptions } from "@/api/books/add-book.mutation";
 import { useForm } from "@tanstack/react-form";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { Plus } from "lucide-react-native";
 import { useState } from "react";
 import { useWindowDimensions, View } from "react-native";
@@ -15,9 +16,11 @@ export default function AddBook() {
   const { height } = useWindowDimensions();
   const [submittedISBN, setSubmittedISBN] = useState<string | null>(null);
 
+  const { mutate: addBook, isPending } = useMutation(AddBookMutationOptions());
+
   const form = useForm({
-    defaultValues: { isbn: "" } satisfies IAddBook,
-    validators: { onSubmit: IAddBookFormValidatorSchema },
+    defaultValues: { isbn: "" } satisfies IGetBook,
+    validators: { onSubmit: IGetBookFormValidatorSchema },
     onSubmit: ({ value }) => {
       setSubmittedISBN(value.isbn);
     },
@@ -66,7 +69,14 @@ export default function AddBook() {
         </View>
 
         <View className="justify-end mt-auto">
-          <Button title="Add to Library" iconLeft={Plus} />
+          <Button
+            title="Add to Library"
+            iconLeft={Plus}
+            loading={isPending}
+            onPress={() => {
+              addBook({ isbn: submittedISBN! });
+            }}
+          />
         </View>
       </View>
     );

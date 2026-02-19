@@ -1,4 +1,5 @@
 import z from "zod";
+import { BookStatus } from "./types";
 
 export const BookSchema = z.object({
   author: z.string(),
@@ -9,7 +10,18 @@ export const BookSchema = z.object({
   title: z.string(),
 });
 
-export const IAddBookFormValidatorSchema = z.object({
+export const UserBookSchema = z.object({
+  book: z.custom<typeof BookSchema>(),
+  finishedAt: z.string().nullable(),
+  isFavorite: z.boolean(),
+  pagesRead: z.number(),
+  rating: z.number().nullable(),
+  startedAt: z.string().nullable(),
+  status: z.enum(BookStatus),
+  updatedAt: z.string(),
+});
+
+export const IGetBookFormValidatorSchema = z.object({
   isbn: z
     .string()
     .trim()
