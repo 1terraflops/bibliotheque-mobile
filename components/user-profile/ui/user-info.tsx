@@ -14,7 +14,7 @@ export const UserInfo: FC = () => {
   const { data: profile, isLoading } = useQuery(GetActiveUserQueryOptions(id));
 
   return (
-    <View className="gap-y-6 mt-12">
+    <View className="gap-y-6 mt-6">
       <View className="flex-row gap-x-8 items-center">
         <Avatar
           skeleton={isLoading}

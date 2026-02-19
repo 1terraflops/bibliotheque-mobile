@@ -32,7 +32,7 @@ const Layout = () => {
           }
         >
           <TabTrigger asChild name="index" href="/(tabs)">
-            <TabButton icon={Book}>Books</TabButton>
+            <TabButton icon={Book}>Library</TabButton>
           </TabTrigger>
 
           <TabTrigger asChild name="activity" href="/(tabs)/activity">

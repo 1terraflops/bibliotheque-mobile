@@ -1,17 +1,5 @@
-import { cn } from "@/utils/cn";
-import { Text, useColorScheme, View } from "react-native";
+import { ScreenLayout } from "@/components/shared";
 
 export default function Stats() {
-  const isLightTheme = useColorScheme() === "light";
-
-  return (
-    <View
-      className={cn(
-        "flex-1 justify-center items-center bg-dark-2",
-        isLightTheme && "bg-light-1",
-      )}
-    >
-      <Text className="text-white">Stats</Text>
-    </View>
-  );
+  return <ScreenLayout title="Stats"></ScreenLayout>;
 }
