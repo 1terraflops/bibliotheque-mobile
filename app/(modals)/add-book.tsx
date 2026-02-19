@@ -1,10 +1,13 @@
 import { getBookQueryOptions } from "@/api/books/get-book.query";
-import { Input, Spinner, Typography } from "@/components/shared";
+import { Button, Input, Spinner, Typography } from "@/components/shared";
 import { BookISBN } from "@/components/shared/assets";
+import { ExpandedBookCard } from "@/components/shared/widgets";
 import { IAddBook, IAddBookFormValidatorSchema } from "@/types/books";
+import * as Haptics from "expo-haptics";
 
 import { useForm } from "@tanstack/react-form";
 import { useQuery } from "@tanstack/react-query";
+import { Plus } from "lucide-react-native";
 import { useState } from "react";
 import { useWindowDimensions, View } from "react-native";
 
@@ -20,7 +23,11 @@ export default function AddBook() {
     },
   });
 
-  const { data, error, isLoading } = useQuery({
+  const {
+    data: book,
+    error,
+    isLoading,
+  } = useQuery({
     ...getBookQueryOptions({ isbn: submittedISBN ?? "" }),
     enabled: !!submittedISBN,
   });
@@ -39,7 +46,12 @@ export default function AddBook() {
     );
   }
 
-  if (data) {
+  if (error) {
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+  }
+
+  if (book) {
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     return (
       <View
         style={{
@@ -47,9 +59,15 @@ export default function AddBook() {
           alignItems: "center",
           justifyContent: "center",
         }}
+        className="p-8"
       >
-        <Typography>Title: {data.title}</Typography>
-        <Typography>Author: {data.author}</Typography>
+        <View className="justify-center mt-auto">
+          <ExpandedBookCard book={book} />
+        </View>
+
+        <View className="justify-end mt-auto">
+          <Button title="Add to Library" iconLeft={Plus} />
+        </View>
       </View>
     );
   }
