@@ -1,4 +1,5 @@
 import { getBooksByStatusesQueryOptions } from "@/api/books/get-books-by-statuses.query";
+import { LoadingLibrary } from "@/components/library";
 import { Button, ScreenLayout, Typography } from "@/components/shared";
 import { BookCard } from "@/components/shared/widgets";
 import { formatStatus } from "@/utils/formatStatus";
@@ -8,7 +9,13 @@ import { ChevronRight, Plus } from "lucide-react-native";
 import { ScrollView, View } from "react-native";
 
 export default function Index() {
-  const { data: booksByStatuses } = useQuery(getBooksByStatusesQueryOptions());
+  const { data: booksByStatuses, isLoading } = useQuery(
+    getBooksByStatusesQueryOptions(),
+  );
+
+  if (isLoading) {
+    return <LoadingLibrary />;
+  }
 
   const filteredBooks = booksByStatuses?.filter((book) => book.books.length);
 
@@ -38,7 +45,7 @@ export default function Index() {
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
-            contentContainerClassName="gap-6 px-1"
+            contentContainerClassName="gap-6"
           >
             {status.books.map((item) => (
               <BookCard key={item.book.isbn} book={item.book} />
