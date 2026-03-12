@@ -1,5 +1,5 @@
 import z from "zod";
-import { BookStatus } from "./types";
+import { Book, BookStatus } from "./types";
 
 export const BookSchema = z.object({
   author: z.string(),
@@ -11,7 +11,7 @@ export const BookSchema = z.object({
 });
 
 export const UserBookSchema = z.object({
-  book: z.custom<typeof BookSchema>(),
+  book: z.custom<Book>(),
   finishedAt: z.string().nullable(),
   isFavorite: z.boolean(),
   pagesRead: z.number(),
@@ -20,6 +20,13 @@ export const UserBookSchema = z.object({
   status: z.enum(BookStatus),
   updatedAt: z.string(),
 });
+
+export const BooksByStatusesSchema = z.array(
+  z.object({
+    status: z.union([z.enum(BookStatus), z.literal("FAVORITES")]),
+    books: z.array(UserBookSchema),
+  }),
+);
 
 export const IGetBookFormValidatorSchema = z.object({
   isbn: z
