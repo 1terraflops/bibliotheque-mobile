@@ -1,7 +1,7 @@
 import { getBookQueryOptions } from "@/api/books/get-book.query";
 import { Button, Input, Spinner, Typography } from "@/components/shared";
 import { BookISBN } from "@/components/shared/assets";
-import { ExpandedBookCard } from "@/components/shared/widgets";
+import { BookCard } from "@/components/shared/widgets";
 import { IGetBook, IGetBookFormValidatorSchema } from "@/types/books";
 import * as Haptics from "expo-haptics";
 
@@ -65,7 +65,7 @@ export default function AddBook() {
         className="p-8"
       >
         <View className="justify-center mt-auto">
-          <ExpandedBookCard book={book} />
+          <BookCard book={book} />
         </View>
 
         <View className="justify-end mt-auto">
