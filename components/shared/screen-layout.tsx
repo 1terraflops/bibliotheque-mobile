@@ -35,8 +35,8 @@ export const ScreenLayout: FC<ScreenLayoutProps> = ({
   return (
     <SafeAreaView
       className={cn(
-        "w-full flex-1 px-6  bg-dark-1",
-        isLightTheme && "bg-light-1",
+        "w-full flex-1 px-6  bg-background-dark",
+        isLightTheme && "bg-background-light",
       )}
     >
       {(backButton || rightButton || title) && (
