@@ -2,13 +2,7 @@ import { cn } from "@/utils/cn";
 import { useRouter } from "expo-router";
 import { ChevronLeft } from "lucide-react-native";
 import { FC, ReactElement, ReactNode, useState } from "react";
-import {
-  Keyboard,
-  ScrollView,
-  TouchableWithoutFeedback,
-  useColorScheme,
-  View,
-} from "react-native";
+import { Keyboard, ScrollView, useColorScheme, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Button } from "./button";
 import { Typography } from "./typography";
@@ -35,7 +29,7 @@ export const ScreenLayout: FC<ScreenLayoutProps> = ({
   return (
     <SafeAreaView
       className={cn(
-        "w-full flex-1 px-6  bg-background-dark",
+        "w-full flex-1 px-4  bg-background-dark",
         isLightTheme && "bg-background-light",
       )}
     >
@@ -71,9 +65,15 @@ export const ScreenLayout: FC<ScreenLayoutProps> = ({
           <View className="flex-1">{children}</View>
         </ScrollView>
       ) : (
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View className="flex-1">{children}</View>
-        </TouchableWithoutFeedback>
+        <View
+          className="flex-1"
+          onStartShouldSetResponder={() => {
+            Keyboard.dismiss();
+            return false;
+          }}
+        >
+          {children}
+        </View>
       )}
     </SafeAreaView>
   );
