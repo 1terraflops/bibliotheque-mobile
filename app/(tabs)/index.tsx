@@ -4,7 +4,7 @@ import { Button, ScreenLayout, Typography } from "@/components/shared";
 import { BookCard } from "@/components/shared/widgets";
 import { formatStatus } from "@/utils/formatStatus";
 import { useQuery } from "@tanstack/react-query";
-import { router } from "expo-router";
+import { Link, router } from "expo-router";
 import { ChevronRight, Plus } from "lucide-react-native";
 import { ScrollView, View } from "react-native";
 
@@ -34,13 +34,20 @@ export default function Index() {
     >
       {filteredBooks?.map((status) => (
         <View key={status.status} className="gap-4 mt-6">
-          <View className="flex-row gap-2 items-center">
-            <Typography className="text-2xl font-inter-700">
-              {formatStatus(status.status)}
-            </Typography>
+          <Link
+            href={{
+              pathname: "/books/[status]",
+              params: { status: status.status },
+            }}
+          >
+            <View className="flex-row gap-2 items-center">
+              <Typography className="text-2xl font-inter-700">
+                {formatStatus(status.status)}
+              </Typography>
 
-            <Button variant="icon" iconLeft={ChevronRight} iconSize={20} />
-          </View>
+              <Button variant="icon" iconLeft={ChevronRight} iconSize={20} />
+            </View>
+          </Link>
 
           <ScrollView
             horizontal
