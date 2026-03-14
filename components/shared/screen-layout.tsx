@@ -72,7 +72,9 @@ export const ScreenLayout: FC<ScreenLayoutProps> = ({
           contentContainerStyle={{ flexGrow: 1 }}
           showsVerticalScrollIndicator={false}
           refreshControl={
-            <RefreshControl refreshing={isRefreshing} onRefresh={refresh} />
+            refresh ? (
+              <RefreshControl refreshing={isRefreshing} onRefresh={refresh} />
+            ) : undefined
           }
         >
           {header}
