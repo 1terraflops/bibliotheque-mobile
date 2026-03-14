@@ -1,11 +1,15 @@
-import { Book } from "@/types/books";
+import { UserBook } from "@/types/books";
+import { Book, BookCheck, Clock } from "lucide-react-native";
+import { Skeleton } from "moti/skeleton";
 import { FC } from "react";
 import { View } from "react-native";
+import { Button } from "../button";
+import { ProgressBar } from "../progress-bar";
 import { Typography } from "../typography";
 import { BookCard } from "./book-card";
 
 type ExpandedBookCardProps = {
-  book: Book;
+  book: UserBook;
   loading?: boolean;
 };
 
@@ -13,25 +17,78 @@ export const ExpandedBookCard: FC<ExpandedBookCardProps> = ({
   book,
   loading = false,
 }) => {
+  if (loading) {
+    return (
+      <View className="flex-row w-full gap-2 items-start">
+        <BookCard loading />
+
+        <View className="gap-2">
+          <Typography skeleton />
+          <Typography skeleton />
+
+          <Skeleton radius={8} height={130} width={200} />
+        </View>
+      </View>
+    );
+  }
+
+  const generalBookInfo = book.book;
+
+  const pagesToGo = Math.max(generalBookInfo.pageCount - book.pagesRead, 0);
+  const percentsToGo = Math.round(
+    (book.pagesRead / generalBookInfo.pageCount) * 100,
+  );
+
   return (
-    <View className="flex-row gap-x-4">
-      <BookCard book={book} loading={loading} />
+    <View className="flex-row gap-x-4 w-full justify-center">
+      <BookCard book={book.book} />
 
-      <View className="gap-y-2">
-        <Typography className="font-inter-600 text-xl">
-          {book?.title}
+      <View className="gap-y-1 w-[200px]">
+        <Typography numberOfLines={1} className="font-inter-600 text-xl">
+          {generalBookInfo?.title}
         </Typography>
-        <Typography className="font-inter-500 text-lg">
-          {book?.author}
+        <Typography numberOfLines={1} className="font-inter-500 text-lg">
+          {generalBookInfo?.author}
         </Typography>
 
-        {book?.description && (
-          <Typography numberOfLines={5} className="w-[200px]">
-            {book?.description}
-          </Typography>
-        )}
-        {!!book?.pageCount && (
-          <Typography className="mt-3">{`${book.pageCount} pages`}</Typography>
+        {percentsToGo > 0 ? (
+          <View className="gap-4 mt-1">
+            <View className="items-center gap-3 max-w-[170px]">
+              <ProgressBar progress={percentsToGo} />
+
+              {!!generalBookInfo?.pageCount && (
+                <Typography className="font-inter-500">{`${book.pagesRead} / ${generalBookInfo?.pageCount} pages`}</Typography>
+              )}
+            </View>
+
+            <View className="flex-row gap-2">
+              <Button variant="icon" iconLeft={Clock} />
+              <Typography className="font-inter-600 text-lg">1:36 h</Typography>
+            </View>
+
+            <View className="flex-row gap-2">
+              <Button variant="icon" iconLeft={BookCheck} />
+              <Typography className="font-inter-600 text-lg">
+                {pagesToGo} pages (3:41 h)
+              </Typography>
+            </View>
+          </View>
+        ) : (
+          <View className="gap-y-2">
+            {!!generalBookInfo?.description && (
+              <Typography numberOfLines={5}>
+                {generalBookInfo?.description}
+              </Typography>
+            )}
+
+            {!!generalBookInfo?.pageCount && (
+              <View className="flex-row gap-2 items-center mt-5">
+                <Button variant="icon" iconLeft={Book} />
+
+                <Typography className=" font-inter-500">{`${generalBookInfo?.pageCount} pages`}</Typography>
+              </View>
+            )}
+          </View>
         )}
       </View>
     </View>

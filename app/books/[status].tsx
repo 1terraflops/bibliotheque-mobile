@@ -4,7 +4,7 @@ import { BookCard } from "@/components/shared/widgets";
 import { BookStatus, BookStatusAndFav } from "@/types/books";
 import { formatStatus } from "@/utils/formatStatus";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useLocalSearchParams } from "expo-router";
+import { Link, useLocalSearchParams } from "expo-router";
 import { FlatList, View } from "react-native";
 
 type BooksByStatusParams = {
@@ -64,7 +64,15 @@ export default function BooksByStatus() {
           contentContainerStyle={{ gap: 28, padding: 24 }}
           renderItem={({ item }) => (
             <View className="flex-1">
-              <BookCard book={item.book} />
+              <Link
+                key={item.book.isbn}
+                href={{
+                  pathname: "/books/reading/[isbn]",
+                  params: { isbn: item.book.isbn },
+                }}
+              >
+                <BookCard book={item.book} />
+              </Link>
             </View>
           )}
           onEndReached={fetchMore}

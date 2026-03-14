@@ -59,7 +59,15 @@ export default function Index() {
             contentContainerClassName="gap-6"
           >
             {status.books.map((item) => (
-              <BookCard key={item.book.isbn} book={item.book} />
+              <Link
+                key={item.book.isbn}
+                href={{
+                  pathname: "/books/reading/[isbn]",
+                  params: { isbn: item.book.isbn },
+                }}
+              >
+                <BookCard book={item.book} />
+              </Link>
             ))}
           </ScrollView>
         </View>
