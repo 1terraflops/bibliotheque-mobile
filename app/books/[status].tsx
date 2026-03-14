@@ -26,12 +26,24 @@ export default function BooksByStatus() {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
+    isLoading,
   } = useInfiniteQuery(
     getBooksInfiniteQueryOptions({
       status: bookStatus,
       isFavorite: isFavorites || undefined,
     }),
   );
+
+  if (isLoading) {
+    return (
+      <ScreenLayout backButton title={formatStatus(status)}>
+        <View className="flex-row flex-wrap justify-center gap-x-16 mt-6">
+          <BookCard loading />
+          <BookCard loading />
+        </View>
+      </ScreenLayout>
+    );
+  }
 
   const normalizedData = books?.pages.flat();
 
