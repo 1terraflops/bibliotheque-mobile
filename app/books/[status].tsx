@@ -1,14 +1,14 @@
 import { getBooksInfiniteQueryOptions } from "@/api/books/get-books.query";
 import { ScreenLayout, Spinner } from "@/components/shared";
 import { BookCard } from "@/components/shared/widgets";
-import { BookStatus } from "@/types/books";
+import { BookStatus, BookStatusAndFav } from "@/types/books";
 import { formatStatus } from "@/utils/formatStatus";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useLocalSearchParams } from "expo-router";
 import { FlatList, View } from "react-native";
 
 type BooksByStatusParams = {
-  status: BookStatus | "FAVORITES";
+  status: BookStatusAndFav;
 };
 
 export default function BooksByStatus() {

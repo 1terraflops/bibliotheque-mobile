@@ -13,6 +13,7 @@ export enum BookStatus {
   COMPLETED = "COMPLETED",
   DROPPED = "DROPPED",
 }
+export type BookStatusAndFav = BookStatus | "FAVORITES";
 
 export type Book = z.infer<typeof BookSchema>;
 export type UserBook = z.infer<typeof UserBookSchema>;
