@@ -1,9 +1,9 @@
-import { BookSchema, IAddBook } from "@/types/books";
+import { BookSchema, IGetBook } from "@/types/books";
 import { parseResponse } from "@/utils/parseResponse";
 import { queryOptions } from "@tanstack/react-query";
 import { api } from "../axios";
 
-export const getBookQueryOptions = (params: IAddBook) =>
+export const getBookQueryOptions = (params: IGetBook) =>
   queryOptions({
     queryKey: ["book", params],
     queryFn: async ({ signal }) =>
