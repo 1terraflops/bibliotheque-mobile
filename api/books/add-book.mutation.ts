@@ -5,6 +5,7 @@ import { router } from "expo-router";
 import { api } from "../axios";
 import { queryClient } from "../queryClient";
 import { getBooksByStatusesQueryOptions } from "./get-books-by-statuses.query";
+import { getBooksInfiniteQueryOptions } from "./get-books.query";
 
 type AddBookByISBN = {
   isbn: string;
@@ -17,6 +18,10 @@ export const AddBookMutationOptions = () =>
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: getBooksByStatusesQueryOptions().queryKey,
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: getBooksInfiniteQueryOptions({}).queryKey,
       });
 
       router.back();

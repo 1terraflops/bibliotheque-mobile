@@ -4,6 +4,7 @@ import {
   BookSchema,
   IGetBookFormValidatorSchema,
   UserBookSchema,
+  UserBooksSchema,
 } from "./schema";
 
 export enum BookStatus {
@@ -15,6 +16,8 @@ export enum BookStatus {
 
 export type Book = z.infer<typeof BookSchema>;
 export type UserBook = z.infer<typeof UserBookSchema>;
+export type UserBooks = z.infer<typeof UserBooksSchema>;
+
 export type BooksByStatuses = z.infer<typeof BooksByStatusesSchema>;
 
 export type IGetBook = z.infer<typeof IGetBookFormValidatorSchema>;

@@ -21,6 +21,8 @@ export const UserBookSchema = z.object({
   updatedAt: z.string(),
 });
 
+export const UserBooksSchema = z.array(UserBookSchema);
+
 export const BooksByStatusesSchema = z.array(
   z.object({
     status: z.union([z.enum(BookStatus), z.literal("FAVORITES")]),
