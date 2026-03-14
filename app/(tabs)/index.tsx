@@ -9,9 +9,11 @@ import { ChevronRight, Plus } from "lucide-react-native";
 import { ScrollView, View } from "react-native";
 
 export default function Index() {
-  const { data: booksByStatuses, isLoading } = useQuery(
-    getBooksByStatusesQueryOptions(),
-  );
+  const {
+    data: booksByStatuses,
+    isLoading,
+    refetch,
+  } = useQuery(getBooksByStatusesQueryOptions());
 
   if (isLoading) {
     return <LoadingLibrary />;
@@ -22,6 +24,8 @@ export default function Index() {
   return (
     <ScreenLayout
       scrollable
+      isRefreshing={isLoading}
+      refresh={refetch}
       title="Library"
       rightButton={
         <Button
