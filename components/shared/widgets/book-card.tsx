@@ -54,12 +54,13 @@ export const BookCard: FC<BookCardProps> = ({ book, loading = false }) => {
     );
   }
 
+  let coverUrl = book.coverUrl;
+
+  if (book.coverUrl) {
+    coverUrl = coverUrl.replace("http://", "https://");
+  }
+
   return (
-    <Image
-      src={book.coverUrl}
-      height={200}
-      width={130}
-      className="rounded-lg"
-    />
+    <Image src={coverUrl} height={200} width={130} className="rounded-lg" />
   );
 };

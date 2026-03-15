@@ -79,7 +79,7 @@ export const ExpandedBookCard: FC<ExpandedBookCardProps> = ({
         ) : (
           <View className="gap-y-2">
             {!!generalBookInfo?.description && (
-              <Typography numberOfLines={5}>
+              <Typography numberOfLines={5} className="max-w-[200px]">
                 {generalBookInfo?.description}
               </Typography>
             )}

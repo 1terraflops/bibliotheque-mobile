@@ -60,7 +60,7 @@ export const ScreenLayout: FC<ScreenLayoutProps> = ({
 
   return (
     <SafeAreaView
-      edges={["top"]}
+      edges={["top", "bottom"]}
       className={cn(
         "w-full flex-1 px-4 bg-background-dark",
         isLightTheme && "bg-background-light",
