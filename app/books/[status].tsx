@@ -1,4 +1,5 @@
 import { getBooksInfiniteQueryOptions } from "@/api/books/get-books.query";
+import { BookContextMenu } from "@/components/library";
 import { ScreenLayout, Spinner } from "@/components/shared";
 import { BookCard } from "@/components/shared/widgets";
 import { BookStatus, BookStatusAndFav } from "@/types/books";
@@ -71,7 +72,9 @@ export default function BooksByStatus() {
                   params: { isbn: item.book.isbn },
                 }}
               >
-                <BookCard book={item.book} />
+                <BookContextMenu book={item}>
+                  <BookCard book={item.book} />
+                </BookContextMenu>
               </Link>
             </View>
           )}

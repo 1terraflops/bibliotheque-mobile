@@ -1,5 +1,5 @@
 import { getBooksByStatusesQueryOptions } from "@/api/books/get-books-by-statuses.query";
-import { LoadingLibrary } from "@/components/library";
+import { BookContextMenu, LoadingLibrary } from "@/components/library";
 import { Button, ScreenLayout, Typography } from "@/components/shared";
 import { BookCard } from "@/components/shared/widgets";
 import { formatStatus } from "@/utils/formatStatus";
@@ -66,7 +66,9 @@ export default function Index() {
                   params: { isbn: item.book.isbn },
                 }}
               >
-                <BookCard book={item.book} />
+                <BookContextMenu book={item}>
+                  <BookCard book={item.book} />
+                </BookContextMenu>
               </Link>
             ))}
           </ScrollView>
