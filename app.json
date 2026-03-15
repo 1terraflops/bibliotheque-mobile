@@ -61,6 +61,13 @@
         {
           "photosPermission": "Allow access to your library to upload a photo."
         }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow access your camera",
+          "barcodeScannerEnabled": true
+        }
       ]
     ],
     "experiments": {

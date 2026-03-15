@@ -7,7 +7,7 @@ import {
   EyeClosed,
   LucideIcon,
 } from "lucide-react-native";
-import { FC, useState } from "react";
+import { FC, ReactNode, useState } from "react";
 import {
   Text,
   TextInput,
@@ -20,6 +20,7 @@ import { Button } from "./button";
 interface InputProps extends TextInputProps {
   placeholderAsLabel?: boolean;
   icon?: LucideIcon;
+  button?: ReactNode;
   error?: string;
   showError?: boolean;
   isBlurred?: boolean;
@@ -32,6 +33,7 @@ export const Input: FC<InputProps> = ({
   placeholder,
   value,
   icon: Icon,
+  button,
   error,
   showError = false,
   isBlurred = false,
@@ -94,6 +96,7 @@ export const Input: FC<InputProps> = ({
               iconLeft={secureField ? Eye : EyeClosed}
             />
           )}
+          {button && button}
           {showError && <CircleAlert color={colors.error} />}
           {!showError && value && isBlurred && <Check color={colors.success} />}
         </View>

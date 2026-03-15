@@ -8,13 +8,16 @@ import * as Haptics from "expo-haptics";
 import { AddBookMutationOptions } from "@/api/books/add-book.mutation";
 import { useForm } from "@tanstack/react-form";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { Plus } from "lucide-react-native";
-import { useState } from "react";
+import { router, useLocalSearchParams } from "expo-router";
+import { Camera, Plus } from "lucide-react-native";
+import { useEffect, useState } from "react";
 import { useWindowDimensions, View } from "react-native";
 
 export default function AddBook() {
   const { height } = useWindowDimensions();
   const [submittedISBN, setSubmittedISBN] = useState<string | null>(null);
+
+  const { isbn } = useLocalSearchParams<{ isbn: string }>();
 
   const { mutate: addBook, isPending } = useMutation(AddBookMutationOptions());
 
@@ -25,6 +28,13 @@ export default function AddBook() {
       setSubmittedISBN(value.isbn);
     },
   });
+
+  useEffect(() => {
+    if (isbn) {
+      form.setFieldValue("isbn", isbn);
+      form.handleSubmit();
+    }
+  }, []);
 
   const {
     data: book,
@@ -90,6 +100,14 @@ export default function AddBook() {
             placeholder="ISBN"
             keyboardType="numeric"
             returnKeyType="search"
+            button={
+              <Button
+                variant="icon"
+                iconLeft={Camera}
+                onPress={() => router.navigate("/(modals)/scan-isbn")}
+                className="mr-2"
+              />
+            }
             onSubmitEditing={(e) => {
               if (e.nativeEvent.text.trim()) {
                 form.handleSubmit();

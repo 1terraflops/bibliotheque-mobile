@@ -91,6 +91,13 @@ const RootLayoutContent = () => {
           },
         }}
       />
+      <Stack.Screen
+        name="(modals)/scan-isbn"
+        options={{
+          presentation: "fullScreenModal",
+          headerShown: false,
+        }}
+      />
     </Stack>
   );
 };
