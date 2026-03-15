@@ -13,10 +13,19 @@ type ReadingParams = {
 export default function Reading() {
   const isbn = useLocalSearchParams<ReadingParams>();
 
-  const { data: book, isLoading } = useQuery(getUserBookQueryOptions(isbn));
+  const {
+    data: book,
+    isLoading,
+    refetch,
+  } = useQuery(getUserBookQueryOptions(isbn));
 
   return (
-    <ScreenLayout backButton scrollable>
+    <ScreenLayout
+      backButton
+      scrollable
+      isRefreshing={isLoading}
+      refresh={refetch}
+    >
       <View className="gap-6 mt-4 px-2">
         <ExpandedBookCard book={book!} loading={isLoading} />
         <Button title="Start Reading" iconLeft={Play} />
