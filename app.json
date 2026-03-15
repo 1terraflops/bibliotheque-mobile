@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "book-tracking-frontent",
-    "slug": "book-tracking-frontent",
+    "name": "booksie",
+    "slug": "booksie",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
