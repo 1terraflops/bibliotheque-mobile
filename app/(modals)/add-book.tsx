@@ -130,7 +130,7 @@ export default function AddBook() {
       <View className="items-center mt-4 gap-y-6">
         <Typography className="text-center text-lg leading-6">
           {
-            "ISBN is a 10 or 13-digit code located near your book’s barcode. It serves as a unique identifier for each book edition. Enter the ISBN into the text field to quickly add your book."
+            "ISBN is a 10 or 13-digit code located near your book’s barcode. It serves as a unique identifier for each book edition. Enter the ISBN or scan bar code with your camera to quickly add your book."
           }
         </Typography>
 
