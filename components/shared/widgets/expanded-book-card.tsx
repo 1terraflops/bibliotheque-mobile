@@ -1,4 +1,5 @@
 import { UserBook } from "@/types/books";
+import { formatTime } from "@/utils/formatTime";
 import { Book, BookCheck, Clock } from "lucide-react-native";
 import { Skeleton } from "moti/skeleton";
 import { FC } from "react";
@@ -63,13 +64,15 @@ export const ExpandedBookCard: FC<ExpandedBookCardProps> = ({
 
             <View className="flex-row gap-2">
               <Button variant="icon" iconLeft={Clock} />
-              <Typography className="font-inter-600 text-lg">1:36 h</Typography>
+              <Typography className="font-inter-600 text-lg">
+                {formatTime(book.spentTime)}
+              </Typography>
             </View>
 
             <View className="flex-row gap-2">
               <Button variant="icon" iconLeft={BookCheck} />
               <Typography className="font-inter-600 text-lg">
-                {pagesToGo} pages (3:41 h)
+                {pagesToGo} pages ({formatTime(book.estimatedTime || 0)})
               </Typography>
             </View>
           </View>

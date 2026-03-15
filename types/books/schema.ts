@@ -19,6 +19,8 @@ export const UserBookSchema = z.object({
   startedAt: z.string().nullable(),
   status: z.enum(BookStatus),
   updatedAt: z.string(),
+  spentTime: z.number(),
+  estimatedTime: z.number().nullable(),
 });
 
 export const UserBooksSchema = z.array(UserBookSchema);
