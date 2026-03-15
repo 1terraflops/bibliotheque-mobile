@@ -40,11 +40,11 @@ export const ExpandedBookCard: FC<ExpandedBookCardProps> = ({
   );
 
   return (
-    <View className="flex-row gap-x-4 w-full justify-center">
+    <View className="flex-row gap-x-6">
       <BookCard book={book.book} />
 
-      <View className="gap-y-1 w-[200px]">
-        <Typography numberOfLines={1} className="font-inter-600 text-xl">
+      <View className="gap-y-0.5 w-full">
+        <Typography numberOfLines={1} className="font-inter-600 text-2xl">
           {generalBookInfo?.title}
         </Typography>
         <Typography numberOfLines={1} className="font-inter-500 text-lg">

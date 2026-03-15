@@ -17,7 +17,7 @@ export default function Reading() {
 
   return (
     <ScreenLayout backButton scrollable>
-      <View className="gap-6 items-center w-full mt-4 px-2">
+      <View className="gap-6 mt-4 px-2">
         <ExpandedBookCard book={book!} loading={isLoading} />
         <Button title="Start Reading" iconLeft={Play} />
 
