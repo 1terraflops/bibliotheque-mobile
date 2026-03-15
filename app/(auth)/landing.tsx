@@ -28,7 +28,7 @@ export default function Landing() {
         </View>
       </View>
 
-      <View className="items-end mt-auto">
+      <View className="items-end mt-auto mb-8">
         <Button
           title="I don't have an account"
           variant="secondary"

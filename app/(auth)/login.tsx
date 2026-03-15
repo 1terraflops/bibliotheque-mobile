@@ -85,7 +85,7 @@ export default function Login() {
         onPress={() => router.navigate("/(auth)/forgot-password")}
       /> */}
 
-      <View className="mt-auto gap-y-4">
+      <View className="mt-auto gap-y-4 mb-8">
         <Typography
           skeleton={false}
           className="font-nunito-sans text-attention-5 text-center"

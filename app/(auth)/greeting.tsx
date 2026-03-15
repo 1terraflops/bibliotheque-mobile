@@ -20,6 +20,7 @@ export default function Greeting() {
       <Button
         title="Continue"
         onPress={async () => router.replace("/(auth)/onboarding")}
+        className="mb-8"
       />
     </ScreenLayout>
   );
