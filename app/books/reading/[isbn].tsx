@@ -21,11 +21,7 @@ export default function Reading() {
   const isbn = useLocalSearchParams<ReadingParams>();
   const [activeTab, setActiveTab] = useState(READING_SESSIONS_TABS.SESSIONS);
 
-  const {
-    data: book,
-    isLoading,
-    refetch,
-  } = useQuery(getUserBookQueryOptions(isbn));
+  const { data: book, isLoading } = useQuery(getUserBookQueryOptions(isbn));
 
   const tabs: TabsOptions[] = [
     { value: READING_SESSIONS_TABS.SESSIONS, label: "Sessions" },
@@ -33,12 +29,7 @@ export default function Reading() {
   ];
 
   return (
-    <ScreenLayout
-      backButton
-      scrollable
-      isRefreshing={isLoading}
-      refresh={refetch}
-    >
+    <ScreenLayout backButton>
       <View className="gap-6 mt-4 px-2">
         <ExpandedBookCard book={book!} loading={isLoading} />
         <Button title="Start Reading" iconLeft={Play} />
@@ -52,26 +43,12 @@ export default function Reading() {
             }
           />
 
-          {activeTab === READING_SESSIONS_TABS.SESSIONS && <SessionView />}
+          {activeTab === READING_SESSIONS_TABS.SESSIONS && (
+            <SessionView isbn={book?.book.isbn ?? ""} />
+          )}
           {activeTab === READING_SESSIONS_TABS.STATS && <StatsView />}
         </View>
       </View>
     </ScreenLayout>
   );
 }
-
-/* 
-  <View className="flex flex-row items-center gap-1.5">
-            <ActivityRingsChart
-              size={36}
-              strokeWidth={4}
-              gap={1.5}
-              rings={[
-                { progress: 0.8, color: "#f25416" },
-                { progress: 0.6, color: "#8ff216" },
-                { progress: 0.4, color: "#16b0f2" },
-              ]}
-            />
-            <Indicator positive />
-          </View>
-*/
