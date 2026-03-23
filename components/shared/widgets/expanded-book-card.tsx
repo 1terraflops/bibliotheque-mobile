@@ -57,8 +57,8 @@ export const ExpandedBookCard: FC<ExpandedBookCardProps> = ({
             <View className="items-center gap-3 max-w-[170px]">
               <ProgressBar progress={percentsToGo} />
 
-              {!!generalBookInfo?.pageCount && (
-                <Typography className="font-inter-500">{`${book.pagesRead} / ${generalBookInfo?.pageCount} pages`}</Typography>
+              {!!book?.actualPageCount && (
+                <Typography className="font-inter-500">{`${book.pagesRead} / ${book?.actualPageCount} pages`}</Typography>
               )}
             </View>
 
