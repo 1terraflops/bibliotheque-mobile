@@ -1,6 +1,6 @@
 import { PaginatedReadingSessionSchema } from "@/types/reading-sessions";
 import { parseResponse } from "@/utils/parseResponse";
-import { queryOptions } from "@tanstack/react-query";
+import { infiniteQueryOptions } from "@tanstack/react-query";
 import { api } from "../axios";
 
 type GetSessionsRequestDto = {
@@ -9,12 +9,19 @@ type GetSessionsRequestDto = {
   take?: number;
 };
 
-export const getSessionsQueryOptions = (params: GetSessionsRequestDto) =>
-  queryOptions({
+export const getSessionsInfiniteQueryOptions = (
+  params: GetSessionsRequestDto,
+) =>
+  infiniteQueryOptions({
     queryKey: ["reading-sessions", params],
-    queryFn: async ({ signal }) =>
+    queryFn: async ({ signal, pageParam }) =>
       await api
-        .get("sessions", { params, ...signal })
+        .get("sessions", {
+          params: { ...params, cursor: pageParam },
+          signal,
+        })
         .then(parseResponse(PaginatedReadingSessionSchema)),
+    initialPageParam: undefined as number | undefined,
+    getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
     enabled: !!params.isbn,
   });

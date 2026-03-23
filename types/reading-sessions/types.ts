@@ -7,4 +7,4 @@ export enum SESSION_STATUS {
   CANCELLED = "CANCELLED",
 }
 
-export type ReadingStatus = z.infer<typeof ReadingSessionSchema>;
+export type ReadingSession = z.infer<typeof ReadingSessionSchema>;

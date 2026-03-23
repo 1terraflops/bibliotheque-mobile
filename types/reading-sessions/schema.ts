@@ -17,5 +17,5 @@ export const ReadingSessionSchema = z.object({
 
 export const PaginatedReadingSessionSchema = z.object({
   data: z.array(ReadingSessionSchema),
-  nextCursor: z.number(),
+  nextCursor: z.number().nullable(),
 });
