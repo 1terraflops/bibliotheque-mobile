@@ -1,4 +1,5 @@
 import { cn } from "@/utils/cn";
+import * as Haptics from "expo-haptics";
 import { FC, useEffect, useState } from "react";
 import { LayoutRectangle, Pressable, View } from "react-native";
 import Animated, {
@@ -46,7 +47,10 @@ export const Tabs: FC<TabsProps> = ({ tabs, activeTabId, onTabChange }) => {
         {tabs.map((tab) => (
           <Pressable
             key={tab.value}
-            onPress={() => onTabChange(tab.value)}
+            onPress={() => {
+              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+              onTabChange(tab.value);
+            }}
             android_ripple={null}
             onLayout={(e) => {
               const layout = e.nativeEvent.layout;
