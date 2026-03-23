@@ -59,3 +59,16 @@ export default function Reading() {
     </ScreenLayout>
   );
 }
+
+/* 
+<ActivityRingsChart
+            size={36}
+            strokeWidth={4}
+            gap={1.5}
+            rings={[
+              { progress: 0.8, color: "#f25416" },
+              { progress: 0.6, color: "#8ff216" },
+              { progress: 0.4, color: "#16b0f2" },
+            ]}
+          />
+*/
