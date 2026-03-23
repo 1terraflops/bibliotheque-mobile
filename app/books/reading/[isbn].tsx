@@ -54,7 +54,6 @@ export default function Reading() {
 
           {activeTab === READING_SESSIONS_TABS.SESSIONS && <SessionView />}
           {activeTab === READING_SESSIONS_TABS.STATS && <StatsView />}
-          {/* <Typography className="text-4xl font-inter-700">History</Typography> */}
         </View>
       </View>
     </ScreenLayout>
