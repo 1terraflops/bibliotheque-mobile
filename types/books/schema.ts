@@ -2,6 +2,7 @@ import z from "zod";
 import { Book, BookStatus } from "./types";
 
 export const BookSchema = z.object({
+  id: z.number(),
   author: z.string(),
   coverUrl: z.string(),
   description: z.string(),
@@ -11,6 +12,7 @@ export const BookSchema = z.object({
 });
 
 export const UserBookSchema = z.object({
+  actualPageCount: z.number(),
   book: z.custom<Book>(),
   finishedAt: z.string().nullable(),
   isFavorite: z.boolean(),
@@ -21,6 +23,7 @@ export const UserBookSchema = z.object({
   updatedAt: z.string(),
   spentTime: z.number(),
   estimatedTime: z.number().nullable(),
+  readingSpeed: z.number().nullable(),
 });
 
 export const UserBooksSchema = z.array(UserBookSchema);
