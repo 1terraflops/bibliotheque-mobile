@@ -35,9 +35,9 @@ export const ExpandedBookCard: FC<ExpandedBookCardProps> = ({
 
   const generalBookInfo = book.book;
 
-  const pagesToGo = Math.max(generalBookInfo.pageCount - book.pagesRead, 0);
+  const pagesToGo = Math.max(book.actualPageCount - book.pagesRead, 0);
   const percentsToGo = Math.round(
-    (book.pagesRead / generalBookInfo.pageCount) * 100,
+    (book.pagesRead / book.actualPageCount) * 100,
   );
 
   return (
