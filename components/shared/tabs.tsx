@@ -1,7 +1,7 @@
 import { cn } from "@/utils/cn";
 import * as Haptics from "expo-haptics";
 import { FC, useEffect, useState } from "react";
-import { LayoutRectangle, Pressable, View } from "react-native";
+import { LayoutRectangle, Pressable, useColorScheme, View } from "react-native";
 import Animated, {
   Easing,
   useAnimatedStyle,
@@ -25,6 +25,8 @@ export const Tabs: FC<TabsProps> = ({ tabs, activeTabId, onTabChange }) => {
   const [layouts, setLayouts] = useState<Record<string, LayoutRectangle>>({});
   const translateX = useSharedValue(0);
   const indicatorWidth = useSharedValue(0);
+
+  const isLightTheme = useColorScheme() === "light";
 
   useEffect(() => {
     const layout = layouts[activeTabId];
@@ -74,7 +76,10 @@ export const Tabs: FC<TabsProps> = ({ tabs, activeTabId, onTabChange }) => {
 
       <Animated.View
         style={indicatorStyle}
-        className="h-1 bg-light-1 rounded-[1px] mt-0.5"
+        className={cn(
+          "h-1 rounded-[1px] mt-0.5",
+          isLightTheme ? "bg-dark-1" : "bg-light-1",
+        )}
       />
     </View>
   );

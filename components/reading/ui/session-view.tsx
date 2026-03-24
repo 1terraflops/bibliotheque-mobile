@@ -1,10 +1,11 @@
 import { getSessionsInfiniteQueryOptions } from "@/api/reading-sessions/get-sessions.query";
 import { Spinner, Typography } from "@/components/shared";
 import { SESSION_STATUS } from "@/types/reading-sessions";
+import { cn } from "@/utils/cn";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import moment from "moment";
 import { FC } from "react";
-import { FlatList, View } from "react-native";
+import { FlatList, useColorScheme, View } from "react-native";
 import { SessionLog } from "./session-log";
 
 type SessionViewProps = {
@@ -12,6 +13,8 @@ type SessionViewProps = {
 };
 
 export const SessionView: FC<SessionViewProps> = ({ isbn }) => {
+  const isLightTheme = useColorScheme() === "light";
+
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useInfiniteQuery(
       getSessionsInfiniteQueryOptions({
@@ -69,7 +72,12 @@ export const SessionView: FC<SessionViewProps> = ({ isbn }) => {
               {showSeparator && (
                 <View className="flex flex-row gap-2 items-center mt-4">
                   <View className="h-px w-[35%] bg-dark-3" />
-                  <Typography className="text-sm font-inter-600 text-gray-400 uppercase tracking-wider">
+                  <Typography
+                    className={cn(
+                      "text-sm font-inter-600 uppercase tracking-wider",
+                      isLightTheme ? "text-dark-5" : "text-light-5",
+                    )}
+                  >
                     {date}
                   </Typography>
                   <View className="h-px w-[35%] bg-dark-3" />
