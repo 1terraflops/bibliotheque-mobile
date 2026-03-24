@@ -1,8 +1,8 @@
-import { deleteBookMutationOptions } from "@/api/books/delete-book.mutation";
 import { updateBookMutationOptions } from "@/api/books/update-book.mutation";
 import { BookStatus, UserBook } from "@/types/books";
 import { useMutation } from "@tanstack/react-query";
 import { FC, ReactNode } from "react";
+import { useModal } from "react-native-modalfy";
 import * as ContextMenu from "zeego/context-menu";
 
 type BookContextMenuProps = {
@@ -16,8 +16,9 @@ export const BookContextMenu: FC<BookContextMenuProps> = ({
 }) => {
   const { isFavorite, status } = book;
 
+  const { openModal } = useModal();
+
   const { mutate: updateBook } = useMutation(updateBookMutationOptions());
-  const { mutate: deleteBook } = useMutation(deleteBookMutationOptions());
 
   const STATUS_CONFIG: Record<BookStatus, { label: string; icon: string }> = {
     [BookStatus.IN_PROGRESS]: { label: "In Progress", icon: "book.fill" },
@@ -25,6 +26,8 @@ export const BookContextMenu: FC<BookContextMenuProps> = ({
     [BookStatus.COMPLETED]: { label: "Completed", icon: "checkmark.circle" },
     [BookStatus.DROPPED]: { label: "Dropped", icon: "xmark.circle" },
   };
+
+  const confirmDelete = () => openModal("ConfirmDeleteBook", { book });
 
   return (
     <ContextMenu.Root>
@@ -104,11 +107,7 @@ export const BookContextMenu: FC<BookContextMenuProps> = ({
           />
         </ContextMenu.Item>
 
-        <ContextMenu.Item
-          destructive
-          key="delete"
-          onSelect={() => deleteBook(book)}
-        >
+        <ContextMenu.Item destructive key="delete" onSelect={confirmDelete}>
           <ContextMenu.ItemTitle>Delete</ContextMenu.ItemTitle>
           <ContextMenu.ItemIcon
             ios={{
