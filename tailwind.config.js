@@ -42,6 +42,7 @@ module.exports = {
         coffee: "#b3a2a2",
         coffeish: "#58574b",
         bear: "#403030",
+        attention: "#d13621",
       },
       fontFamily: {
         inter: ["Inter_400Regular"],
