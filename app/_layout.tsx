@@ -2,6 +2,7 @@ import { queryClient } from "@/api/queryClient";
 import { supabase } from "@/api/supabase";
 import { GetActiveUserQueryOptions } from "@/api/users/get-active-user-profile.query";
 import { Spinner } from "@/components/shared";
+import { stack } from "@/components/shared/modals/types";
 import { colors } from "@/constants/colors";
 import { useSessionStore } from "@/store/session.store";
 import {
@@ -22,6 +23,8 @@ import { useFonts } from "expo-font";
 import { router, SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
 import { useColorScheme, View } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { ModalProvider } from "react-native-modalfy";
 import "./global.css";
 
 SplashScreen.preventAutoHideAsync();
@@ -148,7 +151,11 @@ export default function RootLayout() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <RootLayoutContent />
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <ModalProvider stack={stack}>
+          <RootLayoutContent />
+        </ModalProvider>
+      </GestureHandlerRootView>
     </QueryClientProvider>
   );
 }
