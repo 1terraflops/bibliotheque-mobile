@@ -81,6 +81,7 @@ interface ButtonProps extends PressableProps {
   iconRight?: LucideIcon;
   iconSize?: number;
   loading?: boolean;
+  destructive?: boolean;
 }
 
 export const Button: FC<ButtonProps> = ({
@@ -90,6 +91,7 @@ export const Button: FC<ButtonProps> = ({
   iconLeft: IconLeft,
   iconRight: IconRight,
   loading = false,
+  destructive = false,
   iconSize,
   className,
   disabled,
@@ -106,13 +108,19 @@ export const Button: FC<ButtonProps> = ({
           "flex-row justify-center gap-x-2",
           ButtonStyles[theme][variant],
           loading && "opacity-80",
+          destructive && "bg-attention",
         )}
       >
         {!loading && variant !== "text" && IconLeft && (
           <IconLeft color={IconColors[theme][variant]} size={iconSize} />
         )}
         {!loading && variant !== "icon" && (
-          <Text className={TextButtonStyles[theme][variant]}>
+          <Text
+            className={cn(
+              TextButtonStyles[theme][variant],
+              destructive && "text-light-1",
+            )}
+          >
             {children ?? title}
           </Text>
         )}
