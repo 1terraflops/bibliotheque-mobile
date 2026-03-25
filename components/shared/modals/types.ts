@@ -5,9 +5,11 @@ import {
   ModalStackConfig,
 } from "react-native-modalfy";
 import { ConfirmDeleteBookModal } from "./confirm-delete-book-modal";
+import { EnterNumberOfPagesModal } from "./enter-number-of-pages-modal";
 
 export type ModalStackParamsList = {
   ConfirmDeleteBook: { book: UserBook };
+  EnterNumberOfPages: { book: UserBook };
 };
 
 declare module "react-native-modalfy" {
@@ -16,6 +18,7 @@ declare module "react-native-modalfy" {
 
 const modalConfig: ModalStackConfig = {
   ConfirmDeleteBook: ConfirmDeleteBookModal,
+  EnterNumberOfPages: EnterNumberOfPagesModal,
 };
 const defaultOptions: ModalOptions = {
   backdropOpacity: 0.6,
