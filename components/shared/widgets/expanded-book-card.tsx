@@ -1,5 +1,9 @@
+import { getActiveSessionQueryOptions } from "@/api/reading-sessions/get-active-session.query";
 import { UserBook } from "@/types/books";
-import { formatTime } from "@/utils/formatTime";
+import { SESSION_STATUS } from "@/types/reading-sessions";
+import { formatTime, formatTimeWithSeconds } from "@/utils/formatTime";
+import { useElapsedTime } from "@/utils/useElapsedTime";
+import { useQuery } from "@tanstack/react-query";
 import { Book, BookCheck, Clock } from "lucide-react-native";
 import { Skeleton } from "moti/skeleton";
 import { FC } from "react";
@@ -18,6 +22,15 @@ export const ExpandedBookCard: FC<ExpandedBookCardProps> = ({
   book,
   loading = false,
 }) => {
+  const { data: session } = useQuery(getActiveSessionQueryOptions());
+
+  const elapsed = useElapsedTime(
+    session?.status === SESSION_STATUS.STARTED &&
+      session.bookId === book?.book.id
+      ? session.startedAt
+      : null,
+  );
+
   if (loading) {
     return (
       <View className="flex-row w-full gap-2 items-start">
@@ -53,7 +66,7 @@ export const ExpandedBookCard: FC<ExpandedBookCardProps> = ({
         </Typography>
 
         {percentsToGo > 0 ? (
-          <View className="gap-4 mt-1">
+          <View className="gap-3 mt-1">
             <View className="items-center gap-3 max-w-[170px]">
               <ProgressBar progress={percentsToGo} />
 
@@ -65,7 +78,10 @@ export const ExpandedBookCard: FC<ExpandedBookCardProps> = ({
             <View className="flex-row gap-2">
               <Button variant="icon" iconLeft={Clock} />
               <Typography className="font-inter-600 text-lg">
-                {formatTime(book.spentTime)}
+                {session?.status === SESSION_STATUS.STARTED &&
+                session.bookId === book.book.id
+                  ? formatTimeWithSeconds(elapsed)
+                  : formatTime(book.spentTime)}
               </Typography>
             </View>
 
