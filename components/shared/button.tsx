@@ -11,19 +11,21 @@ import {
 } from "react-native";
 import { Spinner } from "./spinner";
 
-type variant = "primary" | "secondary" | "icon" | "text";
+type variant = "primary" | "secondary" | "icon" | "icon-filled" | "text";
 
 const ButtonStyles = {
   light: {
     primary: "w-full py-[12px] rounded-[10px] bg-dark-1",
     secondary: "w-full py-[12px] rounded-[10px] border border-dark-1",
     icon: "",
+    "icon-filled": "rounded-full p-1.5 bg-dark-1",
     text: "",
   },
   dark: {
     primary: "w-full py-[12px] rounded-[10px] bg-light-1",
     secondary: "w-full py-[12px] rounded-[10px] border border-light-1",
     icon: "",
+    "icon-filled": "rounded-full p-1.5 bg-light-1",
     text: "",
   },
 };
@@ -33,12 +35,14 @@ const TextButtonStyles = {
     primary: "font-inter-500 text-[18px] text-light-1",
     secondary: "font-inter-500 text-[18px] text-dark-1",
     icon: "",
+    "icon-filled": "",
     text: "font-inter-500 text-lg text-dark-1",
   },
   dark: {
     primary: "font-inter-500 text-[18px] text-dark-1",
     secondary: "font-inter-500 text-[18px] text-light-1",
     icon: "",
+    "icon-filled": "",
     text: "font-inter-500 text-lg text-light-1",
   },
 };
@@ -48,12 +52,14 @@ const IconColors = {
     primary: colors["light-1"],
     secondary: colors["dark-1"],
     icon: colors["dark-1"],
+    "icon-filled": colors["light-1"],
     text: "",
   },
   dark: {
     primary: colors["dark-1"],
     secondary: colors["light-1"],
     icon: colors["light-1"],
+    "icon-filled": colors["dark-1"],
     text: "",
   },
 };
@@ -63,12 +69,14 @@ const SpinnerColors = {
     primary: colors["light-1"],
     secondary: colors["dark-1"],
     icon: colors["dark-1"],
+    "icon-filled": colors["light-1"],
     text: colors["dark-1"],
   },
   dark: {
     primary: colors["dark-1"],
     secondary: colors["light-1"],
     icon: colors["light-1"],
+    "icon-filled": colors["dark-1"],
     text: colors["light-1"],
   },
 };
@@ -114,7 +122,7 @@ export const Button: FC<ButtonProps> = ({
         {!loading && variant !== "text" && IconLeft && (
           <IconLeft color={IconColors[theme][variant]} size={iconSize} />
         )}
-        {!loading && variant !== "icon" && (
+        {!loading && variant !== "icon" && variant !== "icon-filled" && (
           <Text
             className={cn(
               TextButtonStyles[theme][variant],
