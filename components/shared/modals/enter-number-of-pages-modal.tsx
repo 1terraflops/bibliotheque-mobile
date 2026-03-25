@@ -23,9 +23,11 @@ export const EnterNumberOfPagesModal: FC<EnterNumberOfPagesModalProps> = ({
   const { params, closeModal } = modal;
   const isLightTheme = useColorScheme() === "light";
 
-  const { mutate: updateBook, isPending: isBookUpdating } = useMutation(
-    updateBookMutationOptions(),
-  );
+  const {
+    mutateAsync: updateBook,
+    isPending: isBookUpdating,
+    isError: isErrorUpdatingBook,
+  } = useMutation(updateBookMutationOptions());
 
   const { mutate: startSession, isPending: isSessionStarting } = useMutation(
     startSessionMutationOptions(),
@@ -38,19 +40,21 @@ export const EnterNumberOfPagesModal: FC<EnterNumberOfPagesModalProps> = ({
     validators: {
       onChange: IEnterNumberOfPagesFormSchema,
     },
-    onSubmit: ({ value }) => {
+    onSubmit: async ({ value }) => {
       if (!params) return;
       const { book } = params.book;
 
-      updateBook({
+      await updateBook({
         isbn: book.isbn,
         actualPageCount: value.actualPageCount,
       });
 
-      startSession({
-        bookId: book.id,
-        startPage: 1,
-      });
+      if (!isErrorUpdatingBook) {
+        startSession({
+          bookId: book.id,
+          startPage: 1,
+        });
+      }
 
       closeModal();
     },

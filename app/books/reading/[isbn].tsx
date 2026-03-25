@@ -62,20 +62,17 @@ export default function Reading() {
           book={book!}
           loading={isBookLoading || isSessionLoading}
         />
-        {session?.status === SESSION_STATUS.STARTED &&
-          session?.bookId === book?.book.id && (
-            <Button
-              title={
-                session?.status === SESSION_STATUS.STARTED
-                  ? "Finish reading"
-                  : "Start Reading"
-              }
-              iconLeft={
-                session?.status === SESSION_STATUS.STARTED ? Pause : Play
-              }
-              onPress={handleStartSession}
-            />
-          )}
+        {(!session || session.bookId === book?.book.id) && (
+          <Button
+            title={
+              session?.status === SESSION_STATUS.STARTED
+                ? "Finish reading"
+                : "Start Reading"
+            }
+            iconLeft={session?.status === SESSION_STATUS.STARTED ? Pause : Play}
+            onPress={handleStartSession}
+          />
+        )}
 
         <View
           className={cn(
