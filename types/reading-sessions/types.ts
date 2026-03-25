@@ -1,5 +1,5 @@
 import z from "zod";
-import { ReadingSessionSchema } from "./schema";
+import { IEnterNumberOfPagesFormSchema, ReadingSessionSchema } from "./schema";
 
 export enum SESSION_STATUS {
   STARTED = "STARTED",
@@ -8,3 +8,7 @@ export enum SESSION_STATUS {
 }
 
 export type ReadingSession = z.infer<typeof ReadingSessionSchema>;
+
+export type IEnterNumberOfPagesForm = z.infer<
+  typeof IEnterNumberOfPagesFormSchema
+>;

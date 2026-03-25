@@ -12,6 +12,7 @@ type UpdateBookDto = {
   pagesRead?: number;
   rating?: number;
   status?: BookStatus;
+  actualPageCount?: number;
 };
 
 export const updateBookMutationOptions = () =>

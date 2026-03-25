@@ -72,7 +72,12 @@ export const SessionLog: FC<SessionLogProps> = ({
             },
           ]}
         />
-        <Indicator positive={session.improvedFromPrevious} />
+        <Indicator
+          positive={
+            session.improvedFromPrevious !== undefined &&
+            session.improvedFromPrevious
+          }
+        />
       </View>
     </View>
   );
