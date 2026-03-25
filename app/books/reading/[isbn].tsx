@@ -8,7 +8,7 @@ import { SESSION_STATUS } from "@/types/reading-sessions";
 import { cn } from "@/utils/cn";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useLocalSearchParams } from "expo-router";
-import { Pause, Play } from "lucide-react-native";
+import { Play, StopCircle } from "lucide-react-native";
 import { useState } from "react";
 import { useColorScheme, View } from "react-native";
 import { useModal } from "react-native-modalfy";
@@ -58,21 +58,28 @@ export default function Reading() {
   return (
     <ScreenLayout backButton>
       <View className="flex-1 gap-6 mt-4 px-2">
-        <ExpandedBookCard
-          book={book!}
-          loading={isBookLoading || isSessionLoading}
-        />
-        {(!session || session.bookId === book?.book.id) && (
-          <Button
-            title={
-              session?.status === SESSION_STATUS.STARTED
-                ? "Finish reading"
-                : "Start Reading"
-            }
-            iconLeft={session?.status === SESSION_STATUS.STARTED ? Pause : Play}
-            onPress={handleStartSession}
+        <View className="relative">
+          <ExpandedBookCard
+            book={book!}
+            loading={isBookLoading || isSessionLoading}
           />
-        )}
+          {(!session || session.bookId === book?.book.id) &&
+            !isBookLoading &&
+            !isSessionLoading && (
+              <View className="absolute -bottom-2 left-[106px]">
+                <Button
+                  variant="icon-filled"
+                  iconLeft={
+                    session?.status === SESSION_STATUS.STARTED
+                      ? StopCircle
+                      : Play
+                  }
+                  iconSize={24}
+                  onPress={handleStartSession}
+                />
+              </View>
+            )}
+        </View>
 
         <View
           className={cn(
