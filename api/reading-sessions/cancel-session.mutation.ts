@@ -8,9 +8,11 @@ import { getActiveSessionQueryOptions } from "./get-active-session.query";
 export const cancelSessionMutationOptions = () =>
   mutationOptions({
     mutationFn: async () =>
-      await api.post("sessions/end").then(parseResponse(ReadingSessionSchema)),
+      await api
+        .patch("sessions/cancel")
+        .then(parseResponse(ReadingSessionSchema)),
     onSuccess: () => {
-      queryClient.invalidateQueries({
+      queryClient.resetQueries({
         queryKey: getActiveSessionQueryOptions().queryKey,
       });
     },
