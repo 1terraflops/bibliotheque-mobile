@@ -15,13 +15,21 @@ export type TabsOptions = {
   value: string;
 };
 
+type SIZE = "large" | "medium" | "small";
+
 type TabsProps = {
   tabs: TabsOptions[];
   activeTabId: string;
   onTabChange: (tabId: string) => void;
+  size?: SIZE;
 };
 
-export const Tabs: FC<TabsProps> = ({ tabs, activeTabId, onTabChange }) => {
+export const Tabs: FC<TabsProps> = ({
+  tabs,
+  activeTabId,
+  onTabChange,
+  size = "large",
+}) => {
   const [layouts, setLayouts] = useState<Record<string, LayoutRectangle>>({});
   const translateX = useSharedValue(0);
   const indicatorWidth = useSharedValue(0);
@@ -66,6 +74,7 @@ export const Tabs: FC<TabsProps> = ({ tabs, activeTabId, onTabChange }) => {
               className={cn(
                 "text-3xl font-inter-700",
                 tab.value !== activeTabId && "opacity-50",
+                size === "medium" && "text-2xl",
               )}
             >
               {tab.label}
