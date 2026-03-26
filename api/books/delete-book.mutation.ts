@@ -3,6 +3,7 @@ import { parseResponse } from "@/utils/parseResponse";
 import { mutationOptions } from "@tanstack/react-query";
 import { api } from "../axios";
 import { queryClient } from "../queryClient";
+import { getActiveSessionQueryOptions } from "../reading-sessions/get-active-session.query";
 import { getBooksByStatusesQueryOptions } from "./get-books-by-statuses.query";
 import { getBooksInfiniteQueryOptions } from "./get-books.query";
 
@@ -34,6 +35,10 @@ export const deleteBookMutationOptions = () =>
           };
         },
       );
+
+      queryClient.resetQueries({
+        queryKey: getActiveSessionQueryOptions().queryKey,
+      });
     },
     onError: (_, ctx) => {
       queryClient.invalidateQueries({
