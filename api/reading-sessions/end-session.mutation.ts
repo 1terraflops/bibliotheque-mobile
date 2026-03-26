@@ -2,6 +2,7 @@ import { ReadingSessionSchema } from "@/types/reading-sessions";
 import { parseResponse } from "@/utils/parseResponse";
 import { mutationOptions } from "@tanstack/react-query";
 import { api } from "../axios";
+import { getUserBookQueryOptions } from "../books/get-user-book.query";
 import { queryClient } from "../queryClient";
 import { getActiveSessionQueryOptions } from "./get-active-session.query";
 import { getSessionsInfiniteQueryOptions } from "./get-sessions.query";
@@ -16,16 +17,23 @@ type EndSessionRequestDto = {
 
 export const endSessionMutationOptions = () =>
   mutationOptions({
-    mutationFn: async (params: EndSessionRequestDto) =>
-      await api
-        .post("sessions/end", params)
-        .then(parseResponse(ReadingSessionSchema)),
+    mutationFn: async (params: EndSessionRequestDto) => {
+      const { isbn, ...endSessionParams } = params;
+      return await api
+        .patch("sessions/end", endSessionParams)
+        .then(parseResponse(ReadingSessionSchema));
+    },
     onSuccess: (_, ctx) => {
+      queryClient.resetQueries({
+        queryKey: getActiveSessionQueryOptions().queryKey,
+      });
+
       queryClient.invalidateQueries({
-        queryKey: [
-          getActiveSessionQueryOptions().queryKey,
-          getSessionsInfiniteQueryOptions({ isbn: ctx.isbn }).queryKey,
-        ],
+        queryKey: getSessionsInfiniteQueryOptions({ isbn: ctx.isbn }).queryKey,
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: getUserBookQueryOptions({ isbn: ctx.isbn }).queryKey,
       });
     },
   });
