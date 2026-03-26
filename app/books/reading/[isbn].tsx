@@ -42,27 +42,30 @@ export default function Reading() {
     { value: READING_SESSIONS_TABS.STATS, label: "Stats" },
   ];
 
-  const handleStartSession = () => {
+  const handleToggleSession = () => {
     if (!book) return;
 
-    if (!book?.actualPageCount) {
+    if (!session && !book?.actualPageCount) {
       openModal("EnterNumberOfPages", { book });
-    } else {
+      return;
+    }
+
+    if (!session) {
       startSession({
         bookId: book.book.id,
         startPage: book.pagesRead,
       });
+      return;
     }
+
+    openModal("EndSession", { isbn: book.book.isbn });
   };
 
   return (
     <ScreenLayout backButton>
       <View className="flex-1 gap-6 mt-4 px-2">
         <View className="relative">
-          <ExpandedBookCard
-            book={book!}
-            loading={isBookLoading || isSessionLoading}
-          />
+          <ExpandedBookCard book={book!} loading={isBookLoading} />
           {(!session || session.bookId === book?.book.id) &&
             !isBookLoading &&
             !isSessionLoading && (
@@ -75,7 +78,7 @@ export default function Reading() {
                       : Play
                   }
                   iconSize={24}
-                  onPress={handleStartSession}
+                  onPress={handleToggleSession}
                 />
               </View>
             )}

@@ -1,5 +1,5 @@
 import { getActiveSessionQueryOptions } from "@/api/reading-sessions/get-active-session.query";
-import { UserBook } from "@/types/books";
+import { BookStatus, UserBook } from "@/types/books";
 import { SESSION_STATUS } from "@/types/reading-sessions";
 import { formatTime, formatTimeWithSeconds } from "@/utils/formatTime";
 import { useElapsedTime } from "@/utils/useElapsedTime";
@@ -65,7 +65,7 @@ export const ExpandedBookCard: FC<ExpandedBookCardProps> = ({
           {generalBookInfo?.author}
         </Typography>
 
-        {percentsToGo > 0 ? (
+        {book.status === BookStatus.IN_PROGRESS ? (
           <View className="gap-3 mt-1">
             <View className="items-center gap-3 max-w-[170px]">
               <ProgressBar progress={percentsToGo} />
