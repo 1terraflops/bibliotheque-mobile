@@ -1,11 +1,11 @@
 import { getSessionsInfiniteQueryOptions } from "@/api/reading-sessions/get-sessions.query";
 import { Spinner, Typography } from "@/components/shared";
+import { DateSeparator } from "@/components/shared/widgets";
 import { SESSION_STATUS } from "@/types/reading-sessions";
-import { cn } from "@/utils/cn";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import moment from "moment";
 import { FC } from "react";
-import { FlatList, useColorScheme, View } from "react-native";
+import { FlatList, View } from "react-native";
 import { SessionLog } from "./session-log";
 
 type SessionViewProps = {
@@ -13,8 +13,6 @@ type SessionViewProps = {
 };
 
 export const SessionView: FC<SessionViewProps> = ({ isbn }) => {
-  const isLightTheme = useColorScheme() === "light";
-
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useInfiniteQuery(
       getSessionsInfiniteQueryOptions({
@@ -22,6 +20,10 @@ export const SessionView: FC<SessionViewProps> = ({ isbn }) => {
         take: 10,
       }),
     );
+
+  const fetchMoreSession = () => {
+    if (hasNextPage && !isFetchingNextPage) fetchNextPage();
+  };
 
   if (isLoading) {
     return (
@@ -42,10 +44,6 @@ export const SessionView: FC<SessionViewProps> = ({ isbn }) => {
   );
   const longestSession = Math.max(...sessions.map((s) => s.duration ?? 0), 1);
   const fastestSpeed = Math.max(...sessions.map((s) => s.readingSpeed ?? 0), 1);
-
-  const fetchMoreSession = () => {
-    if (hasNextPage && !isFetchingNextPage) fetchNextPage();
-  };
 
   const renderedDates = new Set<string>();
 
@@ -69,20 +67,7 @@ export const SessionView: FC<SessionViewProps> = ({ isbn }) => {
 
           return (
             <View className="gap-2 mt-2">
-              {showSeparator && (
-                <View className="flex flex-row gap-2 items-center mt-4">
-                  <View className="h-px w-[35%] bg-dark-3" />
-                  <Typography
-                    className={cn(
-                      "text-sm font-inter-600 uppercase tracking-wider",
-                      isLightTheme ? "text-dark-5" : "text-light-5",
-                    )}
-                  >
-                    {date}
-                  </Typography>
-                  <View className="h-px w-[35%] bg-dark-3" />
-                </View>
-              )}
+              {showSeparator && <DateSeparator date={item.startedAt} />}
 
               <SessionLog
                 session={item}
