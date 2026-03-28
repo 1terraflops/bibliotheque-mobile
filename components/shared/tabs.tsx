@@ -75,6 +75,7 @@ export const Tabs: FC<TabsProps> = ({
                 "text-3xl font-inter-700",
                 tab.value !== activeTabId && "opacity-50",
                 size === "medium" && "text-2xl",
+                size === "small" && "text-xl font-inter-600",
               )}
             >
               {tab.label}
@@ -88,6 +89,7 @@ export const Tabs: FC<TabsProps> = ({
         className={cn(
           "h-1 rounded-[1px] mt-0.5",
           isLightTheme ? "bg-dark-1" : "bg-light-1",
+          size === "small" && "h-[2px]",
         )}
       />
     </View>
