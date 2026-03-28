@@ -46,7 +46,7 @@ export const StatsView: FC<StatsViewProps> = ({ book }) => {
     labels: [],
     datasets: [
       {
-        data: [20, 23, 27, 21, 24, 27, 25, 20],
+        data: [20, 23, 27, 21, 24, 27, 25, 20, 23, 18],
         strokeWidth: 3,
       },
     ],
@@ -123,7 +123,7 @@ export const StatsView: FC<StatsViewProps> = ({ book }) => {
           height={135}
           chartConfig={chartConfig}
           formatYLabel={(value) => Math.round(Number(value)).toString()}
-          style={{ marginLeft: -35, marginBottom: 0 }}
+          style={{ marginLeft: -40, marginBottom: 0 }}
         />
       </View>
     </View>
