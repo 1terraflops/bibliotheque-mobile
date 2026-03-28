@@ -2,6 +2,7 @@ import { ReadingSessionSchema } from "@/types/reading-sessions";
 import { parseResponse } from "@/utils/parseResponse";
 import { mutationOptions } from "@tanstack/react-query";
 import { api } from "../axios";
+import { getBooksByStatusesQueryOptions } from "../books/get-books-by-statuses.query";
 import { getUserBookQueryOptions } from "../books/get-user-book.query";
 import { queryClient } from "../queryClient";
 import { getActiveSessionQueryOptions } from "./get-active-session.query";
@@ -34,6 +35,10 @@ export const endSessionMutationOptions = () =>
 
       queryClient.invalidateQueries({
         queryKey: getUserBookQueryOptions({ isbn: ctx.isbn }).queryKey,
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: getBooksByStatusesQueryOptions().queryKey,
       });
     },
   });

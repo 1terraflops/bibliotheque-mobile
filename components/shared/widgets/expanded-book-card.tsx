@@ -65,7 +65,7 @@ export const ExpandedBookCard: FC<ExpandedBookCardProps> = ({
           {generalBookInfo?.author}
         </Typography>
 
-        {book.status === BookStatus.IN_PROGRESS && book.actualPageCount ? (
+        {book.status !== BookStatus.NOT_STARTED && book.actualPageCount ? (
           <View className="gap-3 mt-1">
             <View className="items-center gap-3 max-w-[170px]">
               <ProgressBar progress={percentsToGo} />

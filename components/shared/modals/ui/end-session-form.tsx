@@ -1,3 +1,4 @@
+import { getUserBookQueryOptions } from "@/api/books/get-user-book.query";
 import { endSessionMutationOptions } from "@/api/reading-sessions/end-session.mutation";
 import { getActiveSessionQueryOptions } from "@/api/reading-sessions/get-active-session.query";
 import {
@@ -22,6 +23,7 @@ type EndSessionFormProps = {
 export const EndSessionForm: FC<EndSessionFormProps> = ({ isbn }) => {
   const closeModal = useModal().closeModal;
 
+  const { data: book } = useQuery(getUserBookQueryOptions({ isbn }));
   const { data: session } = useQuery(getActiveSessionQueryOptions());
   const { mutate: endSession, isPending } = useMutation(
     endSessionMutationOptions(),
@@ -89,7 +91,12 @@ export const EndSessionForm: FC<EndSessionFormProps> = ({ isbn }) => {
                 returnKeyType="done"
                 keyboardType="number-pad"
                 value={field.state.value === 0 ? "" : String(field.state.value)}
-                onBlur={field.handleBlur}
+                onBlur={() => {
+                  field.handleBlur();
+                  field.setValue(
+                    Math.min(field.state.value, book?.actualPageCount!),
+                  );
+                }}
                 onChangeText={(text) =>
                   field.setValue(text === "" ? 0 : Number(text))
                 }
