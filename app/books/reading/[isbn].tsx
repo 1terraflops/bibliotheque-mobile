@@ -87,7 +87,7 @@ export default function Reading() {
 
         <View
           className={cn(
-            "w-full flex-1 mb-7 rounded-3xl px-6 py-5",
+            "w-full flex-1 mb-6 rounded-3xl px-6 py-5",
             isLightTheme ? "bg-light-2" : "bg-dark-2",
           )}
         >

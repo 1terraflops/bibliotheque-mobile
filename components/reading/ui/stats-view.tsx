@@ -1,17 +1,26 @@
 import { getSessionsInfiniteQueryOptions } from "@/api/reading-sessions/get-sessions.query";
-import { Card, Typography } from "@/components/shared";
+import { Card, Tabs, TabsOptions, Typography } from "@/components/shared";
 import { UserBook } from "@/types/books";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { BookCheck, Calendar, CalendarCheck, Gauge } from "lucide-react-native";
 import moment from "moment";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { View } from "react-native";
+import { LineChart } from "react-native-chart-kit";
+
+enum CHART_OPTION_TABS {
+  PAGES = "PAGES",
+  DURATION = "DURATION",
+  SPEED = "SPEED",
+}
 
 type StatsViewProps = {
   book: UserBook;
 };
 
 export const StatsView: FC<StatsViewProps> = ({ book }) => {
+  const [activeTab, setActiveTab] = useState(CHART_OPTION_TABS.PAGES);
+
   const { data, isLoading } = useInfiniteQuery(
     getSessionsInfiniteQueryOptions({
       isbn: book.book.isbn,
@@ -27,6 +36,28 @@ export const StatsView: FC<StatsViewProps> = ({ book }) => {
   const readIn = moment(book.finishedAt).diff(book.startedAt, "days");
   const daysLabel = readIn === 1 ? "day" : "days";
 
+  const tabs: TabsOptions[] = [
+    { label: "Pages", value: CHART_OPTION_TABS.PAGES },
+    { label: "Duration", value: CHART_OPTION_TABS.DURATION },
+    { label: "Speed", value: CHART_OPTION_TABS.SPEED },
+  ];
+
+  const chartData = {
+    labels: [],
+    datasets: [
+      {
+        data: [20, 23, 27, 21, 24, 27, 25, 20],
+        strokeWidth: 3,
+      },
+    ],
+  };
+
+  const chartConfig = {
+    backgroundGradientFromOpacity: 0,
+    backgroundGradientToOpacity: 0,
+    color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+  };
+
   if (!isLoading && sessionsCount < 2) {
     return (
       <View className="flex-1 justify-center items-center">
@@ -38,7 +69,7 @@ export const StatsView: FC<StatsViewProps> = ({ book }) => {
   }
 
   return (
-    <View className="flex-1 mt-6 gap-4">
+    <View className="flex-1 mt-4 gap-4">
       {!book.finishedAt && (
         <View className="flex flex-row">
           <Card
@@ -74,6 +105,25 @@ export const StatsView: FC<StatsViewProps> = ({ book }) => {
           label={book.readingSpeed ?? "N/A"}
           icon={Gauge}
           isLoading={!book.readingSpeed}
+        />
+      </View>
+
+      <View className="gap-4 rounded-xl px-4 pt-3 pb-0 bg-dark-3">
+        <Tabs
+          size="small"
+          tabs={tabs}
+          activeTabId={activeTab}
+          onTabChange={(tab) => setActiveTab(tab as CHART_OPTION_TABS)}
+        />
+
+        <LineChart
+          bezier
+          data={chartData}
+          width={330}
+          height={135}
+          chartConfig={chartConfig}
+          formatYLabel={(value) => Math.round(Number(value)).toString()}
+          style={{ marginLeft: -35, marginBottom: 0 }}
         />
       </View>
     </View>
