@@ -51,6 +51,7 @@ export const EnterNumberOfPagesModal: FC<EnterNumberOfPagesModalProps> = ({
 
       if (!isErrorUpdatingBook) {
         startSession({
+          isbn: params.book.book.isbn,
           bookId: book.id,
           startPage: 1,
         });

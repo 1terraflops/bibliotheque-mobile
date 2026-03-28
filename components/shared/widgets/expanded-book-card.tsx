@@ -4,7 +4,7 @@ import { SESSION_STATUS } from "@/types/reading-sessions";
 import { formatTime, formatTimeWithSeconds } from "@/utils/formatTime";
 import { useElapsedTime } from "@/utils/useElapsedTime";
 import { useQuery } from "@tanstack/react-query";
-import { Book, BookCheck, Clock } from "lucide-react-native";
+import { BookCheck, Clock } from "lucide-react-native";
 import { Skeleton } from "moti/skeleton";
 import { FC } from "react";
 import { View } from "react-native";
@@ -57,7 +57,7 @@ export const ExpandedBookCard: FC<ExpandedBookCardProps> = ({
     <View className="flex-row gap-x-6">
       <BookCard book={book.book} />
 
-      <View className="gap-y-0.5 w-full">
+      <View className="gap-y-0.5 flex-1">
         <Typography numberOfLines={1} className="font-inter-600 text-2xl">
           {generalBookInfo?.title}
         </Typography>
@@ -93,19 +93,11 @@ export const ExpandedBookCard: FC<ExpandedBookCardProps> = ({
             </View>
           </View>
         ) : (
-          <View className="gap-y-2">
+          <View className="flex-1 overflow-hidden">
             {!!generalBookInfo?.description && (
-              <Typography numberOfLines={5} className="max-w-[200px]">
+              <Typography ellipsizeMode="tail">
                 {generalBookInfo?.description}
               </Typography>
-            )}
-
-            {!!generalBookInfo?.pageCount && (
-              <View className="flex-row gap-2 items-center mt-5">
-                <Button variant="icon" iconLeft={Book} />
-
-                <Typography className=" font-inter-500">{`${generalBookInfo?.pageCount} pages`}</Typography>
-              </View>
             )}
           </View>
         )}

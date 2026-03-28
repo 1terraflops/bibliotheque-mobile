@@ -35,7 +35,9 @@ export default function Reading() {
     getUserBookQueryOptions(isbn),
   );
 
-  const { mutate: startSession } = useMutation(startSessionMutationOptions());
+  const { mutate: startSession, error } = useMutation(
+    startSessionMutationOptions(),
+  );
 
   const tabs: TabsOptions[] = [
     { value: READING_SESSIONS_TABS.SESSIONS, label: "Sessions" },
@@ -52,8 +54,9 @@ export default function Reading() {
 
     if (!session) {
       startSession({
+        isbn: isbn.isbn,
         bookId: book.book.id,
-        startPage: book.pagesRead,
+        startPage: book.pagesRead > 0 ? book.pagesRead : 1,
       });
       return;
     }
