@@ -3,6 +3,7 @@ import {
   IEndSessionFormSchema,
   IEnterNumberOfPagesFormSchema,
   ReadingSessionSchema,
+  SessionsChartSchema,
 } from "./schema";
 
 export enum SESSION_STATUS {
@@ -12,6 +13,7 @@ export enum SESSION_STATUS {
 }
 
 export type ReadingSession = z.infer<typeof ReadingSessionSchema>;
+export type SessionsChart = z.infer<typeof SessionsChartSchema>;
 
 export type IEnterNumberOfPagesForm = z.infer<
   typeof IEnterNumberOfPagesFormSchema

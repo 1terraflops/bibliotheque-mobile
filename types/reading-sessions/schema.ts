@@ -20,6 +20,21 @@ export const PaginatedReadingSessionSchema = z.object({
   nextCursor: z.number().nullable(),
 });
 
+export const SessionsChartSchema = z.object({
+  pages: z.object({
+    data: z.array(z.number()),
+    avg: z.number(),
+  }),
+  durations: z.object({
+    data: z.array(z.number()),
+    avg: z.number(),
+  }),
+  speeds: z.object({
+    data: z.array(z.number()),
+    avg: z.number(),
+  }),
+});
+
 export const IEnterNumberOfPagesFormSchema = z.object({
   actualPageCount: z.number().positive().max(10000),
 });
