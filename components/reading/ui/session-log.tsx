@@ -1,5 +1,6 @@
 import { Indicator, Typography } from "@/components/shared";
 import { ActivityRingsChart } from "@/components/shared/charts";
+import { colors } from "@/constants/colors";
 import { ReadingSession } from "@/types/reading-sessions";
 import { formatTimeLong } from "@/utils/formatTime";
 import moment from "moment";
@@ -22,6 +23,21 @@ export const SessionLog: FC<SessionLogProps> = ({
   const normalize = (value: number | undefined, max: number) =>
     (value ?? 0) / max;
 
+  const ringsData = [
+    {
+      progress: normalize(session.pagesRead ?? 0, highestPagesRead),
+      color: colors.pages,
+    },
+    {
+      progress: normalize(session.duration ?? 0, longestSession),
+      color: colors.duration,
+    },
+    {
+      progress: normalize(session.readingSpeed ?? 0, fastestSpeed),
+      color: colors.speed,
+    },
+  ];
+
   return (
     <View className="mt-4 flex flex-row justify-between items-center">
       <View>
@@ -31,22 +47,22 @@ export const SessionLog: FC<SessionLogProps> = ({
         </Typography>
 
         <View className="flex flex-row items-center gap-2 mt-1">
-          <View className="h-2 w-2 rounded-full bg-[#f25416]" />
-          <Typography className="text-lg">
-            {formatTimeLong(session.duration ?? 0)}
-          </Typography>
-        </View>
-
-        <View className="flex flex-row items-center gap-2">
-          <View className="h-2 w-2 rounded-full bg-[#8ff216]" />
-          <Typography className="text-lg">
+          <View className="h-2.5 w-2.5 rounded-full bg-pages" />
+          <Typography className="text-lg leading-normal">
             {session.pagesRead} {session.pagesRead === 1 ? "page" : "pages"}
           </Typography>
         </View>
 
         <View className="flex flex-row items-center gap-2">
-          <View className="h-2 w-2 rounded-full bg-[#16b0f2]" />
-          <Typography className="text-lg">
+          <View className="h-2.5 w-2.5 rounded-full bg-duration" />
+          <Typography className="text-lg leading-normal">
+            {formatTimeLong(session.duration ?? 0)}
+          </Typography>
+        </View>
+
+        <View className="flex flex-row items-center gap-2">
+          <View className="h-2.5 w-2.5 rounded-full bg-speed" />
+          <Typography className="text-lg leading-normal">
             {session.readingSpeed} pages / hr
           </Typography>
         </View>
@@ -57,27 +73,11 @@ export const SessionLog: FC<SessionLogProps> = ({
           size={36}
           strokeWidth={4}
           gap={1.5}
-          rings={[
-            {
-              progress: normalize(session.duration ?? 0, longestSession),
-              color: "#f25416",
-            },
-            {
-              progress: normalize(session.pagesRead ?? 0, highestPagesRead),
-              color: "#8ff216",
-            },
-            {
-              progress: normalize(session.readingSpeed ?? 0, fastestSpeed),
-              color: "#16b0f2",
-            },
-          ]}
+          rings={ringsData}
         />
-        <Indicator
-          positive={
-            session.improvedFromPrevious !== undefined &&
-            session.improvedFromPrevious
-          }
-        />
+        {session.improvedFromPrevious !== undefined && (
+          <Indicator positive={session.improvedFromPrevious} />
+        )}
       </View>
     </View>
   );

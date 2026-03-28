@@ -43,6 +43,9 @@ module.exports = {
         coffeish: "#58574b",
         bear: "#403030",
         attention: "#d13621",
+        duration: "#8ff216",
+        pages: "#f25416",
+        speed: "#16b0f2",
       },
       fontFamily: {
         inter: ["Inter_400Regular"],
