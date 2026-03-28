@@ -35,9 +35,7 @@ export default function Reading() {
     getUserBookQueryOptions(isbn),
   );
 
-  const { mutate: startSession, error } = useMutation(
-    startSessionMutationOptions(),
-  );
+  const { mutate: startSession } = useMutation(startSessionMutationOptions());
 
   const tabs: TabsOptions[] = [
     { value: READING_SESSIONS_TABS.SESSIONS, label: "Sessions" },
@@ -104,7 +102,9 @@ export default function Reading() {
           {activeTab === READING_SESSIONS_TABS.SESSIONS && (
             <SessionView isbn={book?.book.isbn ?? ""} />
           )}
-          {activeTab === READING_SESSIONS_TABS.STATS && <StatsView />}
+          {activeTab === READING_SESSIONS_TABS.STATS && book && (
+            <StatsView book={book} />
+          )}
         </View>
       </View>
     </ScreenLayout>
