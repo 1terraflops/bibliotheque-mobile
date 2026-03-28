@@ -1,9 +1,11 @@
+import { getSessionsChartQueryOptions } from "@/api/reading-sessions/get-sessions-chart.query";
 import { getSessionsInfiniteQueryOptions } from "@/api/reading-sessions/get-sessions.query";
 import { Card, Tabs, TabsOptions, Typography } from "@/components/shared";
 import { UserBook } from "@/types/books";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { BookCheck, Calendar, CalendarCheck, Gauge } from "lucide-react-native";
 import moment from "moment";
+import { Skeleton } from "moti/skeleton";
 import { FC, useState } from "react";
 import { View } from "react-native";
 import { LineChart } from "react-native-chart-kit";
@@ -21,12 +23,37 @@ type StatsViewProps = {
 export const StatsView: FC<StatsViewProps> = ({ book }) => {
   const [activeTab, setActiveTab] = useState(CHART_OPTION_TABS.PAGES);
 
+  const { data: sessionsChartData } = useQuery(
+    getSessionsChartQueryOptions(book.book.id),
+  );
+
   const { data, isLoading } = useInfiniteQuery(
     getSessionsInfiniteQueryOptions({
       isbn: book.book.isbn,
       take: 100,
     }),
   );
+
+  const getActiveTabChartData = () => {
+    switch (activeTab) {
+      case CHART_OPTION_TABS.PAGES:
+        return sessionsChartData?.pages;
+      case CHART_OPTION_TABS.DURATION:
+        return sessionsChartData?.durations;
+      case CHART_OPTION_TABS.SPEED:
+        return sessionsChartData?.speeds;
+    }
+  };
+
+  const getChartColor = (opacity: number) => {
+    const activeMetric = getActiveTabChartData();
+
+    if (!activeMetric) return `rgba(255, 76, 26, ${opacity})`;
+
+    return (activeMetric.data.at(-1) ?? 0) < activeMetric.avg
+      ? `rgba(255, 45, 26, ${opacity})`
+      : `rgba(26, 255, 146, ${opacity})`;
+  };
 
   const sessionsCount = data?.pages.flatMap((page) => page.data).length ?? 0;
 
@@ -42,11 +69,13 @@ export const StatsView: FC<StatsViewProps> = ({ book }) => {
     { label: "Speed", value: CHART_OPTION_TABS.SPEED },
   ];
 
+  const activeData = getActiveTabChartData()?.data ?? [];
+
   const chartData = {
     labels: [],
     datasets: [
       {
-        data: [20, 23, 27, 21, 24, 27, 25, 20, 23, 18],
+        data: activeData.length > 0 ? activeData : [0],
         strokeWidth: 3,
       },
     ],
@@ -55,7 +84,7 @@ export const StatsView: FC<StatsViewProps> = ({ book }) => {
   const chartConfig = {
     backgroundGradientFromOpacity: 0,
     backgroundGradientToOpacity: 0,
-    color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+    color: (opacity: number) => getChartColor(opacity),
   };
 
   if (!isLoading && sessionsCount < 2) {
@@ -116,15 +145,21 @@ export const StatsView: FC<StatsViewProps> = ({ book }) => {
           onTabChange={(tab) => setActiveTab(tab as CHART_OPTION_TABS)}
         />
 
-        <LineChart
-          bezier
-          data={chartData}
-          width={330}
-          height={135}
-          chartConfig={chartConfig}
-          formatYLabel={(value) => Math.round(Number(value)).toString()}
-          style={{ marginLeft: -40, marginBottom: 0 }}
-        />
+        {activeData.length > 0 ? (
+          <LineChart
+            bezier
+            data={chartData}
+            width={330}
+            height={135}
+            chartConfig={chartConfig}
+            formatYLabel={(value) => Math.round(+value).toString()}
+            style={{ marginLeft: -40, marginBottom: 0 }}
+          />
+        ) : (
+          <View className="pb-4">
+            <Skeleton show width={280} height={135} radius={12} />
+          </View>
+        )}
       </View>
     </View>
   );
