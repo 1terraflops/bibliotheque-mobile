@@ -8,10 +8,15 @@ import { Typography } from "../typography";
 
 type BookCardProps = {
   book?: Book;
+  cover?: string | null;
   loading?: boolean;
 };
 
-export const BookCard: FC<BookCardProps> = ({ book, loading = false }) => {
+export const BookCard: FC<BookCardProps> = ({
+  book,
+  cover,
+  loading = false,
+}) => {
   const isLightTheme = useColorScheme() === "light";
 
   const gradientColors = isLightTheme
@@ -30,7 +35,7 @@ export const BookCard: FC<BookCardProps> = ({ book, loading = false }) => {
     );
   }
 
-  if (!book?.coverUrl) {
+  if (!cover && !book?.coverUrl) {
     const bgColor = book?.title ? stringToColor(book.title) : "#888";
 
     return (
@@ -54,13 +59,18 @@ export const BookCard: FC<BookCardProps> = ({ book, loading = false }) => {
     );
   }
 
-  let coverUrl = book.coverUrl;
+  let coverUrl = book?.coverUrl;
 
-  if (book.coverUrl) {
-    coverUrl = coverUrl.replace("http://", "https://");
+  if (book?.coverUrl) {
+    coverUrl = coverUrl?.replace("http://", "https://");
   }
 
   return (
-    <Image src={coverUrl} height={200} width={130} className="rounded-lg" />
+    <Image
+      src={cover ?? coverUrl}
+      height={200}
+      width={130}
+      className="rounded-lg"
+    />
   );
 };

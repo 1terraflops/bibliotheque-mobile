@@ -16,6 +16,7 @@ export const UserBookSchema = z.object({
   book: z.custom<Book>(),
   finishedAt: z.string().nullable(),
   isFavorite: z.boolean(),
+  cover: z.string().nullable(),
   pagesRead: z.number(),
   rating: z.number().nullable(),
   startedAt: z.string().nullable(),

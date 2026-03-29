@@ -67,7 +67,7 @@ export default function Index() {
                 }}
               >
                 <BookContextMenu book={item}>
-                  <BookCard book={item.book} />
+                  <BookCard book={item.book} cover={item.cover} />
                 </BookContextMenu>
               </Link>
             ))}
