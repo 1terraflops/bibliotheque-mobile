@@ -1,6 +1,7 @@
+import { cn } from "@/utils/cn";
 import { LucideIcon } from "lucide-react-native";
 import { FC } from "react";
-import { View } from "react-native";
+import { useColorScheme, View } from "react-native";
 import { Button } from "./button";
 import { Typography } from "./typography";
 
@@ -17,11 +18,23 @@ export const Card: FC<CardProps> = ({
   icon: Icon,
   isLoading,
 }) => {
+  const isLightTheme = useColorScheme() === "light";
+
   return (
-    <View className="flex-1 rounded-xl p-4 gap-2 bg-dark-3">
+    <View
+      className={cn(
+        "flex-1 rounded-xl p-4 gap-2",
+        isLightTheme ? "bg-light-3" : "bg-dark-3",
+      )}
+    >
       <View className="gap-2 flex flex-row items-center">
         {Icon && <Button variant="icon" iconLeft={Icon} iconSize={22} />}
-        <Typography className="text-light-2 font-inter-600 text-xl">
+        <Typography
+          className={cn(
+            "font-inter-600 text-xl",
+            isLightTheme ? "text-dark-2" : "text-light-2",
+          )}
+        >
           {title}
         </Typography>
       </View>

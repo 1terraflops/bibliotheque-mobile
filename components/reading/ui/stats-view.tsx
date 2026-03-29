@@ -2,12 +2,13 @@ import { getSessionsChartQueryOptions } from "@/api/reading-sessions/get-session
 import { getSessionsInfiniteQueryOptions } from "@/api/reading-sessions/get-sessions.query";
 import { Card, Tabs, TabsOptions, Typography } from "@/components/shared";
 import { UserBook } from "@/types/books";
+import { cn } from "@/utils/cn";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { BookCheck, Calendar, CalendarCheck, Gauge } from "lucide-react-native";
 import moment from "moment";
 import { Skeleton } from "moti/skeleton";
 import { FC, useState } from "react";
-import { View } from "react-native";
+import { useColorScheme, View } from "react-native";
 import { LineChart } from "react-native-chart-kit";
 
 enum CHART_OPTION_TABS {
@@ -22,6 +23,7 @@ type StatsViewProps = {
 
 export const StatsView: FC<StatsViewProps> = ({ book }) => {
   const [activeTab, setActiveTab] = useState(CHART_OPTION_TABS.PAGES);
+  const isLightTheme = useColorScheme() === "light";
 
   const { data: sessionsChartData } = useQuery(
     getSessionsChartQueryOptions(book.book.id),
@@ -137,7 +139,12 @@ export const StatsView: FC<StatsViewProps> = ({ book }) => {
         />
       </View>
 
-      <View className="gap-4 rounded-xl px-4 pt-3 pb-0 bg-dark-3">
+      <View
+        className={cn(
+          "gap-4 rounded-xl px-4 pt-3 pb-0",
+          isLightTheme ? "bg-light-3" : "bg-dark-3",
+        )}
+      >
         <Tabs
           size="small"
           tabs={tabs}
