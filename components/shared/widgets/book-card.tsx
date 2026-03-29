@@ -59,18 +59,16 @@ export const BookCard: FC<BookCardProps> = ({
     );
   }
 
-  let coverUrl = book?.coverUrl;
+  const toHttps = (url: string) =>
+    url.startsWith("http://") ? url.replace("http://", "https://") : url;
 
-  if (book?.coverUrl) {
-    coverUrl = coverUrl?.replace("http://", "https://");
-  }
+  const coverUrl = cover
+    ? toHttps(cover)
+    : book?.coverUrl
+      ? toHttps(book.coverUrl)
+      : "";
 
   return (
-    <Image
-      src={cover ?? coverUrl}
-      height={200}
-      width={130}
-      className="rounded-lg"
-    />
+    <Image src={coverUrl} height={200} width={130} className="rounded-lg" />
   );
 };
