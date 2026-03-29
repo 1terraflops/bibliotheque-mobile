@@ -1,14 +1,14 @@
 import { getUserBookQueryOptions } from "@/api/books/get-user-book.query";
 import { getActiveSessionQueryOptions } from "@/api/reading-sessions/get-active-session.query";
 import { startSessionMutationOptions } from "@/api/reading-sessions/start-session.mutation";
-import { SessionView, StatsView } from "@/components/reading";
+import { BookDropdownMenu, SessionView, StatsView } from "@/components/reading";
 import { Button, ScreenLayout, Tabs, TabsOptions } from "@/components/shared";
 import { ExpandedBookCard } from "@/components/shared/widgets";
 import { SESSION_STATUS } from "@/types/reading-sessions";
 import { cn } from "@/utils/cn";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useLocalSearchParams } from "expo-router";
-import { Play, StopCircle } from "lucide-react-native";
+import { MoreHorizontal, Play, StopCircle } from "lucide-react-native";
 import { useState } from "react";
 import { useColorScheme, View } from "react-native";
 import { useModal } from "react-native-modalfy";
@@ -63,7 +63,16 @@ export default function Reading() {
   };
 
   return (
-    <ScreenLayout backButton>
+    <ScreenLayout
+      backButton
+      rightButton={
+        book && (
+          <BookDropdownMenu book={book}>
+            <Button variant="icon" iconLeft={MoreHorizontal} />
+          </BookDropdownMenu>
+        )
+      }
+    >
       <View className="flex-1 gap-6 mt-4 px-2">
         <View className="relative">
           <ExpandedBookCard book={book!} loading={isBookLoading} />

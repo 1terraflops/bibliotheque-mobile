@@ -66,28 +66,6 @@ export const BookContextMenu: FC<BookContextMenuProps> = ({
           </ContextMenu.SubContent>
         </ContextMenu.Sub>
 
-        <ContextMenu.Sub>
-          <ContextMenu.SubTrigger key="rating">
-            <ContextMenu.ItemTitle>Rate Book</ContextMenu.ItemTitle>
-            <ContextMenu.ItemIcon ios={{ name: "hand.thumbsup" }} />
-          </ContextMenu.SubTrigger>
-          <ContextMenu.SubContent>
-            {[1, 2, 3, 4, 5].map((rating) => (
-              <ContextMenu.Item
-                key={String(rating)}
-                onSelect={() => updateBook({ isbn: book.book.isbn, rating })}
-              >
-                <ContextMenu.ItemTitle>{`⭐️ ${rating}`}</ContextMenu.ItemTitle>
-                <ContextMenu.ItemIcon
-                  ios={{
-                    name: book.rating === rating ? "checkmark" : undefined,
-                  }}
-                />
-              </ContextMenu.Item>
-            ))}
-          </ContextMenu.SubContent>
-        </ContextMenu.Sub>
-
         <ContextMenu.Item
           key="favorites"
           onSelect={() =>
