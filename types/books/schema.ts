@@ -29,6 +29,13 @@ export const UserBookSchema = z.object({
 
 export const UserBooksSchema = z.array(UserBookSchema);
 
+export const BookReviewSchema = z.object({
+  id: z.number(),
+  review: z.string(),
+  hasSpoilers: z.boolean(),
+  createdAt: z.string(),
+});
+
 export const BooksByStatusesSchema = z.array(
   z.object({
     status: z.union([z.enum(BookStatus), z.literal("FAVORITES")]),

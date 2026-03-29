@@ -1,5 +1,6 @@
 import z from "zod";
 import {
+  BookReviewSchema,
   BooksByStatusesSchema,
   BookSchema,
   IGetBookFormValidatorSchema,
@@ -18,6 +19,8 @@ export type BookStatusAndFav = BookStatus | "FAVORITES";
 export type Book = z.infer<typeof BookSchema>;
 export type UserBook = z.infer<typeof UserBookSchema>;
 export type UserBooks = z.infer<typeof UserBooksSchema>;
+
+export type BookReview = z.infer<typeof BookReviewSchema>;
 
 export type BooksByStatuses = z.infer<typeof BooksByStatusesSchema>;
 
