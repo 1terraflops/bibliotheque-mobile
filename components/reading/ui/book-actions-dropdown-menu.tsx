@@ -115,6 +115,14 @@ export const BookDropdownMenu: FC<BookDropdownMenuProps> = ({
         </DropdownMenu.Item>
 
         <DropdownMenu.Item
+          key="review"
+          onSelect={() => openModal("AddReview", { id: book.book.id })}
+        >
+          <DropdownMenu.ItemTitle>Add Review</DropdownMenu.ItemTitle>
+          <DropdownMenu.ItemIcon ios={{ name: "pencil.line" }} />
+        </DropdownMenu.Item>
+
+        <DropdownMenu.Item
           key="favorites"
           onSelect={() =>
             updateBook({

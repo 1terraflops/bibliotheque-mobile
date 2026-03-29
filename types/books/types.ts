@@ -3,6 +3,7 @@ import {
   BookReviewSchema,
   BooksByStatusesSchema,
   BookSchema,
+  IAddReviewFormSchema,
   IGetBookFormValidatorSchema,
   UserBookSchema,
   UserBooksSchema,
@@ -25,3 +26,5 @@ export type BookReview = z.infer<typeof BookReviewSchema>;
 export type BooksByStatuses = z.infer<typeof BooksByStatusesSchema>;
 
 export type IGetBook = z.infer<typeof IGetBookFormValidatorSchema>;
+
+export type IAddReviewForm = z.infer<typeof IAddReviewFormSchema>;
