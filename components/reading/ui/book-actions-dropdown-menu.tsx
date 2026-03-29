@@ -1,7 +1,9 @@
 import { updateBookMutationOptions } from "@/api/books/update-book.mutation";
+import { uploadCoverMutationOptions } from "@/api/books/upload-cover.mutation";
 import { BookStatus, UserBook } from "@/types/books";
 import { useMutation } from "@tanstack/react-query";
 import { FC, ReactNode } from "react";
+import ImageCropPicker from "react-native-image-crop-picker";
 import { useModal } from "react-native-modalfy";
 import * as DropdownMenu from "zeego/dropdown-menu";
 
@@ -16,7 +18,9 @@ export const BookDropdownMenu: FC<BookDropdownMenuProps> = ({
 }) => {
   const { isFavorite, status } = book;
   const { openModal } = useModal();
+
   const { mutate: updateBook } = useMutation(updateBookMutationOptions());
+  const { mutate: updateCover } = useMutation(uploadCoverMutationOptions());
 
   const STATUS_CONFIG: Record<BookStatus, { label: string; icon: string }> = {
     [BookStatus.IN_PROGRESS]: { label: "In Progress", icon: "book.fill" },
@@ -27,6 +31,28 @@ export const BookDropdownMenu: FC<BookDropdownMenuProps> = ({
 
   const confirmDelete = () => openModal("ConfirmDeleteBook", { book });
 
+  const handleUploadCover = async () => {
+    try {
+      const image = await ImageCropPicker.openPicker({
+        width: 400,
+        height: 600,
+        cropping: true,
+        cropperCircleOverlay: false,
+        mediaType: "photo",
+        compressImageQuality: 0.8,
+      });
+
+      updateCover({
+        id: book.book.id,
+        isbn: book.book.isbn,
+        imageUri: image.path,
+      });
+    } catch (error: any) {
+      if (error?.code === "E_PICKER_CANCELLED") return;
+      throw error;
+    }
+  };
+
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger>{children}</DropdownMenu.Trigger>
@@ -35,11 +61,7 @@ export const BookDropdownMenu: FC<BookDropdownMenuProps> = ({
         <DropdownMenu.Sub>
           <DropdownMenu.SubTrigger key="status">
             <DropdownMenu.ItemTitle>Change Status</DropdownMenu.ItemTitle>
-            <DropdownMenu.ItemIcon
-              ios={{
-                name: "book",
-              }}
-            />
+            <DropdownMenu.ItemIcon ios={{ name: "book" }} />
           </DropdownMenu.SubTrigger>
 
           <DropdownMenu.SubContent>
@@ -64,7 +86,6 @@ export const BookDropdownMenu: FC<BookDropdownMenuProps> = ({
           </DropdownMenu.SubContent>
         </DropdownMenu.Sub>
 
-        {/* Rate Book Sub-menu */}
         <DropdownMenu.Sub>
           <DropdownMenu.SubTrigger key="rating">
             <DropdownMenu.ItemTitle>Rate Book</DropdownMenu.ItemTitle>
@@ -88,6 +109,11 @@ export const BookDropdownMenu: FC<BookDropdownMenuProps> = ({
           </DropdownMenu.SubContent>
         </DropdownMenu.Sub>
 
+        <DropdownMenu.Item key="cover" onSelect={handleUploadCover}>
+          <DropdownMenu.ItemTitle>Upload New Cover</DropdownMenu.ItemTitle>
+          <DropdownMenu.ItemIcon ios={{ name: "square.and.arrow.up" }} />
+        </DropdownMenu.Item>
+
         <DropdownMenu.Item
           key="favorites"
           onSelect={() =>
@@ -109,11 +135,7 @@ export const BookDropdownMenu: FC<BookDropdownMenuProps> = ({
 
         <DropdownMenu.Item destructive key="delete" onSelect={confirmDelete}>
           <DropdownMenu.ItemTitle>Delete</DropdownMenu.ItemTitle>
-          <DropdownMenu.ItemIcon
-            ios={{
-              name: "trash.fill",
-            }}
-          />
+          <DropdownMenu.ItemIcon ios={{ name: "trash.fill" }} />
         </DropdownMenu.Item>
       </DropdownMenu.Content>
     </DropdownMenu.Root>
