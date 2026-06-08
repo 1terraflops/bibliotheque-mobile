@@ -2,7 +2,7 @@ import z from "zod";
 import { Book, BookStatus } from "./types";
 
 export const BookSchema = z.object({
-  id: z.number(),
+  id: z.number().optional(),
   author: z.string(),
   coverUrl: z.string(),
   description: z.string(),
