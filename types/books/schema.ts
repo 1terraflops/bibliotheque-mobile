@@ -43,6 +43,18 @@ export const BooksByStatusesSchema = z.array(
   }),
 );
 
+export const UserReadingStatsSchema = z.object({
+  avgPagesPerSession: z.number(),
+  avgReadingSpeed: z.number(),
+  avgSessionDuration: z.number(),
+  booksRead: z.number(),
+  longestSession: z.number(),
+  pagesRead: z.number(),
+  totalSessionDuration: z.number(),
+  totalSessions: z.number(),
+  mostCommonTimeOfTheDay: z.string(),
+});
+
 export const IGetBookFormValidatorSchema = z.object({
   isbn: z
     .string()
