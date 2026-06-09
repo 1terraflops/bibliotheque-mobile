@@ -55,6 +55,15 @@ export const UserReadingStatsSchema = z.object({
   mostCommonTimeOfTheDay: z.string(),
 });
 
+export const ReadingHeatmapSchema = z.object({
+  heatmapData: z.array(
+    z.object({
+      date: z.string(),
+      count: z.number(),
+    }),
+  ),
+});
+
 export const IGetBookFormValidatorSchema = z.object({
   isbn: z
     .string()
