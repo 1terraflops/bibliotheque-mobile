@@ -20,6 +20,7 @@ import {
 } from "lucide-react-native";
 import { FC } from "react";
 import { useWindowDimensions, View } from "react-native";
+import { ReadingHeatmapChart } from "./reading-heatmap-chart";
 
 const TIME_RANGES: Record<string, string> = {
   morning: "between 6:00 and 12:00",
@@ -71,6 +72,8 @@ export const StatsTab: FC = () => {
 
   return (
     <View className="flex flex-row flex-wrap justify-between mt-6 mb-24 gap-y-4">
+      <ReadingHeatmapChart />
+
       <Card
         fullWidth
         value={`You usually read at ${readingStats.mostCommonTimeOfTheDay}`}
