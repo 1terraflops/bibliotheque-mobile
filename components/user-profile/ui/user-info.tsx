@@ -14,8 +14,8 @@ export const UserInfo: FC = () => {
   const { data: profile, isLoading } = useQuery(GetActiveUserQueryOptions(id));
 
   return (
-    <View className="gap-y-6 mt-6">
-      <View className="flex-row gap-x-8 items-center">
+    <View className="gap-y-4 mt-6">
+      <View className="flex-row gap-x-4">
         <Avatar
           skeleton={isLoading}
           size="large"
@@ -23,7 +23,7 @@ export const UserInfo: FC = () => {
           fallback={profile?.full_name || profile?.username || ""}
         />
 
-        <View className="gap-y-3 min-w-32">
+        <View className="gap-y-2 min-w-32 mt-2">
           <View className="flex-row gap-x-3 items-center">
             <Typography
               skeleton={isLoading}
@@ -41,36 +41,17 @@ export const UserInfo: FC = () => {
             />
           </View>
 
-          <View className="flex-row gap-x-12">
-            <View className="items-center gap-y-1">
-              <Typography
-                skeleton={true}
-                skeletonWidth={32}
-                className="text-lg font-inter-500"
-              ></Typography>
-              <Typography className="text-light-3">Following</Typography>
-            </View>
-
-            <View className="items-center gap-y-1">
-              <Typography
-                skeleton={true}
-                skeletonWidth={32}
-                className="text-lg font-inter-500"
-              ></Typography>
-              <Typography className="text-light-3">Followers</Typography>
-            </View>
-          </View>
+          <Typography
+            skeleton={isLoading}
+            skeletonWidth={96}
+            className="text-light-5 font-inter-500"
+          >
+            {profile?.username && `@${profile.username}`}
+          </Typography>
         </View>
       </View>
 
-      <View className="gap-y-2">
-        <Typography
-          skeleton={isLoading}
-          skeletonWidth={96}
-          className="text-light-5 font-inter-500"
-        >
-          {profile?.username && `@${profile.username}`}
-        </Typography>
+      <View className="gap-y-2 ml-2">
         <Typography skeleton={isLoading} skeletonWidth={300}>
           {profile?.bio}
         </Typography>
