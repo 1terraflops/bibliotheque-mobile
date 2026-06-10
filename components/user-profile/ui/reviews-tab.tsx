@@ -3,6 +3,7 @@ import { Button, Spinner, Typography } from "@/components/shared";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { ChevronDown } from "lucide-react-native";
 import { useWindowDimensions, View } from "react-native";
+import { ReviewContextMenu } from "./review-context-menu";
 import { ReviewItem } from "./review-item";
 
 export const ReviewsTab = () => {
@@ -46,12 +47,13 @@ export const ReviewsTab = () => {
   return (
     <View className="mt-6 mb-24 gap-8">
       {reviews.map((item) => (
-        <ReviewItem
-          key={item.id}
-          review={item.review}
-          containsSpoilers={item.hasSpoilers}
-          book={item.book}
-        />
+        <ReviewContextMenu key={item.id} id={item.id}>
+          <ReviewItem
+            review={item.review}
+            containsSpoilers={item.hasSpoilers}
+            book={item.book}
+          />
+        </ReviewContextMenu>
       ))}
 
       {hasNextPage && (
