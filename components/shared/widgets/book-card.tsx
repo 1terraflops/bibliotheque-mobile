@@ -1,5 +1,6 @@
 import { colors } from "@/constants/colors";
 import { Book } from "@/types/books";
+import { cn } from "@/utils/cn";
 import stringToColor from "@/utils/stringToColor";
 import { Skeleton } from "moti/skeleton";
 import { FC } from "react";
@@ -10,12 +11,14 @@ type BookCardProps = {
   book?: Book;
   cover?: string | null;
   loading?: boolean;
+  size?: "small" | "medium";
 };
 
 export const BookCard: FC<BookCardProps> = ({
   book,
   cover,
   loading = false,
+  size = "medium",
 }) => {
   const isLightTheme = useColorScheme() === "light";
 
@@ -23,13 +26,16 @@ export const BookCard: FC<BookCardProps> = ({
     ? [colors["light-2"], colors["light-5"]]
     : [colors["dark-2"], colors["dark-4"]];
 
+  const height = size === "small" ? 160 : 200;
+  const width = size === "small" ? 110 : 130;
+
   if (loading) {
     return (
       <Skeleton
         show={loading}
         radius={8}
-        height={200}
-        width={130}
+        height={height}
+        width={width}
         colors={gradientColors}
       />
     );
@@ -40,8 +46,11 @@ export const BookCard: FC<BookCardProps> = ({
 
     return (
       <View
-        className="h-[200px] w-[130px] rounded-lg pt-6 px-1 gap-y-1"
-        style={{ backgroundColor: bgColor }}
+        className={cn(
+          "rounded-lg pt-6 px-1 gap-y-1",
+          size === "small" && "pt-3",
+        )}
+        style={{ height, width, backgroundColor: bgColor }}
       >
         <Typography
           numberOfLines={2}
@@ -69,6 +78,11 @@ export const BookCard: FC<BookCardProps> = ({
       : "";
 
   return (
-    <Image src={coverUrl} height={200} width={130} className="rounded-lg" />
+    <Image
+      src={coverUrl}
+      height={height}
+      width={width}
+      className="rounded-lg"
+    />
   );
 };

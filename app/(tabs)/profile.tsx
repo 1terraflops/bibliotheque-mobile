@@ -1,5 +1,6 @@
 import { ScreenLayout, Tabs, TabsOptions } from "@/components/shared";
 import { StatsTab, UserInfo } from "@/components/user-profile";
+import { ReviewsTab } from "@/components/user-profile/ui/reviews-tab";
 import { cn } from "@/utils/cn";
 import { useState } from "react";
 import { ScrollView, useColorScheme } from "react-native";
@@ -35,6 +36,7 @@ export default function Profile() {
         />
 
         {activeTab === PROFILE_TABS.STATS && <StatsTab />}
+        {activeTab === PROFILE_TABS.REVIEWS && <ReviewsTab />}
       </ScrollView>
     </ScreenLayout>
   );
