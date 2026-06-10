@@ -64,6 +64,19 @@ export const ReadingHeatmapSchema = z.object({
   ),
 });
 
+export const ProfileReviewsSchema = z.object({
+  items: z.array(
+    z.object({
+      book: BookSchema,
+      createdAt: z.string(),
+      hasSpoilers: z.boolean(),
+      id: z.number(),
+      review: z.string(),
+    }),
+  ),
+  nextCursor: z.number().nullable(),
+});
+
 export const IGetBookFormValidatorSchema = z.object({
   isbn: z
     .string()

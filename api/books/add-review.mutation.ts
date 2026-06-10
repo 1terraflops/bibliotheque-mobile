@@ -2,6 +2,8 @@ import { BookReviewSchema } from "@/types/books";
 import { parseResponse } from "@/utils/parseResponse";
 import { mutationOptions } from "@tanstack/react-query";
 import { api } from "../axios";
+import { queryClient } from "../queryClient";
+import { getReviewsInfiniteQueryOptions } from "./get-reviews.query";
 
 type AddReviewRequestDto = {
   id: number;
@@ -15,4 +17,9 @@ export const addReviewMutationOptions = () =>
       await api
         .post("books/review", params)
         .then(parseResponse(BookReviewSchema)),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: getReviewsInfiniteQueryOptions({}).queryKey,
+      });
+    },
   });

@@ -5,6 +5,7 @@ import {
   BookSchema,
   IAddReviewFormSchema,
   IGetBookFormValidatorSchema,
+  ProfileReviewsSchema,
   ReadingHeatmapSchema,
   UserBookSchema,
   UserBooksSchema,
@@ -29,6 +30,8 @@ export type BooksByStatuses = z.infer<typeof BooksByStatusesSchema>;
 
 export type UserReadingStats = z.infer<typeof UserReadingStatsSchema>;
 export type ReadingHeatmap = z.infer<typeof ReadingHeatmapSchema>;
+
+export type ProfileReviews = z.infer<typeof ProfileReviewsSchema>;
 
 export type IGetBook = z.infer<typeof IGetBookFormValidatorSchema>;
 
