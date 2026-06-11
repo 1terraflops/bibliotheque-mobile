@@ -4,6 +4,7 @@ import { mutationOptions } from "@tanstack/react-query";
 import { api } from "../axios";
 import { getBooksByStatusesQueryOptions } from "../books/get-books-by-statuses.query";
 import { getReadingHeatmapQueryOptions } from "../books/get-reading-heatmap.query";
+import { getReadingHistoryInfiniteQueryOptions } from "../books/get-reading-history.query";
 import { getUserBookQueryOptions } from "../books/get-user-book.query";
 import { getUserReadingStatsQueryOptions } from "../books/get-user-reading-stats.query";
 import { queryClient } from "../queryClient";
@@ -49,6 +50,10 @@ export const endSessionMutationOptions = () =>
 
       queryClient.invalidateQueries({
         queryKey: getReadingHeatmapQueryOptions().queryKey,
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: getReadingHistoryInfiniteQueryOptions({}).queryKey,
       });
     },
   });

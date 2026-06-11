@@ -77,6 +77,28 @@ export const ProfileReviewsSchema = z.object({
   nextCursor: z.number().nullable(),
 });
 
+export const ReadingHistorySchema = z.object({
+  history: z.array(
+    z.object({
+      date: z.string(),
+      sessions: z.array(
+        z.object({
+          author: z.string(),
+          cover: z.string().nullable(),
+          duration: z.number(),
+          finishedAt: z.string(),
+          id: z.number(),
+          pagesRead: z.number(),
+          readingSpeed: z.number(),
+          startedAt: z.string(),
+          title: z.string(),
+        }),
+      ),
+    }),
+  ),
+  cursor: z.number().nullable(),
+});
+
 export const IGetBookFormValidatorSchema = z.object({
   isbn: z
     .string()
