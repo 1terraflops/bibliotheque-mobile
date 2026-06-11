@@ -1,7 +1,9 @@
-import { ScreenLayout, Tabs, TabsOptions } from "@/components/shared";
+import { SignOutMutation } from "@/api/auth/sign-out.mutation";
+import { Button, ScreenLayout, Tabs, TabsOptions } from "@/components/shared";
 import { StatsTab, UserInfo } from "@/components/user-profile";
 import { ReviewsTab } from "@/components/user-profile/ui/reviews-tab";
 import { cn } from "@/utils/cn";
+import { DoorOpen } from "lucide-react-native";
 import { useState } from "react";
 import { ScrollView, useColorScheme } from "react-native";
 
@@ -14,13 +16,19 @@ export default function Profile() {
   const [activeTab, setActiveTab] = useState(PROFILE_TABS.STATS);
   const isLightTheme = useColorScheme() === "light";
 
+  const { mutate: signOut } = SignOutMutation();
+
   const tabs: TabsOptions[] = [
     { value: PROFILE_TABS.STATS, label: "Stats" },
     { value: PROFILE_TABS.REVIEWS, label: "Reviews" },
   ];
 
   return (
-    <ScreenLayout>
+    <ScreenLayout
+      rightButton={
+        <Button variant="icon" iconLeft={DoorOpen} onPress={() => signOut()} />
+      }
+    >
       <UserInfo />
 
       <ScrollView
