@@ -1,4 +1,3 @@
-import { SignOutMutation } from "@/api/auth/sign-out.mutation";
 import { Button, ScreenLayout, Tabs, TabsOptions } from "@/components/shared";
 import { StatsTab, UserInfo } from "@/components/user-profile";
 import { ReviewsTab } from "@/components/user-profile/ui/reviews-tab";
@@ -16,19 +15,13 @@ export default function Profile() {
   const [activeTab, setActiveTab] = useState(PROFILE_TABS.STATS);
   const isLightTheme = useColorScheme() === "light";
 
-  const { mutate: signOut } = SignOutMutation();
-
   const tabs: TabsOptions[] = [
     { value: PROFILE_TABS.STATS, label: "Stats" },
     { value: PROFILE_TABS.REVIEWS, label: "Reviews" },
   ];
 
   return (
-    <ScreenLayout
-      rightButton={
-        <Button variant="icon" iconLeft={DoorOpen} onPress={() => signOut()} />
-      }
-    >
+    <ScreenLayout rightButton={<Button variant="icon" iconLeft={DoorOpen} />}>
       <UserInfo />
 
       <ScrollView
