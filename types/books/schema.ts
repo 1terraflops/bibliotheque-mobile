@@ -101,6 +101,13 @@ export const ReadingHistorySchema = z.object({
 
 export const GetBookByNameResponseSchema = z.array(BookSchema);
 
+export const ReviewSchema = z.object({
+  createdAt: z.string(),
+  hasSpoilers: z.boolean(),
+  review: z.string(),
+  author: z.string(),
+});
+
 export const IGetBookFormValidatorSchema = z.object({
   isbn: z
     .string()
