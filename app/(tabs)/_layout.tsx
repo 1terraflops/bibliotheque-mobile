@@ -4,11 +4,7 @@ import { useSessionStore } from "@/store/session.store";
 import { cn } from "@/utils/cn";
 import { useQuery } from "@tanstack/react-query";
 import { TabList, Tabs, TabSlot, TabTrigger } from "expo-router/ui";
-import {
-  ChartColumnStacked,
-  LibraryBig,
-  SquareActivity,
-} from "lucide-react-native";
+import { LibraryBig, Search, SquareActivity } from "lucide-react-native";
 import { useEffect } from "react";
 import { useColorScheme } from "react-native";
 
@@ -43,8 +39,8 @@ const Layout = () => {
             <TabButton icon={SquareActivity}>Activity</TabButton>
           </TabTrigger>
 
-          <TabTrigger asChild name="stats" href="/(tabs)/stats">
-            <TabButton icon={ChartColumnStacked}>Stats</TabButton>
+          <TabTrigger asChild name="stats" href="/(tabs)/search">
+            <TabButton icon={Search}>Search</TabButton>
           </TabTrigger>
         </TabList>
 
