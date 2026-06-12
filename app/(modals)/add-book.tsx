@@ -8,7 +8,7 @@ import * as Haptics from "expo-haptics";
 import { AddBookMutationOptions } from "@/api/books/add-book.mutation";
 import { useForm } from "@tanstack/react-form";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { router, useLocalSearchParams } from "expo-router";
+import { Link, router, useLocalSearchParams } from "expo-router";
 import { Camera, Plus } from "lucide-react-native";
 import { useEffect, useState } from "react";
 import { useWindowDimensions, View } from "react-native";
@@ -66,29 +66,31 @@ export default function AddBook() {
   if (book) {
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     return (
-      <View
-        style={{
-          height: height * 0.5,
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-        className="p-8"
-      >
-        <View className="justify-center mt-auto">
-          <BookCard book={book} />
-        </View>
+      <Link href={{ pathname: "/(search)/book", params: book }}>
+        <View
+          style={{
+            height: height * 0.5,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+          className="p-8"
+        >
+          <View className="justify-center mt-auto">
+            <BookCard book={book} />
+          </View>
 
-        <View className="justify-end mt-auto">
-          <Button
-            title="Add to Library"
-            iconLeft={Plus}
-            loading={isPending}
-            onPress={() => {
-              addBook({ isbn: submittedISBN! });
-            }}
-          />
+          <View className="justify-end mt-auto">
+            <Button
+              title="Add to Library"
+              iconLeft={Plus}
+              loading={isPending}
+              onPress={() => {
+                addBook({ isbn: submittedISBN! });
+              }}
+            />
+          </View>
         </View>
-      </View>
+      </Link>
     );
   }
 
