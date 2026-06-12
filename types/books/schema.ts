@@ -99,6 +99,8 @@ export const ReadingHistorySchema = z.object({
   cursor: z.number().nullable(),
 });
 
+export const GetBookByNameResponseSchema = z.array(BookSchema);
+
 export const IGetBookFormValidatorSchema = z.object({
   isbn: z
     .string()
@@ -114,4 +116,8 @@ export const IAddReviewFormSchema = z.object({
     .min(1, "The review is too short")
     .max(2000, "The review is too long"),
   hasSpoilers: z.boolean(),
+});
+
+export const ISearchBookByNameFormSchema = z.object({
+  query: z.string().max(100, "Your query is too long"),
 });

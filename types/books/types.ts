@@ -3,8 +3,10 @@ import {
   BookReviewSchema,
   BooksByStatusesSchema,
   BookSchema,
+  GetBookByNameResponseSchema,
   IAddReviewFormSchema,
   IGetBookFormValidatorSchema,
+  ISearchBookByNameFormSchema,
   ProfileReviewsSchema,
   ReadingHeatmapSchema,
   ReadingHistorySchema,
@@ -36,6 +38,10 @@ export type ProfileReviews = z.infer<typeof ProfileReviewsSchema>;
 
 export type ReadingHistory = z.infer<typeof ReadingHistorySchema>;
 
+export type GetBookByNameResponse = z.infer<typeof GetBookByNameResponseSchema>;
+
 export type IGetBook = z.infer<typeof IGetBookFormValidatorSchema>;
 
 export type IAddReviewForm = z.infer<typeof IAddReviewFormSchema>;
+
+export type ISearchBookByNameForm = z.infer<typeof ISearchBookByNameFormSchema>;
