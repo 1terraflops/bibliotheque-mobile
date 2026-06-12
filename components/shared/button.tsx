@@ -113,7 +113,7 @@ export const Button: FC<ButtonProps> = ({
         {...props}
         disabled={loading || disabled}
         className={cn(
-          "flex-row justify-center gap-x-2",
+          "flex-row justify-center items-center gap-x-2",
           ButtonStyles[theme][variant],
           loading && "opacity-80",
           destructive && "bg-attention",
