@@ -8,7 +8,7 @@ export const getSessionsChartQueryOptions = (id: number) =>
     queryKey: ["sessions-chart", id],
     queryFn: async ({ signal }) =>
       await api
-        .get(`sessions/chart/${id}`, { signal })
+        .get(`books/stats/reading-over-time-chart/${id}`, { signal })
         .then(parseResponse(SessionsChartSchema)),
     enabled: !!id,
   });
