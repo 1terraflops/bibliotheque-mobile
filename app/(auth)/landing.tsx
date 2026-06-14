@@ -9,8 +9,8 @@ export default function Landing() {
   return (
     <ScreenLayout>
       <View className="w-full items-center mt-auto">
-        <Typography className="font-nunito-sans-900 text-5xl mb-16 leading-[1.1]">
-          Bookzzz
+        <Typography className="font-nunito-sans-900 text-5xl mb-4 leading-[1] -tracking-widest">
+          bibliotheque
         </Typography>
 
         <LandingForm />
