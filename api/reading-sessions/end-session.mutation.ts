@@ -3,11 +3,11 @@ import { parseResponse } from "@/utils/parseResponse";
 import { mutationOptions } from "@tanstack/react-query";
 import { api } from "../axios";
 import { getBooksByStatusesQueryOptions } from "../books/get-books-by-statuses.query";
-import { getReadingHeatmapQueryOptions } from "../books/get-reading-heatmap.query";
-import { getReadingHistoryInfiniteQueryOptions } from "../books/get-reading-history.query";
 import { getUserBookQueryOptions } from "../books/get-user-book.query";
-import { getUserReadingStatsQueryOptions } from "../books/get-user-reading-stats.query";
 import { queryClient } from "../queryClient";
+import { getReadingHeatmapQueryOptions } from "../reading-stats/get-reading-heatmap.query";
+import { getReadingHistoryInfiniteQueryOptions } from "../reading-stats/get-reading-history.query";
+import { getUserReadingStatsQueryOptions } from "../reading-stats/get-user-reading-stats.query";
 import { getActiveSessionQueryOptions } from "./get-active-session.query";
 import { getSessionsInfiniteQueryOptions } from "./get-sessions.query";
 

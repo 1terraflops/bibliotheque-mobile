@@ -1,5 +1,5 @@
 import { AddBookMutationOptions } from "@/api/books/add-book.mutation";
-import { getReviewsForBookQueryOptions } from "@/api/books/get-reviews-for-book.query";
+import { getReviewsForBookQueryOptions } from "@/api/reviews/get-reviews-for-book.query";
 import { ReviewItem } from "@/components/search";
 import { Button, ScreenLayout, Typography } from "@/components/shared";
 import { BookCard } from "@/components/shared/widgets";

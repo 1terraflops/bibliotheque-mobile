@@ -1,4 +1,4 @@
-import { getUserReadingStatsQueryOptions } from "@/api/books/get-user-reading-stats.query";
+import { getUserReadingStatsQueryOptions } from "@/api/reading-stats/get-user-reading-stats.query";
 import { Spinner, Typography } from "@/components/shared";
 import { Card } from "@/components/shared/widgets";
 import { formatTime } from "@/utils/formatTime";

@@ -1,4 +1,4 @@
-import { getReviewsInfiniteQueryOptions } from "@/api/books/get-reviews.query";
+import { getReviewsInfiniteQueryOptions } from "@/api/reviews/get-reviews.query";
 import { Button, Spinner, Typography } from "@/components/shared";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { ChevronDown } from "lucide-react-native";

@@ -1,4 +1,4 @@
-import { getReadingHeatmapQueryOptions } from "@/api/books/get-reading-heatmap.query";
+import { getReadingHeatmapQueryOptions } from "@/api/reading-stats/get-reading-heatmap.query";
 import { useQuery } from "@tanstack/react-query";
 import { useColorScheme, useWindowDimensions, View } from "react-native";
 import { ContributionGraph } from "react-native-chart-kit";

@@ -1,4 +1,4 @@
-import { getReadingHistoryInfiniteQueryOptions } from "@/api/books/get-reading-history.query";
+import { getReadingHistoryInfiniteQueryOptions } from "@/api/reading-stats/get-reading-history.query";
 import { ReadingHistoryItem } from "@/components/activity";
 import { ScreenLayout, Spinner, Typography } from "@/components/shared";
 import { useInfiniteQuery } from "@tanstack/react-query";

@@ -9,7 +9,6 @@ api.interceptors.request.use(async (config) => {
   const { data, error } = await supabase.auth.getSession();
 
   if (error) {
-    console.error("Error getting session", error);
     return config;
   }
 
@@ -32,7 +31,6 @@ api.interceptors.response.use(
 
       if (refreshError) {
         await supabase.auth.signOut();
-        console.log("Unauthorized 401 - session refresh failed");
         return Promise.reject(refreshError);
       }
 

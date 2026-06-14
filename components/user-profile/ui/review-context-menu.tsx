@@ -1,4 +1,4 @@
-import { deleteReviewMutationOptions } from "@/api/books/delete-review.mutation";
+import { deleteReviewMutationOptions } from "@/api/reviews/delete-review.mutation";
 import { useMutation } from "@tanstack/react-query";
 import { FC, ReactNode } from "react";
 import * as ContextMenu from "zeego/context-menu";
