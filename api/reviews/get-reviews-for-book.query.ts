@@ -1,4 +1,4 @@
-import { ReviewSchema } from "@/types/books";
+import { ReviewSchema } from "@/types/reviews";
 import { parseResponse } from "@/utils/parseResponse";
 import { queryOptions } from "@tanstack/react-query";
 import z from "zod";

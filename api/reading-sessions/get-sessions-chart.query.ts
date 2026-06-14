@@ -1,4 +1,4 @@
-import { SessionsChartSchema } from "@/types/reading-sessions";
+import { SessionsChartSchema } from "@/types/reading-stats";
 import { parseResponse } from "@/utils/parseResponse";
 import { queryOptions } from "@tanstack/react-query";
 import { api } from "../axios";

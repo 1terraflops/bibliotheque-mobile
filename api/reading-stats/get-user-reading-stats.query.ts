@@ -1,4 +1,4 @@
-import { UserReadingStatsSchema } from "@/types/books";
+import { UserReadingStatsSchema } from "@/types/reading-stats";
 import { parseResponse } from "@/utils/parseResponse";
 import { queryOptions } from "@tanstack/react-query";
 import { api } from "../axios";

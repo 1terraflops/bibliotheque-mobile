@@ -20,7 +20,7 @@ import {
 } from "lucide-react-native";
 import { FC } from "react";
 import { useWindowDimensions, View } from "react-native";
-import { ReadingHeatmapChart } from "./reading-heatmap-chart";
+import { ReadingHeatmapChart } from "./ui/reading-heatmap-chart";
 
 const TIME_RANGES: Record<string, string> = {
   morning: "between 6:00 and 12:00",

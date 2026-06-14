@@ -1,9 +1,10 @@
 import { getReadingHeatmapQueryOptions } from "@/api/reading-stats/get-reading-heatmap.query";
 import { useQuery } from "@tanstack/react-query";
+import { FC } from "react";
 import { useColorScheme, useWindowDimensions, View } from "react-native";
 import { ContributionGraph } from "react-native-chart-kit";
 
-export const ReadingHeatmapChart = () => {
+export const ReadingHeatmapChart: FC = () => {
   const isLightTheme = useColorScheme() === "light";
   const { width } = useWindowDimensions();
 

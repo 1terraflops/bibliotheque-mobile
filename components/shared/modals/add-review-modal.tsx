@@ -1,5 +1,5 @@
 import { addReviewMutationOptions } from "@/api/reviews/add-review.mutation";
-import { IAddReviewForm, IAddReviewFormSchema } from "@/types/books";
+import { IAddReviewForm, IAddReviewFormSchema } from "@/types/reviews/forms";
 import { cn } from "@/utils/cn";
 import { useForm } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";

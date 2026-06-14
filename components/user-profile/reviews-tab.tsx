@@ -2,11 +2,12 @@ import { getReviewsInfiniteQueryOptions } from "@/api/reviews/get-reviews.query"
 import { Button, Spinner, Typography } from "@/components/shared";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { ChevronDown } from "lucide-react-native";
+import { FC } from "react";
 import { useWindowDimensions, View } from "react-native";
-import { ReviewContextMenu } from "./review-context-menu";
 import { ReviewItem } from "./review-item";
+import { ReviewContextMenu } from "./ui/review-context-menu";
 
-export const ReviewsTab = () => {
+export const ReviewsTab: FC = () => {
   const { height } = useWindowDimensions();
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useInfiniteQuery(

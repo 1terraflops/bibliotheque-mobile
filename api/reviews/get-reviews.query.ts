@@ -1,4 +1,4 @@
-import { ProfileReviewsSchema } from "@/types/books/schema";
+import { ProfileReviewsSchema } from "@/types/reviews";
 import { parseResponse } from "@/utils/parseResponse";
 import { infiniteQueryOptions } from "@tanstack/react-query";
 import { api } from "../axios";

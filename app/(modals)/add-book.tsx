@@ -2,7 +2,7 @@ import { getBookQueryOptions } from "@/api/books/get-book.query";
 import { Button, Input, Spinner, Typography } from "@/components/shared";
 import { BookISBN } from "@/components/shared/assets";
 import { BookCard } from "@/components/shared/widgets";
-import { IGetBook, IGetBookFormValidatorSchema } from "@/types/books";
+import { IGetBook, IGetBookFormSchema } from "@/types/books/forms";
 import * as Haptics from "expo-haptics";
 
 import { AddBookMutationOptions } from "@/api/books/add-book.mutation";
@@ -23,7 +23,7 @@ export default function AddBook() {
 
   const form = useForm({
     defaultValues: { isbn: "" } satisfies IGetBook,
-    validators: { onSubmit: IGetBookFormValidatorSchema },
+    validators: { onSubmit: IGetBookFormSchema },
     onSubmit: ({ value }) => {
       setSubmittedISBN(value.isbn);
     },

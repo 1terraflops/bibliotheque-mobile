@@ -1,6 +1,6 @@
 import { Button, ScreenLayout, Tabs, TabsOptions } from "@/components/shared";
 import { StatsTab, UserInfo } from "@/components/user-profile";
-import { ReviewsTab } from "@/components/user-profile/ui/reviews-tab";
+import { ReviewsTab } from "@/components/user-profile/reviews-tab";
 import { cn } from "@/utils/cn";
 import { DoorOpen } from "lucide-react-native";
 import { useState } from "react";

@@ -4,7 +4,7 @@ import { getActiveSessionQueryOptions } from "@/api/reading-sessions/get-active-
 import {
   IEndSessionForm,
   IEndSessionFormSchema,
-} from "@/types/reading-sessions";
+} from "@/types/reading-sessions/forms";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useForm } from "@tanstack/react-form";
 import { useMutation, useQuery } from "@tanstack/react-query";

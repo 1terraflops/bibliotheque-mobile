@@ -1,3 +1,3 @@
-export { BookDropdownMenu } from "./ui/book-actions-dropdown-menu";
-export { SessionView } from "./ui/session-view";
-export { StatsView } from "./ui/stats-view";
+export { BookDropdownMenu } from "./book-dropdown-menu";
+export { SessionView } from "./session-view";
+export { StatsView } from "./stats-view";

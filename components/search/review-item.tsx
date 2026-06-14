@@ -1,5 +1,5 @@
 import { Typography } from "@/components/shared";
-import { Review } from "@/types/books";
+import { Review } from "@/types/reviews";
 import moment from "moment";
 import { FC } from "react";
 import { View } from "react-native";

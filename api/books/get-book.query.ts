@@ -1,4 +1,5 @@
-import { BookSchema, IGetBook } from "@/types/books";
+import { BookSchema } from "@/types/books";
+import { IGetBook } from "@/types/books/forms";
 import { parseResponse } from "@/utils/parseResponse";
 import { queryOptions } from "@tanstack/react-query";
 import { api } from "../axios";

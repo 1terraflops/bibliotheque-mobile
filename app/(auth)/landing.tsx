@@ -1,4 +1,4 @@
-import { LandingForm } from "@/components/auth/landing";
+import { LandingForm } from "@/components/auth";
 import { Button, ScreenLayout, Typography } from "@/components/shared";
 import { useRouter } from "expo-router";
 import { View } from "react-native";

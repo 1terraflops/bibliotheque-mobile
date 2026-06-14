@@ -4,7 +4,7 @@ import { Button, Input, ScreenLayout, Spinner } from "@/components/shared";
 import {
   ISearchBookByNameForm,
   ISearchBookByNameFormSchema,
-} from "@/types/books";
+} from "@/types/books/forms";
 import { useForm } from "@tanstack/react-form";
 import { useDebouncedCallback } from "@tanstack/react-pacer";
 import { useQuery } from "@tanstack/react-query";

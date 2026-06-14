@@ -8,7 +8,8 @@ import {
   Typography,
 } from "@/components/shared";
 import { useSessionStore } from "@/store/session.store";
-import { IUpdateProfile, IUpdateProfileValidator } from "@/types/user";
+import { IUpdateProfile } from "@/types/user";
+import { IUpdateProfileValidator } from "@/types/user/forms";
 import pickImage from "@/utils/pickImage";
 import { useForm } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";

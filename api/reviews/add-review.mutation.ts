@@ -1,4 +1,4 @@
-import { BookReviewSchema } from "@/types/books";
+import { BookReviewSchema } from "@/types/reviews";
 import { parseResponse } from "@/utils/parseResponse";
 import { mutationOptions } from "@tanstack/react-query";
 import { api } from "../axios";

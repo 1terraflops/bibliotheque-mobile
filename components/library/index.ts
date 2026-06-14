@@ -1,2 +1,2 @@
-export { BookContextMenu } from "./ui/book-context-menu";
-export { LoadingLibrary } from "./ui/loading-library";
+export { BookContextMenu } from "./book-context-menu";
+export { LoadingLibrary } from "./loading-library";

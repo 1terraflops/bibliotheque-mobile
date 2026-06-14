@@ -6,7 +6,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import moment from "moment";
 import { FC } from "react";
 import { FlatList, View } from "react-native";
-import { SessionLog } from "./session-log";
+import { SessionLog } from "./ui/session-log";
 
 type SessionViewProps = {
   isbn: string;

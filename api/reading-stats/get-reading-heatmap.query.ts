@@ -1,4 +1,4 @@
-import { ReadingHeatmapSchema } from "@/types/books/schema";
+import { ReadingHeatmapSchema } from "@/types/reading-stats";
 import { parseResponse } from "@/utils/parseResponse";
 import { queryOptions } from "@tanstack/react-query";
 import { api } from "../axios";

@@ -2,9 +2,10 @@ import { Button, ScreenLayout, Typography } from "@/components/shared";
 import { BookCard } from "@/components/shared/widgets";
 import { router } from "expo-router";
 import { Plus } from "lucide-react-native";
+import { FC } from "react";
 import { View } from "react-native";
 
-export const LoadingLibrary = () => {
+export const LoadingLibrary: FC = () => {
   return (
     <ScreenLayout
       scrollable

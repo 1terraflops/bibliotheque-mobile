@@ -1,6 +1,6 @@
 import { Typography } from "@/components/shared";
 import { BookCard } from "@/components/shared/widgets/book-card";
-import { Book } from "@/types/books/types";
+import { Book } from "@/types/books";
 import { FC } from "react";
 import { View } from "react-native";
 

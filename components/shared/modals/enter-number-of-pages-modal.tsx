@@ -3,7 +3,7 @@ import { startSessionMutationOptions } from "@/api/reading-sessions/start-sessio
 import {
   IEnterNumberOfPagesForm,
   IEnterNumberOfPagesFormSchema,
-} from "@/types/reading-sessions";
+} from "@/types/reading-sessions/forms";
 import { cn } from "@/utils/cn";
 import { useForm } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
