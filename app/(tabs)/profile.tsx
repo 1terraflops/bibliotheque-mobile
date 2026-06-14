@@ -5,6 +5,7 @@ import { cn } from "@/utils/cn";
 import { DoorOpen } from "lucide-react-native";
 import { useState } from "react";
 import { ScrollView, useColorScheme } from "react-native";
+import { useModal } from "react-native-modalfy";
 
 enum PROFILE_TABS {
   STATS = "STATS",
@@ -15,13 +16,20 @@ export default function Profile() {
   const [activeTab, setActiveTab] = useState(PROFILE_TABS.STATS);
   const isLightTheme = useColorScheme() === "light";
 
+  const { openModal } = useModal();
+  const confirmLogOut = () => openModal("ConfirmLogOut");
+
   const tabs: TabsOptions[] = [
     { value: PROFILE_TABS.STATS, label: "Stats" },
     { value: PROFILE_TABS.REVIEWS, label: "Reviews" },
   ];
 
   return (
-    <ScreenLayout rightButton={<Button variant="icon" iconLeft={DoorOpen} />}>
+    <ScreenLayout
+      rightButton={
+        <Button variant="icon" iconLeft={DoorOpen} onPress={confirmLogOut} />
+      }
+    >
       <UserInfo />
 
       <ScrollView
