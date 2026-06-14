@@ -65,6 +65,7 @@ export default function ConfirmEmail() {
 
       {type !== "password-reset" && (
         <Button
+          className="mb-8"
           variant="secondary"
           title={ended ? "Resend" : `Resend in 00:${time}`}
           onPress={async () => await handleResend(email)}

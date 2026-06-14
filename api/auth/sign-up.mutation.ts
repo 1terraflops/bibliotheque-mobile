@@ -9,7 +9,7 @@ export const signUpMutationOptions = () =>
       const { email, password } = params;
 
       const options = {
-        emailRedirectTo: "exp://192.168.31.218:8081/--/confirm-email",
+        emailRedirectTo: "bibliotheque://confirm-email",
       };
 
       const authMethod = password.length
