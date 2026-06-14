@@ -9,9 +9,14 @@ import {
   useColorScheme,
   View,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
 import { Button } from "./button";
 import { Typography } from "./typography";
+
+const TAB_BAR_HEIGHT = 80;
 
 interface ScreenLayoutProps {
   children?: ReactNode;
@@ -20,6 +25,7 @@ interface ScreenLayoutProps {
   rightButton?: ReactElement;
   title?: string;
   isRefreshing?: boolean;
+  bottomPadding?: boolean;
   refresh?: () => void;
 }
 
@@ -30,11 +36,15 @@ export const ScreenLayout: FC<ScreenLayoutProps> = ({
   rightButton,
   title,
   isRefreshing = false,
+  bottomPadding = false,
   refresh,
 }) => {
   const router = useRouter();
   const isLightTheme = useColorScheme() === "light";
   const [ready, setReady] = useState(false);
+  const insets = useSafeAreaInsets();
+
+  const bottomInset = bottomPadding ? insets.bottom + TAB_BAR_HEIGHT : 0;
 
   const header =
     backButton || rightButton || title ? (
@@ -68,8 +78,7 @@ export const ScreenLayout: FC<ScreenLayoutProps> = ({
     >
       {scrollable ? (
         <ScrollView
-          className="flex-1"
-          contentContainerStyle={{ flexGrow: 1 }}
+          contentContainerStyle={{ flexGrow: 1, paddingBottom: bottomInset }}
           showsVerticalScrollIndicator={false}
           refreshControl={
             refresh ? (
@@ -78,19 +87,18 @@ export const ScreenLayout: FC<ScreenLayoutProps> = ({
           }
         >
           {header}
-
           <View className="flex-1">{children}</View>
         </ScrollView>
       ) : (
         <View
           className="flex-1"
+          style={{ paddingBottom: bottomInset }}
           onStartShouldSetResponder={() => {
             Keyboard.dismiss();
             return false;
           }}
         >
           {header}
-
           {children}
         </View>
       )}

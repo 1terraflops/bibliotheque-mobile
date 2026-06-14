@@ -24,6 +24,7 @@ export default function Index() {
   return (
     <ScreenLayout
       scrollable
+      bottomPadding
       isRefreshing={isLoading}
       refresh={refetch}
       title="Library"
