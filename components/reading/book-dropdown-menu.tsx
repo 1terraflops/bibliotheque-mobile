@@ -2,6 +2,7 @@ import { updateBookMutationOptions } from "@/api/books/update-book.mutation";
 import { uploadCoverMutationOptions } from "@/api/books/upload-cover.mutation";
 import { BookStatus, UserBook } from "@/types/books";
 import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "expo-router";
 import { FC, ReactNode } from "react";
 import ImageCropPicker from "react-native-image-crop-picker";
 import { useModal } from "react-native-modalfy";
@@ -17,6 +18,7 @@ export const BookDropdownMenu: FC<BookDropdownMenuProps> = ({
   book,
 }) => {
   const { isFavorite, status } = book;
+  const router = useRouter();
   const { openModal } = useModal();
 
   const { mutate: updateBook } = useMutation(updateBookMutationOptions());
@@ -137,6 +139,23 @@ export const BookDropdownMenu: FC<BookDropdownMenuProps> = ({
           <DropdownMenu.ItemIcon
             ios={{
               name: isFavorite ? "star.fill" : "star",
+            }}
+          />
+        </DropdownMenu.Item>
+
+        <DropdownMenu.Item
+          key="info"
+          onSelect={() =>
+            router.navigate({
+              pathname: "/(search)/book",
+              params: book.book,
+            })
+          }
+        >
+          <DropdownMenu.ItemTitle>{"More Info"}</DropdownMenu.ItemTitle>
+          <DropdownMenu.ItemIcon
+            ios={{
+              name: "info.circle",
             }}
           />
         </DropdownMenu.Item>
