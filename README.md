@@ -1,50 +1,36 @@
-# Welcome to your Expo app 👋
+# Bibliotheque - Mobile App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Bibliotheque is a mobile application for book tracking. It uses a custom backend for book data, reading sessions, stats, and reviews, and Supabase for authentication.
 
-## Get started
+## Tech Stack
 
-1. Install dependencies
+| Layer                     | Technology                                                          |
+| ------------------------- | ------------------------------------------------------------------- |
+| Framework                 | Expo                                                                |
+| Navigation                | Expo Router                                                         |
+| Language                  | TypeScript                                                          |
+| Styling                   | NativeWind (Tailwind for React Native)                              |
+| Server State              | TanStack Query                                                      |
+| Client State              | Zustand + Immer                                                     |
+| Forms                     | TanStack Form + Zod                                                 |
+| Debouncing                | TanStack Pacer                                                      |
+| Modals                    | react-native-modalfy                                                |
+| Context menus             | Zeego                                                               |
+| Charts                    | react-native-gifted-charts and react-native-chart-kit               |
+| Animation                 | Moti + `react-native-reanimated`                                    |
+| Auth & Storage            | Supabase                                                            |
+| Secure storage            | `expo-secure-store`                                                 |
+| Camera / barcode scanning | `expo-camera`                                                       |
+| Image handling            | `expo-image`, `expo-image-picker`, `react-native-image-crop-picker` |
+| HTTP Client               | Axios                                                               |
+| Icons                     | `lucide-react-native`, `@expo/vector-icons`, `expo-symbols`         |
+| Fonts                     | Inter, Roboto Mono, Nunito Sans via `@expo-google-fonts/*`          |
+| Package Manager           | pnpm                                                                |
+| Native Tooling            | Xcode (local prebuild required - see [Setup](./docs/setup.md))      |
 
-   ```bash
-   npm install
-   ```
+This app uses Expo's **New Architecture** and several native modules (camera/barcode scanning, image cropping, iOS context menus, secure storage), so it must be run via a custom dev client / prebuild rather than Expo Go.
 
-2. Start the app
+## Documentation
 
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- [Architecture](./docs/architecture.md) - folder structure, navigation, state management, API/types layers, styling
+- [Setup](./docs/setup.md) - environment variables, install, Supabase type generation, running on a device
