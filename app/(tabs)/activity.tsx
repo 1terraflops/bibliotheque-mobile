@@ -65,8 +65,12 @@ export default function Activity() {
         ListEmptyComponent={
           !isLoading ? (
             <View className="flex-1 items-center justify-center">
-              <Typography className="text-center">
-                No reading history yet.
+              <Typography className="text-xl font-inter-600">
+                Activity is not available yet
+              </Typography>
+
+              <Typography className="text-xl text-center font-inter-400">
+                Start reading to see your reading history
               </Typography>
             </View>
           ) : (

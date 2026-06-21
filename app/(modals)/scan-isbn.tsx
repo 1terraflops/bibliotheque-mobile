@@ -33,6 +33,7 @@ export default function ScanISBN() {
   return (
     <View className="relative flex-1">
       <CameraView
+        zoom={0.15}
         style={{ flex: 1 }}
         enableTorch={torch}
         barcodeScannerSettings={{ barcodeTypes: ["ean8", "ean13"] }}

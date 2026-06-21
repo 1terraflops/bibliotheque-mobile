@@ -11,9 +11,7 @@ export default function Greeting() {
         </Typography>
 
         <Typography className="font-nunito-sans text-xl text-center mt-4 opacity-90">
-          {
-            "It's great to have you here. \nLet's get to know each other better!"
-          }
+          {"It's great to have you here. \nLet's get to know you better!"}
         </Typography>
       </View>
 

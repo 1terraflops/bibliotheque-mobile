@@ -5,7 +5,7 @@ import { BookCard } from "@/components/shared/widgets";
 import { formatStatus } from "@/utils/formatStatus";
 import { useQuery } from "@tanstack/react-query";
 import { Link, router } from "expo-router";
-import { ChevronRight, Plus } from "lucide-react-native";
+import { ChevronRight, Plus, PlusCircle } from "lucide-react-native";
 import { ScrollView, View } from "react-native";
 
 export default function Index() {
@@ -17,6 +17,44 @@ export default function Index() {
 
   if (isLoading) {
     return <LoadingLibrary />;
+  }
+
+  const booksLength = booksByStatuses?.flatMap((b) => b.books).length;
+
+  if (!booksLength) {
+    return (
+      <ScreenLayout
+        isRefreshing={isLoading}
+        refresh={refetch}
+        title="Library"
+        rightButton={
+          <Button
+            variant="icon"
+            iconLeft={Plus}
+            iconSize={28}
+            onPress={() => router.push("/add-book")}
+          />
+        }
+      >
+        <View className="flex-1 items-center justify-center">
+          <Typography className="text-xl font-inter-600">
+            Your library is empty
+          </Typography>
+
+          <Typography className="text-xl text-center font-inter-400">
+            Add your first book to start tracking your progress and stats
+          </Typography>
+
+          <Button
+            variant="icon"
+            iconLeft={PlusCircle}
+            iconSize={98}
+            className="mt-6"
+            onPress={() => router.push("/add-book")}
+          />
+        </View>
+      </ScreenLayout>
+    );
   }
 
   const filteredBooks = booksByStatuses?.filter((book) => book.books.length);
